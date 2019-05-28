@@ -3,7 +3,7 @@ Microsoft Visual Studio Solution File, Format Version 12.00
 # Visual Studio 15
 VisualStudioVersion = 15.0.28307.489
 MinimumVisualStudioVersion = 10.0.40219.1
-Project("{F184B08F-C81C-45F6-A57F-5ABD9991F28F}") = "Easy Link File Viewer", "Easy Link File Viewer.vbproj", "{4CD5648B-9113-425E-8532-9643652DF2C2}"
+Project("{F184B08F-C81C-45F6-A57F-5ABD9991F28F}") = "Easy Link File Viewer", "Easy Link File Viewer.vbproj", "{28F02AC5-3473-4AAB-B505-5FA4310DC924}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -11,15 +11,15 @@ Global
 		Release|Any CPU = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(ProjectConfigurationPlatforms) = postSolution
-		{4CD5648B-9113-425E-8532-9643652DF2C2}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
-		{4CD5648B-9113-425E-8532-9643652DF2C2}.Debug|Any CPU.Build.0 = Debug|Any CPU
-		{4CD5648B-9113-425E-8532-9643652DF2C2}.Release|Any CPU.ActiveCfg = Release|Any CPU
-		{4CD5648B-9113-425E-8532-9643652DF2C2}.Release|Any CPU.Build.0 = Release|Any CPU
+		{28F02AC5-3473-4AAB-B505-5FA4310DC924}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{28F02AC5-3473-4AAB-B505-5FA4310DC924}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{28F02AC5-3473-4AAB-B505-5FA4310DC924}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{28F02AC5-3473-4AAB-B505-5FA4310DC924}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
 	EndGlobalSection
 	GlobalSection(ExtensibilityGlobals) = postSolution
-		SolutionGuid = {4EFC7D64-A05B-4DB6-8F37-9E8A130E8C41}
+		SolutionGuid = {0B7AB678-6AFF-4538-9CD5-EC5EE2DBB52E}
 	EndGlobalSection
 EndGlobal

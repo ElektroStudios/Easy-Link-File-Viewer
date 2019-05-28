@@ -1,20 +1,93 @@
-﻿' ***********************************************************************
-' Author   : ElektroStudios
-' Modified : 14-November-2015
-' ***********************************************************************
+﻿' This source-code is freely distributed as part of "DevCase for .NET Framework".
+' 
+' Maybe you would like to consider to buy this powerful set of libraries to support me. 
+' You can do loads of things with my apis for a big amount of diverse thematics.
+' 
+' Here is a link to the purchase page:
+' https://codecanyon.net/item/elektrokit-class-library-for-net/19260282
+' 
+' Thank you.
 
 #Region " Public Members Summary "
 
 #Region " Constructors "
 
-' ShortcutInfo.New()
+' ShortcutInfo.New(String)
+' ShortcutInfo.New(FileInfo)
 
 #End Region
 
 #Region " Properties "
 
+' Attributes As FileAttributes
+' CreationTime As Date
+' CreationTimeUtc As Date
+' Description As String
+' Directory As DirectoryInfo
+' DirectoryName As String
+' Exists As Boolean
+' Extension As String
+' FullName As String
+' Hotkey As Keys
+' Icon As String
+' IconIndex As Integer
+' IsReadOnly As Boolean
+' LastAccessTime As Date
+' LastAccessTimeUtc As Date
+' LastWriteTime As Date
+' LastWriteTimeUtc As Date
+' Length As Long
+' Name As String
+' Target As String
+' TargetArguments As String
+' ViewMode As Boolean
+' WindowState As ShortcutWindowState
+' WorkingDirectory As String
 
 #End Region
+
+#Region " Methods "
+
+' CopyTo(String, Boolean) As ShortcutFileInfo
+' Create()
+' Decrypt()
+' Delete()
+' Encrypt()
+' GetAccessControl() As FileSecurity
+' GetAccessControl(AccessControlSections) As FileSecurity
+' MoveTo(String)
+' Open(FileMode) As FileStream
+' Open(FileMode, FileAccess) As FileStream
+' Open(FileMode, FileAccess, FileShare) As FileStream
+' OpenRead() As FileStream
+' OpenWrite() As FileStream
+' Refresh()
+' Resolve(IntPtr, IShellLinkResolveFlags)
+' ToString() As String
+
+#End Region
+
+#End Region
+
+#Region " Usage Examples "
+
+' Dim lnk As New ShortcutFileInfo("C:\Test Shortcut.lnk")
+' lnk.Create()
+' 
+' With lnk
+'     .Attributes = FileAttributes.Normal
+'     .Description = "My shortcut description."
+'     .Hotkey = Keys.Shift Or Keys.Alt Or Keys.Control Or Keys.F1
+'     .Icon = "Shell32.dll"
+'     .IconIndex = 0
+'     .Target = "C:\Windows\Notepad.exe"
+'     .TargetArguments = """C:\Windows\win.ini"""
+'     .WindowState = ShortcutWindowState.Normal
+'     .WorkingDirectory = Path.GetDirectoryName(lnk.Target)
+' End With
+' 
+' lnk.ViewMode = True
+' Me.PropertyGrid1.SelectedObject = lnk
 
 #End Region
 
@@ -35,9 +108,10 @@ Imports System.Security
 Imports System.Security.AccessControl
 Imports System.Text
 Imports System.Xml.Serialization
-
+Imports DevCase.Interop.Unmanaged.Win32
 Imports DevCase.Interop.Unmanaged.Win32.Enums
 Imports DevCase.Interop.Unmanaged.Win32.Interfaces
+Imports DevCase.Interop.Unmanaged.Win32.Structures
 
 #End Region
 
@@ -50,13 +124,35 @@ Namespace DevCase.Core.IO
     ''' Provides information about a shortcut (.lnk) file.
     ''' </summary>
     ''' ----------------------------------------------------------------------------------------------------
+    ''' <example> This is a code example.
+    ''' <code>
+    ''' Dim lnk As New ShortcutFileInfo("C:\Test Shortcut.lnk")
+    ''' lnk.Create()
+    ''' 
+    ''' With lnk
+    '''     .Attributes = FileAttributes.Normal
+    '''     .Description = "My shortcut description."
+    '''     .Hotkey = Keys.Shift Or Keys.Alt Or Keys.Control Or Keys.F1
+    '''     .Icon = "Shell32.dll"
+    '''     .IconIndex = 0
+    '''     .Target = "C:\Windows\Notepad.exe"
+    '''     .TargetArguments = """C:\Windows\win.ini"""
+    '''     .WindowState = ShortcutWindowState.Normal
+    '''     .WorkingDirectory = Path.GetDirectoryName(lnk.Target)
+    ''' End With
+    ''' 
+    ''' lnk.ViewMode = True
+    ''' Me.PropertyGrid1.SelectedObject = lnk
+    ''' </code>
+    ''' </example>
+    ''' ----------------------------------------------------------------------------------------------------
     <Serializable>
     <XmlRoot(NameOf(ShortcutFileInfo))>
     <TypeConverter(GetType(ExpandableObjectConverter))>
     <Category(NameOf(ShortcutFileInfo))>
     <Description("Provides information about a shortcut (.lnk) file.")>
     <DefaultProperty(NameOf(ShortcutFileInfo.FullName))>
-    Public NotInheritable Class ShortcutFileInfo : Inherits FileSystemInfo
+    Friend NotInheritable Class ShortcutFileInfo : Inherits FileSystemInfo
 
 #Region " Properties "
 
@@ -90,9 +186,28 @@ Namespace DevCase.Core.IO
             End Get
         End Property
 
+        ''' ----------------------------------------------------------------------------------------------------
+        ''' <summary>
+        ''' Gets the file size, in bytes, of the current shortcut file.
+        ''' </summary>
+        ''' ----------------------------------------------------------------------------------------------------
+        ''' <value>
+        ''' The file attributes.
+        ''' </value>
+        ''' ----------------------------------------------------------------------------------------------------
+        <Description("The file size, in bytes, of the current shortcut file.")>
+        <DisplayName("Length")>
+        <Category("File Info")>
+        <Browsable(True)>
+        Public ReadOnly Property Length As Long
+            Get
+                Return New FileInfo(Me.FullName).Length
+            End Get
+        End Property
+
 #End Region
 
-#Region " File Info Extended "
+#Region " File Info (non-browsable)"
 
         ''' ----------------------------------------------------------------------------------------------------
         ''' <summary>
@@ -105,7 +220,8 @@ Namespace DevCase.Core.IO
         ''' ----------------------------------------------------------------------------------------------------
         <Description("The file attributes of the current shortcut file.")>
         <DisplayName("Attributes")>
-        <Category("File Info Extended")>
+        <Category("File Info")>
+        <Browsable(False)>
         Public Shadows Property Attributes As FileAttributes
             Get
                 Return MyBase.Attributes
@@ -119,95 +235,6 @@ Namespace DevCase.Core.IO
 
         ''' ----------------------------------------------------------------------------------------------------
         ''' <summary>
-        ''' Gets or sets the creation time of the current shortcut file.
-        ''' </summary>
-        ''' ----------------------------------------------------------------------------------------------------
-        ''' <value>
-        ''' The creation time.
-        ''' </value>
-        ''' ----------------------------------------------------------------------------------------------------
-        <Description("The creation time of the current shortcut file.")>
-        <DisplayName("Creation Time")>
-        <Category("File Info Extended")>
-        <Browsable(True)>
-        Public Shadows Property CreationTime As Date
-            Get
-                Return MyBase.CreationTime
-            End Get
-            Set(value As Date)
-                MyBase.CreationTime = value
-            End Set
-        End Property
-
-        ''' ----------------------------------------------------------------------------------------------------
-        ''' <summary>
-        ''' Gets or sets the time the current shortcut file was last accessed.
-        ''' </summary>
-        ''' ----------------------------------------------------------------------------------------------------
-        ''' <value>
-        ''' The last access time.
-        ''' </value>
-        ''' ----------------------------------------------------------------------------------------------------
-        <Description("The time the current shortcut file was last accessed.")>
-        <DisplayName("Last Access Time")>
-        <Category("File Info Extended")>
-        <Browsable(True)>
-        Public Shadows Property LastAccessTime As Date
-            Get
-                Return MyBase.LastAccessTime
-            End Get
-            Set(value As Date)
-                MyBase.LastAccessTime = value
-            End Set
-        End Property
-
-        ''' ----------------------------------------------------------------------------------------------------
-        ''' <summary>
-        ''' Gets or sets the time the current shortcut file was last written to.
-        ''' </summary>
-        ''' ----------------------------------------------------------------------------------------------------
-        ''' <value>
-        ''' The last write time.
-        ''' </value>
-        ''' ----------------------------------------------------------------------------------------------------
-        <Description("The time the current shortcut file was last written to.")>
-        <DisplayName("Last Write Time")>
-        <Category("File Info Extended")>
-        <Browsable(True)>
-        Public Shadows Property LastWriteTime As Date
-            Get
-                Return MyBase.LastWriteTime
-            End Get
-            Set(value As Date)
-                MyBase.LastWriteTime = value
-            End Set
-        End Property
-
-        ''' ----------------------------------------------------------------------------------------------------
-        ''' <summary>
-        ''' Gets the file size, in bytes, of the current shortcut file.
-        ''' </summary>
-        ''' ----------------------------------------------------------------------------------------------------
-        ''' <value>
-        ''' The file attributes.
-        ''' </value>
-        ''' ----------------------------------------------------------------------------------------------------
-        <Description("The file size, in bytes, of the current shortcut file.")>
-        <DisplayName("Length")>
-        <Category("File Info Extended")>
-        <Browsable(True)>
-        Public ReadOnly Property Length As Long
-            Get
-                Return New FileInfo(Me.FullName).Length
-            End Get
-        End Property
-
-#End Region
-
-#Region " File Info Extended (not browsable)"
-
-        ''' ----------------------------------------------------------------------------------------------------
-        ''' <summary>
         ''' Gets or sets a value that determines if the current shortcut file is read-only.
         ''' </summary>
         ''' ----------------------------------------------------------------------------------------------------
@@ -215,6 +242,9 @@ Namespace DevCase.Core.IO
         ''' <see langword="True"/> if the current shortcut file is read-only; otherwise, <see langword="False"/>.
         ''' </value>
         ''' ----------------------------------------------------------------------------------------------------
+        <Description("A value that determines if the current shortcut file is read-only.")>
+        <DisplayName("Is Read-Only")>
+        <Category("File Info")>
         <Browsable(False)>
         Public Property IsReadOnly As Boolean
             Get
@@ -234,6 +264,9 @@ Namespace DevCase.Core.IO
         ''' <see langword="True"/> if the shortcut file exists; otherwise, <see langword="False"/>.
         ''' </value>
         ''' ----------------------------------------------------------------------------------------------------
+        <Description("A value indicating whether the shortcut file exists.")>
+        <DisplayName("Exists")>
+        <Category("File Info")>
         <Browsable(False)>
         Public Overrides ReadOnly Property Exists As Boolean
             Get
@@ -246,6 +279,9 @@ Namespace DevCase.Core.IO
         ''' Gets an instance of the parent directory of the shortcut file.
         ''' </summary>
         ''' ----------------------------------------------------------------------------------------------------
+        <Description("The parent directory of the shortcut file.")>
+        <DisplayName("Directory")>
+        <Category("File Info")>
         <Browsable(False)>
         Public ReadOnly Property Directory As DirectoryInfo
             Get
@@ -258,6 +294,9 @@ Namespace DevCase.Core.IO
         ''' Gets a string representing the shortcut directory's full path.
         ''' </summary>
         ''' ----------------------------------------------------------------------------------------------------
+        <Description("A string representing the shortcut directory's full path.")>
+        <DisplayName("Directory Name")>
+        <Category("File Info")>
         <Browsable(False)>
         Public ReadOnly Property DirectoryName As String
             Get
@@ -267,13 +306,16 @@ Namespace DevCase.Core.IO
 
         ''' ----------------------------------------------------------------------------------------------------
         ''' <summary>
-        ''' Gets the string representing the extension part of the shortcut file.
+        ''' Gets a string representing the extension part of the shortcut file.
         ''' </summary>
         ''' ----------------------------------------------------------------------------------------------------
         ''' <value>
         ''' The extension.
         ''' </value>
         ''' ----------------------------------------------------------------------------------------------------
+        <Description("A string representing the extension part of the shortcut file.")>
+        <DisplayName("Extension")>
+        <Category("File Info")>
         <Browsable(False)>
         Public Shadows ReadOnly Property Extension As String
             Get
@@ -290,13 +332,18 @@ Namespace DevCase.Core.IO
         ''' The creation time UTC.
         ''' </value>
         ''' ----------------------------------------------------------------------------------------------------
+        <Description("The creation time, in coordinated universal time (UTC) of the current shortcut file.")>
+        <DisplayName("Creation Time (UTC)")>
+        <Category("File Info")>
         <Browsable(False)>
         Public Shadows Property CreationTimeUtc As Date
             Get
                 Return MyBase.CreationTimeUtc
             End Get
             Set(value As Date)
-                MyBase.CreationTimeUtc = value
+                If (value <> MyBase.CreationTimeUtc) Then
+                    MyBase.CreationTimeUtc = value
+                End If
             End Set
         End Property
 
@@ -309,13 +356,18 @@ Namespace DevCase.Core.IO
         ''' The last access time UTC.
         ''' </value>
         ''' ----------------------------------------------------------------------------------------------------
+        <Description("The time, in coordinated universal time (UTC), the current shortcut file was last accessed.")>
+        <DisplayName("Last Access Time (UTC)")>
+        <Category("File Info")>
         <Browsable(False)>
         Public Shadows Property LastAccessTimeUtc As Date
             Get
                 Return MyBase.LastAccessTimeUtc
             End Get
             Set(value As Date)
-                MyBase.LastAccessTimeUtc = value
+                If (value <> MyBase.LastAccessTimeUtc) Then
+                    MyBase.LastAccessTimeUtc = value
+                End If
             End Set
         End Property
 
@@ -328,13 +380,90 @@ Namespace DevCase.Core.IO
         ''' The last write time UTC.
         ''' </value>
         ''' ----------------------------------------------------------------------------------------------------
+        <Description("The time, in coordinated universal time (UTC), the current shortcut file was last written to.")>
+        <DisplayName("Last Write Time (UTC)")>
+        <Category("File Info")>
         <Browsable(False)>
         Public Shadows Property LastWriteTimeUtc As Date
             Get
                 Return MyBase.LastWriteTimeUtc
             End Get
             Set(value As Date)
-                MyBase.LastWriteTimeUtc = value
+                If (value <> MyBase.LastWriteTimeUtc) Then
+                    MyBase.LastWriteTimeUtc = value
+                End If
+            End Set
+        End Property
+
+        ''' ----------------------------------------------------------------------------------------------------
+        ''' <summary>
+        ''' Gets or sets the creation time of the current shortcut file.
+        ''' </summary>
+        ''' ----------------------------------------------------------------------------------------------------
+        ''' <value>
+        ''' The creation time.
+        ''' </value>
+        ''' ----------------------------------------------------------------------------------------------------
+        <Description("The creation time of the current shortcut file.")>
+        <DisplayName("Creation Time")>
+        <Category("File Info")>
+        <Browsable(False)>
+        Public Shadows Property CreationTime As Date
+            Get
+                Return MyBase.CreationTime
+            End Get
+            Set(value As Date)
+                If (value <> MyBase.CreationTime) Then
+                    MyBase.CreationTime = value
+                End If
+            End Set
+        End Property
+
+        ''' ----------------------------------------------------------------------------------------------------
+        ''' <summary>
+        ''' Gets or sets the time the current shortcut file was last accessed.
+        ''' </summary>
+        ''' ----------------------------------------------------------------------------------------------------
+        ''' <value>
+        ''' The last access time.
+        ''' </value>
+        ''' ----------------------------------------------------------------------------------------------------
+        <Description("The time the current shortcut file was last accessed.")>
+        <DisplayName("Last Access Time")>
+        <Category("File Info")>
+        <Browsable(False)>
+        Public Shadows Property LastAccessTime As Date
+            Get
+                Return MyBase.LastAccessTime
+            End Get
+            Set(value As Date)
+                If (value <> MyBase.LastAccessTime) Then
+                    MyBase.LastAccessTime = value
+                End If
+            End Set
+        End Property
+
+        ''' ----------------------------------------------------------------------------------------------------
+        ''' <summary>
+        ''' Gets or sets the time the current shortcut file was last written to.
+        ''' </summary>
+        ''' ----------------------------------------------------------------------------------------------------
+        ''' <value>
+        ''' The last write time.
+        ''' </value>
+        ''' ----------------------------------------------------------------------------------------------------
+        <Description("The time the current shortcut file was last written to.")>
+        <DisplayName("Last Write Time")>
+        <Category("File Info")>
+        <Browsable(False)>
+        Public Shadows Property LastWriteTime As Date
+            Get
+                Return MyBase.LastWriteTime
+            End Get
+            Set(value As Date)
+                If (value <> MyBase.LastWriteTime) Then
+                    MyBase.LastWriteTime = value
+                End If
             End Set
         End Property
 
@@ -350,6 +479,7 @@ Namespace DevCase.Core.IO
         <Description("The shortcut description.")>
         <DisplayName("Description")>
         <Category("Shortcut")>
+        <DefaultValue("")>
         Public Property Description As String
             Get
                 Return Me.description_
@@ -378,6 +508,7 @@ Namespace DevCase.Core.IO
         <Description("The shortcut hotkey.")>
         <DisplayName("Hotkey")>
         <Category("Shortcut")>
+        <DefaultValue(Keys.None)>
         Public Property Hotkey As Keys
             Get
                 Return Me.hotkey_
@@ -406,6 +537,7 @@ Namespace DevCase.Core.IO
         <Description("The full path to the icon file.")>
         <DisplayName("Icon")>
         <Category("Shortcut")>
+        <DefaultValue("")>
         Public Property Icon As String
             Get
                 Return Me.icon_
@@ -434,6 +566,7 @@ Namespace DevCase.Core.IO
         <Description("The index of the image to use for the icon file.")>
         <DisplayName("Icon Index")>
         <Category("Shortcut")>
+        <DefaultValue(0)>
         Public Property IconIndex As Integer
             Get
                 Return Me.iconIndex_
@@ -462,6 +595,7 @@ Namespace DevCase.Core.IO
         <Description("The window state for the target file or directory.")>
         <DisplayName("Window State")>
         <Category("Shortcut")>
+        <DefaultValue(ShortcutWindowState.Normal)>
         Public Property WindowState As ShortcutWindowState
             Get
                 Return Me.windowState_
@@ -490,6 +624,7 @@ Namespace DevCase.Core.IO
         <Description("The full path to the target file or directory.")>
         <DisplayName("Target")>
         <Category("Shortcut")>
+        <DefaultValue("")>
         Public Property Target As String
             Get
                 Return Me.target_
@@ -518,6 +653,7 @@ Namespace DevCase.Core.IO
         <Description("The command-line arguments for a target executable file.")>
         <DisplayName("Target Arguments")>
         <Category("Shortcut")>
+        <DefaultValue("")>
         Public Property TargetArguments As String
             Get
                 Return Me.targetArguments_
@@ -546,6 +682,7 @@ Namespace DevCase.Core.IO
         <Description("The working directory of the target file or directory.")>
         <DisplayName("Working Directory")>
         <Category("Shortcut")>
+        <DefaultValue("")>
         Public Property WorkingDirectory As String
             Get
                 Return Me.workingDirectory_
@@ -565,6 +702,48 @@ Namespace DevCase.Core.IO
         ''' </summary>
         ''' ----------------------------------------------------------------------------------------------------
         Private workingDirectory_ As String
+
+#End Region
+
+#Region " Other "
+
+        ''' ----------------------------------------------------------------------------------------------------
+        ''' <summary>
+        ''' Gets or sets a value indicating whether this <see cref="ShortcutFileInfo"/> is in 'view mode',
+        ''' for example, being displayed in a <see cref="PropertyGrid"/> control.
+        ''' <para></para>
+        ''' The shortcut file will not be modified while <see cref="ShortcutFileInfo.ViewMode"/> is <see langword="True"/>. 
+        ''' </summary>
+        ''' ----------------------------------------------------------------------------------------------------
+        ''' <value>
+        ''' <see langword="True"/> if this <see cref="ShortcutFileInfo"/> is displayed in a <see cref="PropertyGrid"/> control; 
+        ''' otherwise, <see langword="False"/>.
+        ''' </value>
+        ''' ----------------------------------------------------------------------------------------------------
+        <Browsable(False)>
+        <EditorBrowsable(EditorBrowsableState.Never)>
+        Public Property ViewMode As Boolean
+            Get
+                Return Me.viewMode_
+            End Get
+            Set(value As Boolean)
+                If (value <> Me.viewMode_) Then
+                    Me.viewMode_ = value
+                    Me.WriteLink()
+                End If
+            End Set
+        End Property
+        ''' ----------------------------------------------------------------------------------------------------
+        ''' <summary>
+        ''' ( Backing Field of <see cref="ShortcutFileInfo.ViewMode"/> property. )
+        ''' <para></para>
+        ''' A value indicating whether this <see cref="ShortcutFileInfo"/> is in 'view mode',
+        ''' for example, being displayed in a <see cref="PropertyGrid"/> control.
+        ''' <para></para>
+        ''' The shortcut file will not be modified while <see cref="ShortcutFileInfo.ViewMode"/> is <see langword="True"/>. 
+        ''' </summary>
+        ''' ----------------------------------------------------------------------------------------------------
+        Private viewMode_ As Boolean
 
 #End Region
 
@@ -613,7 +792,20 @@ Namespace DevCase.Core.IO
 
         ''' ----------------------------------------------------------------------------------------------------
         ''' <summary>
-        ''' Creates the shortcut file.
+        ''' Refreshes the state of the object.
+        ''' </summary>
+        ''' ----------------------------------------------------------------------------------------------------
+        Public Shadows Sub Refresh()
+            MyBase.Refresh()
+
+            If (Me.Exists) Then
+                Me.ReadLink()
+            End If
+        End Sub
+
+        ''' ----------------------------------------------------------------------------------------------------
+        ''' <summary>
+        ''' Creates the shortcut file. It overwrites any existing file.
         ''' </summary>
         ''' ----------------------------------------------------------------------------------------------------
         <DebuggerStepThrough>
@@ -626,6 +818,11 @@ Namespace DevCase.Core.IO
             Marshal.FinalReleaseComObject(persistFile)
             Marshal.FinalReleaseComObject(shellLink)
             Marshal.FinalReleaseComObject(cShellLink)
+
+            Dim oldViewMode As Boolean = Me.viewMode_
+            Me.viewMode_ = False
+            Me.WriteLink()
+            Me.viewMode_ = oldViewMode
         End Sub
 
         ''' ----------------------------------------------------------------------------------------------------
@@ -846,6 +1043,64 @@ Namespace DevCase.Core.IO
             Return Me.OriginalPath
         End Function
 
+        ''' ----------------------------------------------------------------------------------------------------
+        ''' <summary>
+        ''' Determines whether the specified <see cref="ShortcutFileInfo"/> is equal to this <see cref="ShortcutFileInfo"/>.
+        ''' </summary>
+        ''' ----------------------------------------------------------------------------------------------------
+        ''' <param name="file">
+        ''' The <see cref="ShortcutFileInfo"/> to compare.
+        ''' </param>        
+        ''' ----------------------------------------------------------------------------------------------------
+        ''' <returns>
+        ''' <see langword="True"/> if the specified <see cref="ShortcutFileInfo"/> is equal to this <see cref="ShortcutFileInfo"/>; 
+        ''' otherwise, <see langword="False"/>.
+        ''' </returns>
+        ''' ----------------------------------------------------------------------------------------------------
+        <DebuggerStepThrough>
+        Public Shadows Function Equals(ByVal file As ShortcutFileInfo) As Boolean
+            Return (Me = file)
+        End Function
+
+        ''' ----------------------------------------------------------------------------------------------------
+        ''' <summary>
+        ''' Resolves the target of a shortcut.
+        ''' <para></para>
+        ''' This is useful when the target of a shortcut file is changed from a drive letter to another, for example.
+        ''' <para></para>
+        ''' If the target can't be resolved, an error message would be displayed.
+        ''' </summary>
+        ''' ----------------------------------------------------------------------------------------------------
+        ''' <param name="owner">
+        ''' A handle used to show an error message If the target can't be resolved.
+        ''' <para></para>
+        ''' This value can be <see cref="IntPtr.Zero"/>
+        ''' <para></para>
+        ''' Add <see cref="IShellLinkResolveFlags.NoUI"/> flag to <see cref="flags"/> parameter 
+        ''' to don't show any error message.
+        ''' </param>
+        ''' 
+        ''' <param name="flags">
+        ''' Flags that determine the resolve behavior.
+        ''' </param>
+        ''' ----------------------------------------------------------------------------------------------------
+        <DebuggerStepThrough>
+        Public Sub Resolve(ByVal owner As IntPtr, ByVal flags As IShellLinkResolveFlags)
+
+            Dim lnk As New CShellLink()
+            Dim lnkW As IShellLinkW
+            Dim persistFile As IPersistFile = DirectCast(lnk, IPersistFile)
+
+            persistFile.Load(Me.FullPath, 0)
+            lnkW = DirectCast(lnk, IShellLinkW)
+            lnkW.Resolve(owner, flags)
+
+            Marshal.FinalReleaseComObject(persistFile)
+            Marshal.FinalReleaseComObject(lnkW)
+            Marshal.FinalReleaseComObject(lnk)
+
+        End Sub
+
 #End Region
 
 #Region " Private Methods "
@@ -863,6 +1118,7 @@ Namespace DevCase.Core.IO
             Dim hotkey As UShort
             Dim icon As New StringBuilder(260)
             Dim iconIndex As Integer
+            Dim pidl As IntPtr
             Dim target As New StringBuilder(260)
             Dim windowstate As ShortcutWindowState = ShortcutWindowState.Normal
             Dim workingDir As New StringBuilder(260)
@@ -876,21 +1132,29 @@ Namespace DevCase.Core.IO
                 .GetArguments(arguments, arguments.Capacity)
                 .GetDescription(description, description.Capacity)
                 .GetHotkey(hotkey)
+                .GetIDList(pidl)
                 .GetIconLocation(icon, icon.Capacity, iconIndex)
-                .GetPath(target, target.Capacity, Nothing, IShellLinkGetPathFlags.UncPriority)
                 .GetShowCmd(DirectCast(windowstate, NativeWindowState))
                 .GetWorkingDirectory(workingDir, workingDir.Capacity)
+
+                ' SHGetNameFromIDList() can retrieve common file system paths, and CLSIDs/virtual folders.
+                If NativeMethods.SHGetNameFromIDList(pidl, ShellItemGetDisplayName.DesktopAbsoluteParsing, target) <> HResult.S_OK Then
+                    target.Clear()
+                    ' IShellLinkW.GetPath() only can retrieve common file system paths.
+                    .GetPath(target, target.Capacity, Nothing, IShellLinkGetPathFlags.RawPath)
+                End If
+
             End With
 
             Marshal.FinalReleaseComObject(persistFile)
             Marshal.FinalReleaseComObject(shellLink)
             Marshal.FinalReleaseComObject(cShellLink)
 
-            Me.targetArguments_ = arguments.ToString()
             Me.description_ = description.ToString()
             Me.icon_ = icon.ToString()
             Me.iconIndex_ = iconIndex
             Me.target_ = target.ToString()
+            Me.targetArguments_ = arguments.ToString()
             Me.windowState_ = windowstate
             Me.workingDirectory_ = workingDir.ToString()
 
@@ -907,6 +1171,10 @@ Namespace DevCase.Core.IO
         ''' ----------------------------------------------------------------------------------------------------
         <DebuggerStepThrough>
         Private Sub WriteLink()
+            If (Me.viewMode_) Then
+                Exit Sub
+            End If
+
             If Not Me.Exists Then
                 Throw New FileNotFoundException($"The specified shortcut file is not found: {Me.FullName}", Me.FullName)
             End If
@@ -920,16 +1188,17 @@ Namespace DevCase.Core.IO
             persistFile.Load(Me.FullPath, 0)
 
             Dim shellLink As IShellLinkW = DirectCast(cShellLink, IShellLinkW)
-            If Not String.IsNullOrEmpty(Me.target_) Then
-                shellLink.SetPath(Me.target_)
-            End If
             With shellLink
+                If Not String.IsNullOrEmpty(Me.target_) Then
+                    .SetPath(Me.target_) ' Will throw error if empty string.
+                End If
+
                 .SetArguments(Me.targetArguments_)
                 .SetDescription(Me.description_)
-                .SetWorkingDirectory(Me.workingDirectory_)
-                .SetIconLocation(Me.icon_, Me.iconIndex_)
                 .SetHotkey(Me.KeysToHotkey(Me.hotkey_))
+                .SetIconLocation(Me.icon_, Me.iconIndex_)
                 .SetShowCmd(DirectCast(Me.windowState_, NativeWindowState))
+                .SetWorkingDirectory(Me.workingDirectory_)
             End With
 
             Dim shellLinkPersistFile As IPersistFile = DirectCast(shellLink, IPersistFile)
@@ -962,6 +1231,7 @@ Namespace DevCase.Core.IO
         ''' The resulting <see cref="Keys"/> value.
         ''' </returns>
         ''' ----------------------------------------------------------------------------------------------------
+        <DebuggerStepThrough>
         Private Function HotkeyToKeys(ByVal keyModifier As ShortcutHotkeyModifier, ByVal keyAccesor As Keys) As Keys
 
             Dim key As Keys = keyAccesor
@@ -995,6 +1265,7 @@ Namespace DevCase.Core.IO
         ''' The resulting shortcut hotkey.
         ''' </returns>
         ''' ----------------------------------------------------------------------------------------------------
+        <DebuggerStepThrough>
         Private Function KeysToHotkey(ByVal key As Keys) As UShort
 
             Dim keyModifier As ShortcutHotkeyModifier = ShortcutHotkeyModifier.None
@@ -1015,6 +1286,104 @@ Namespace DevCase.Core.IO
             Return BitConverter.ToUInt16({CByte(keyAccesor), CByte(keyModifier)}, 0)
 
         End Function
+
+#End Region
+
+#Region " Operators "
+
+        ''' ----------------------------------------------------------------------------------------------------
+        ''' <summary>
+        ''' Performs an implicit conversion from <see cref="ShortcutFileInfo"/> to <see cref="FileInfo"/>.
+        ''' </summary>
+        ''' ----------------------------------------------------------------------------------------------------
+        ''' <param name="file">
+        ''' The <see cref="ShortcutFileInfo"/>.
+        ''' </param>
+        ''' ----------------------------------------------------------------------------------------------------
+        ''' <returns>
+        ''' The resulting <see cref="FileInfo"/>.
+        ''' </returns>
+        ''' ----------------------------------------------------------------------------------------------------
+        <DebuggerStepThrough>
+        Public Shared Widening Operator CType(ByVal file As ShortcutFileInfo) As FileInfo
+            Return New FileInfo(file.ToString())
+        End Operator
+
+        ''' ----------------------------------------------------------------------------------------------------
+        ''' <summary>
+        ''' Performs an implicit conversion from <see cref="FileInfo"/> to <see cref="ShortcutFileInfo"/>.
+        ''' </summary>
+        ''' ----------------------------------------------------------------------------------------------------
+        ''' <param name="file">
+        ''' The <see cref="FileInfo"/>.
+        ''' </param>
+        ''' ----------------------------------------------------------------------------------------------------
+        ''' <returns>
+        ''' The resulting <see cref="ShortcutFileInfo"/>.
+        ''' </returns>
+        ''' ----------------------------------------------------------------------------------------------------
+        <DebuggerStepThrough>
+        Public Shared Widening Operator CType(ByVal file As FileInfo) As ShortcutFileInfo
+            Return New ShortcutFileInfo(file)
+        End Operator
+
+        ''' ----------------------------------------------------------------------------------------------------
+        ''' <summary>
+        ''' Determines whether the specified <see cref="ShortcutFileInfo"/> instances are equal.
+        ''' </summary>
+        ''' ----------------------------------------------------------------------------------------------------
+        ''' <param name="first">
+        ''' The first <see cref="ShortcutFileInfo"/> to compare.
+        ''' </param>
+        ''' 
+        ''' <param name="second">
+        ''' The second <see cref="ShortcutFileInfo"/> to compare.
+        ''' </param>
+        ''' ----------------------------------------------------------------------------------------------------
+        ''' <returns>
+        ''' <see langword="True"/> if the <see cref="ShortcutFileInfo"/> instances are considered equal; 
+        ''' otherwise, <see langword="False"/>.
+        ''' </returns>
+        ''' ----------------------------------------------------------------------------------------------------
+        Public Shared Operator =(ByVal first As ShortcutFileInfo, ByVal second As ShortcutFileInfo) As Boolean
+
+            Return (first.Attributes = second.Attributes) AndAlso
+                   (first.CreationTime = second.CreationTime) AndAlso
+                   (first.description_ = second.description_) AndAlso
+                   (first.FullPath = second.FullPath) AndAlso
+                   (first.hotkey_ = second.hotkey_) AndAlso
+                   (first.icon_ = second.icon_) AndAlso
+                   (first.iconIndex_ = second.iconIndex_) AndAlso
+                   (first.LastAccessTime = second.LastAccessTime) AndAlso
+                   (first.LastWriteTime = second.LastWriteTime) AndAlso
+                   (first.target_ = second.target_) AndAlso
+                   (first.targetArguments_ = second.targetArguments_) AndAlso
+                   (first.windowState_ = second.windowState_) AndAlso
+                   (first.workingDirectory_ = second.workingDirectory_)
+
+        End Operator
+
+        ''' ----------------------------------------------------------------------------------------------------
+        ''' <summary>
+        ''' Determines whether the specified <see cref="ShortcutFileInfo"/> instances are not equal.
+        ''' </summary>
+        ''' ----------------------------------------------------------------------------------------------------
+        ''' <param name="first">
+        ''' The first <see cref="ShortcutFileInfo"/> to compare.
+        ''' </param>
+        ''' 
+        ''' <param name="second">
+        ''' The second <see cref="ShortcutFileInfo"/> to compare.
+        ''' </param>
+        ''' ----------------------------------------------------------------------------------------------------
+        ''' <returns>
+        ''' <see langword="True"/> if the <see cref="ShortcutFileInfo"/> instances are not equal; 
+        ''' otherwise, <see langword="False"/>.
+        ''' </returns>
+        ''' ----------------------------------------------------------------------------------------------------
+        Public Shared Operator <>(ByVal first As ShortcutFileInfo, ByVal second As ShortcutFileInfo) As Boolean
+            Return Not (first = second)
+        End Operator
 
 #End Region
 

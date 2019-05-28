@@ -1,7 +1,12 @@
-﻿' ***********************************************************************
-' Author   : ElektroStudios
-' Modified : 10-May-2016
-' ***********************************************************************
+﻿' This source-code is freely distributed as part of "DevCase for .NET Framework".
+' 
+' Maybe you would like to consider to buy this powerful set of libraries to support me. 
+' You can do loads of things with my apis for a big amount of diverse thematics.
+' 
+' Here is a link to the purchase page:
+' https://codecanyon.net/item/elektrokit-class-library-for-net/19260282
+' 
+' Thank you.
 
 #Region " Option Statements "
 
@@ -29,7 +34,7 @@ Namespace DevCase.Interop.Unmanaged.Win32.Interfaces
     <ComImport>
     <ClassInterface(ClassInterfaceType.None)>
     <Guid("00021401-0000-0000-C000-000000000046")>
-    Public Class CShellLink
+    Friend Class CShellLink
     End Class
 
 End Namespace

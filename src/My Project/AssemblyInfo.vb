@@ -10,7 +10,7 @@ Imports System.Runtime.InteropServices
 ' Review the values of the assembly attributes
 
 <Assembly: AssemblyTitle("Easy Link File Viewer")>
-<Assembly: AssemblyDescription("Read and edit shortcut (.lnk) files")>
+<Assembly: AssemblyDescription("A program to read and edit shortcut (.lnk) files.")>
 <Assembly: AssemblyCompany("ElektroStudios")>
 <Assembly: AssemblyProduct("Easy Link File Viewer")>
 <Assembly: AssemblyCopyright("Copyright © ElektroStudios 2019")>
@@ -19,7 +19,7 @@ Imports System.Runtime.InteropServices
 <Assembly: ComVisible(False)>
 
 'The following GUID is for the ID of the typelib if this project is exposed to COM
-<Assembly: Guid("e5883e75-c8b0-42c6-81b1-143a434b12af")>
+<Assembly: Guid("470f6fa7-e577-45df-a221-adefbf02ac51")>
 
 ' Version information for an assembly consists of the following four values:
 '

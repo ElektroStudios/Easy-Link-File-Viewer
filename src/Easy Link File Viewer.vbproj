@@ -4,7 +4,7 @@
   <PropertyGroup>
     <Configuration Condition=" '$(Configuration)' == '' ">Debug</Configuration>
     <Platform Condition=" '$(Platform)' == '' ">AnyCPU</Platform>
-    <ProjectGuid>{4CD5648B-9113-425E-8532-9643652DF2C2}</ProjectGuid>
+    <ProjectGuid>{28F02AC5-3473-4AAB-B505-5FA4310DC924}</ProjectGuid>
     <OutputType>WinExe</OutputType>
     <StartupObject>My.MyApplication</StartupObject>
     <RootNamespace>
@@ -12,7 +12,7 @@
     <AssemblyName>Easy Link File Viewer</AssemblyName>
     <FileAlignment>512</FileAlignment>
     <MyType>WindowsForms</MyType>
-    <TargetFrameworkVersion>v4.6</TargetFrameworkVersion>
+    <TargetFrameworkVersion>v4.7</TargetFrameworkVersion>
     <AutoGenerateBindingRedirects>true</AutoGenerateBindingRedirects>
     <Deterministic>true</Deterministic>
   </PropertyGroup>
@@ -23,8 +23,10 @@
     <DefineDebug>true</DefineDebug>
     <DefineTrace>true</DefineTrace>
     <OutputPath>bin\Debug\</OutputPath>
-    <DocumentationFile>Easy Link File Viewer.xml</DocumentationFile>
+    <DocumentationFile>
+    </DocumentationFile>
     <NoWarn>42016,41999,42017,42018,42019,42032,42036,42020,42021,42022</NoWarn>
+    <Prefer32Bit>false</Prefer32Bit>
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Release|AnyCPU' ">
     <PlatformTarget>AnyCPU</PlatformTarget>
@@ -33,8 +35,10 @@
     <DefineTrace>true</DefineTrace>
     <Optimize>true</Optimize>
     <OutputPath>bin\Release\</OutputPath>
-    <DocumentationFile>Easy Link File Viewer.xml</DocumentationFile>
+    <DocumentationFile>
+    </DocumentationFile>
     <NoWarn>42016,41999,42017,42018,42019,42032,42036,42020,42021,42022</NoWarn>
+    <Prefer32Bit>false</Prefer32Bit>
   </PropertyGroup>
   <PropertyGroup>
     <OptionExplicit>On</OptionExplicit>
@@ -48,17 +52,17 @@
   <PropertyGroup>
     <OptionInfer>Off</OptionInfer>
   </PropertyGroup>
+  <PropertyGroup>
+    <ApplicationIcon>App.ico</ApplicationIcon>
+  </PropertyGroup>
   <ItemGroup>
     <Reference Include="System" />
     <Reference Include="System.Data" />
-    <Reference Include="System.Deployment" />
     <Reference Include="System.Drawing" />
     <Reference Include="System.Windows.Forms" />
-    <Reference Include="System.Xml" />
     <Reference Include="System.Core" />
+    <Reference Include="System.Xml" />
     <Reference Include="System.Xml.Linq" />
-    <Reference Include="System.Data.DataSetExtensions" />
-    <Reference Include="System.Net.Http" />
   </ItemGroup>
   <ItemGroup>
     <Import Include="Microsoft.VisualBasic" />
@@ -74,18 +78,36 @@
     <Import Include="System.Threading.Tasks" />
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="DevCase\Win32\CShellLink.vb" />
-    <Compile Include="DevCase\Win32\IPersist.vb" />
-    <Compile Include="DevCase\Win32\IPersistFile.vb" />
-    <Compile Include="DevCase\Win32\IShellLinkGetPathFlags.vb" />
-    <Compile Include="DevCase\Win32\IShellLinkResolveFlags.vb" />
-    <Compile Include="DevCase\Win32\IShellLinkW.vb" />
-    <Compile Include="DevCase\Win32\NativeWindowState.vb" />
-    <Compile Include="DevCase\ShortcutFileInfo.vb" />
-    <Compile Include="Form1.vb">
+    <Compile Include="DevCase\Win32\HResult.vb" />
+    <Compile Include="DevCase\Win32\ShellItemGetDisplayName.vb" />
+    <Compile Include="UI\AboutBox1.Designer.vb">
+      <DependentUpon>AboutBox1.vb</DependentUpon>
+    </Compile>
+    <Compile Include="UI\AboutBox1.vb">
       <SubType>Form</SubType>
     </Compile>
-    <Compile Include="Form1.Designer.vb">
+    <Compile Include="DevCase\ImageUtil.vb" />
+    <Compile Include="DevCase\Extensions\FormExtensions.vb" />
+    <Compile Include="DevCase\Extensions\ControlExtensions.vb" />
+    <Compile Include="DevCase\Extensions\PropertyGridExtensions.vb" />
+    <Compile Include="DevCase\Win32\NativeMethods.vb" />
+    <Compile Include="DevCase\Win32\NativeWindowState.vb" />
+    <Compile Include="DevCase\Win32\IShellLinkW.vb" />
+    <Compile Include="DevCase\Win32\IShellLinkResolveFlags.vb" />
+    <Compile Include="DevCase\Win32\CShellLink.vb" />
+    <Compile Include="DevCase\Win32\IPersist.vb" />
+    <Compile Include="DevCase\Win32\ShellFileInfo.vb" />
+    <Compile Include="DevCase\Win32\SHGetFileInfoFlags.vb" />
+    <Compile Include="DevCase\Win32\Win32FindDataW.vb" />
+    <Compile Include="DevCase\ShortcutFileInfo.vb" />
+    <Compile Include="DevCase\Win32\IShellLinkGetPathFlags.vb" />
+    <Compile Include="DevCase\ShortcutHotkeyModifier.vb" />
+    <Compile Include="DevCase\Win32\IPersistFile.vb" />
+    <Compile Include="DevCase\ShortcutWindowState.vb" />
+    <Compile Include="UI\Form1.vb">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="UI\Form1.Designer.vb">
       <DependentUpon>Form1.vb</DependentUpon>
       <SubType>Form</SubType>
     </Compile>
@@ -104,12 +126,12 @@
       <DependentUpon>Settings.settings</DependentUpon>
       <DesignTimeSharedInput>True</DesignTimeSharedInput>
     </Compile>
-    <Compile Include="DevCase\ShortcutHotkeyModifier.vb" />
-    <Compile Include="DevCase\ShortcutWindowState.vb" />
-    <Compile Include="DevCase\Win32\Win32FindDataW.vb" />
   </ItemGroup>
   <ItemGroup>
-    <EmbeddedResource Include="Form1.resx">
+    <EmbeddedResource Include="UI\AboutBox1.resx">
+      <DependentUpon>AboutBox1.vb</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="UI\Form1.resx">
       <DependentUpon>Form1.vb</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="My Project\Resources.resx">
@@ -130,6 +152,21 @@
       <LastGenOutput>Settings.Designer.vb</LastGenOutput>
     </None>
     <None Include="App.config" />
+  </ItemGroup>
+  <ItemGroup>
+    <Content Include="App.ico" />
+    <None Include="Resources\FileGroup_16x.png" />
+    <None Include="Resources\ColorPalette_16x.png" />
+    <None Include="Resources\ColorWheel_16x.png" />
+    <None Include="Resources\Settings_16x.png" />
+    <None Include="Resources\DarkTheme_16x.png" />
+    <None Include="Resources\OpenFile_16x.png" />
+    <None Include="Resources\FileExclude_16x.png" />
+    <None Include="Resources\FSFile_16x.png" />
+    <None Include="Resources\Save_16x.png" />
+    <None Include="Resources\Question_16x.png" />
+    <None Include="Resources\Close_red_16x.png" />
+    <None Include="Resources\Logo.png" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.VisualBasic.targets" />
 </Project>

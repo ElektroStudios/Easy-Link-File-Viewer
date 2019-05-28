@@ -1,7 +1,12 @@
-﻿' ***********************************************************************
-' Author   : ElektroStudios
-' Modified : 14-November-2015
-' ***********************************************************************
+﻿' This source-code is freely distributed as part of "DevCase for .NET Framework".
+' 
+' Maybe you would like to consider to buy this powerful set of libraries to support me. 
+' You can do loads of things with my apis for a big amount of diverse thematics.
+' 
+' Here is a link to the purchase page:
+' https://codecanyon.net/item/elektrokit-class-library-for-net/19260282
+' 
+' Thank you.
 
 #Region " Option Statements "
 
@@ -24,11 +29,7 @@ Namespace DevCase.Core.IO
     ''' <see href="https://msdn.microsoft.com/es-es/library/windows/desktop/bb761056%28v=vs.85%29.aspx"/>
     ''' </remarks>
     ''' ----------------------------------------------------------------------------------------------------
-    Public Enum ShortcutWindowState As Integer
-
-        ' *************************************
-        ' This enumeration is partially defined
-        ' *************************************
+    Friend Enum ShortcutWindowState As Integer
 
         ''' <summary>
         ''' Shortcut Window is at normal state.
