@@ -697,8 +697,11 @@ Namespace DevCase.Core.IO
         Public ReadOnly Property TargetDisplayName As String
             Get
                 Dim shellItem As IShellItem = Nothing
-                NativeMethods.SHCreateItemFromParsingName(Me.target_, IntPtr.Zero, GetType(IShellItem).GUID, shellItem)
-                Return shellItem?.GetDisplayName(ShellItemGetDisplayName.NormalDisplay).ToString()
+                If Not String.IsNullOrWhiteSpace(Me.target_) Then
+                    NativeMethods.SHCreateItemFromParsingName(Me.target_, IntPtr.Zero, GetType(IShellItem).GUID, shellItem)
+                    Return shellItem?.GetDisplayName(ShellItemGetDisplayName.NormalDisplay).ToString()
+                End If
+                Return String.Empty
             End Get
         End Property
 
