@@ -65,6 +65,18 @@ Namespace My
                 Me("VisualThemeIndex") = value
             End Set
         End Property
+        
+        <Global.System.Configuration.UserScopedSettingAttribute(),  _
+         Global.System.Diagnostics.DebuggerNonUserCodeAttribute(),  _
+         Global.System.Configuration.DefaultSettingValueAttribute("10")>  _
+        Public Property FontSize() As Single
+            Get
+                Return CType(Me("FontSize"),Single)
+            End Get
+            Set
+                Me("FontSize") = value
+            End Set
+        End Property
     End Class
 End Namespace
 

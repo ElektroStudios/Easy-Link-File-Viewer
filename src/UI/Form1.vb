@@ -1,6 +1,6 @@
 ﻿' ***********************************************************************
 ' Author   : ElektroStudios
-' Modified : 27-May-2019
+' Modified : 30-May-2019
 ' ***********************************************************************
 
 #Region " Option Statements "
@@ -13,10 +13,13 @@ Option Infer Off
 
 #Region " Imports "
 
+Imports System.ComponentModel
+Imports System.IO
+
 Imports DevCase.Core.Extensions
 Imports DevCase.Core.IO
+Imports DevCase.Core.IO.Tools
 Imports DevCase.Core.Imaging.Tools
-Imports System.IO
 
 #End Region
 
@@ -28,6 +31,17 @@ Imports System.IO
 ''' </summary>
 ''' ----------------------------------------------------------------------------------------------------
 Friend NotInheritable Class Form1 : Inherits Form
+
+#Region " Private Fields "
+
+    ''' ----------------------------------------------------------------------------------------------------
+    ''' <summary>
+    ''' The current <see cref="ShortcutFileInfo"/> instance that is loaded in the <see cref="Form1.PropertyGrid1"/> control.
+    ''' </summary>
+    ''' ----------------------------------------------------------------------------------------------------
+    Private CurrentShortcut As ShortcutFileInfo
+
+#End Region
 
 #Region " Constructors "
 
@@ -44,6 +58,8 @@ Friend NotInheritable Class Form1 : Inherits Form
 
 #Region " Event Handlers "
 
+#Region " Form "
+
     ''' ----------------------------------------------------------------------------------------------------
     ''' <summary>
     ''' Handles the <see cref="Form.Load"/> event of the <see cref="Form1"/> control.
@@ -58,6 +74,10 @@ Friend NotInheritable Class Form1 : Inherits Form
     ''' </param>
     ''' ----------------------------------------------------------------------------------------------------
     Private Sub Form1_Load(sender As Object, e As EventArgs) Handles MyBase.Load
+        Me.ToolStripStatusLabelIcon.Text = ""
+        Me.ToolStripStatusLabelFileName.Text = ""
+        Me.ToolStripComboBoxFontSize.SelectedItem = CStr(My.Settings.FontSize)
+
         Me.LoadVisualTheme()
     End Sub
 
@@ -75,11 +95,32 @@ Friend NotInheritable Class Form1 : Inherits Form
     ''' </param>
     ''' ----------------------------------------------------------------------------------------------------
     Private Sub Form1_Shown(sender As Object, e As EventArgs) Handles MyBase.Shown
-        Dim minWidth As Integer = (From item As ToolStripMenuItem In MenuStrip1.Items.Cast(Of ToolStripMenuItem)
+        Dim minWidth As Integer = (From item As ToolStripMenuItem In Me.MenuStrip1.Items.Cast(Of ToolStripMenuItem)
                                    Select item.Width + item.Padding.Horizontal).Sum()
 
-        Me.MinimumSize = New Size(minWidth, Me.Size.Height)
+        Me.MinimumSize = New Size(minWidth, Me.Height)
     End Sub
+
+    ''' ----------------------------------------------------------------------------------------------------
+    ''' <summary>
+    ''' Handles the <see cref="Form.Resize"/> event of the <see cref="Form1"/> control.
+    ''' </summary>
+    ''' ----------------------------------------------------------------------------------------------------
+    ''' <param name="sender">
+    ''' The source of the event.
+    ''' </param>
+    ''' 
+    ''' <param name="e">
+    ''' The <see cref="EventArgs"/> instance containing the event data.
+    ''' </param>
+    ''' ----------------------------------------------------------------------------------------------------
+    Private Sub Form1_Resize(sender As Object, e As EventArgs) Handles MyBase.Resize
+        Me.PropertyGrid1.MoveSplitterTo(180)
+    End Sub
+
+#End Region
+
+#Region " PropertyGrid "
 
     ''' ----------------------------------------------------------------------------------------------------
     ''' <summary>
@@ -132,6 +173,70 @@ Friend NotInheritable Class Form1 : Inherits Form
 
     ''' ----------------------------------------------------------------------------------------------------
     ''' <summary>
+    ''' Handles the <see cref="PropertyGrid.PropertyValueChanged"/> event of the <see cref="Form1.PropertyGrid1"/> control.
+    ''' </summary>
+    ''' ----------------------------------------------------------------------------------------------------
+    ''' <param name="sender">
+    ''' The source of the event.
+    ''' </param>
+    ''' 
+    ''' <param name="e">
+    ''' The <see cref="PropertyValueChangedEventArgs"/> instance containing the event data.
+    ''' </param>
+    ''' ----------------------------------------------------------------------------------------------------
+    Private Sub PropertyGrid1_PropertyValueChanged(sender As Object, e As PropertyValueChangedEventArgs) Handles PropertyGrid1.PropertyValueChanged
+        ' Force refresh of ShortcutFileInfo properties.
+        Me.PropertyGrid1.Refresh()
+    End Sub
+
+#End Region
+
+#Region " Menu Strip "
+
+#Region " File Menu "
+
+    ''' ----------------------------------------------------------------------------------------------------
+    ''' <summary>
+    ''' Handles the <see cref="ToolStripMenuItem.Click"/> event of the <see cref="Form1.NewToolStripMenuItem"/> control.
+    ''' </summary>
+    ''' ----------------------------------------------------------------------------------------------------
+    ''' <param name="sender">
+    ''' The source of the event.
+    ''' </param>
+    ''' 
+    ''' <param name="e">
+    ''' The <see cref="EventArgs"/> instance containing the event data.
+    ''' </param>
+    ''' ----------------------------------------------------------------------------------------------------
+    Private Sub NewToolStripMenuItem_Click(sender As Object, e As EventArgs) Handles NewToolStripMenuItem.Click
+
+        Using dlg As New SaveFileDialog()
+            dlg.FileName = "New Shortcut.lnk"
+            dlg.DefaultExt = "lnk"
+            dlg.DereferenceLinks = False
+            dlg.Filter = "Shortcut files (*.lnk)|*.lnk"
+            dlg.FilterIndex = 1
+            dlg.RestoreDirectory = True
+            dlg.SupportMultiDottedExtensions = True
+            dlg.Title = "Select a destination to save the shortcut file..."
+
+            If dlg.ShowDialog() = DialogResult.OK Then
+                Try
+                    File.Delete(dlg.FileName)
+                Catch ex As Exception
+                    MessageBox.Show(Me, "Can't overwrite file.", Me.Text, MessageBoxButtons.OK, MessageBoxIcon.Error)
+                End Try
+                Dim newShortcut As New ShortcutFileInfo(dlg.FileName) With {.ViewMode = True}
+                newShortcut.Create()
+
+                Me.LoadShortcutInPropertyGrid(newShortcut.FullName)
+            End If
+        End Using
+
+    End Sub
+
+    ''' ----------------------------------------------------------------------------------------------------
+    ''' <summary>
     ''' Handles the <see cref="ToolStripMenuItem.Click"/> event of the <see cref="Form1.OpenToolStripMenuItem"/> control.
     ''' </summary>
     ''' ----------------------------------------------------------------------------------------------------
@@ -145,18 +250,18 @@ Friend NotInheritable Class Form1 : Inherits Form
     ''' ----------------------------------------------------------------------------------------------------
     Private Sub OpenToolStripMenuItem_Click(sender As Object, e As EventArgs) Handles OpenToolStripMenuItem.Click
 
-        Using ofd As New OpenFileDialog
-            ofd.DefaultExt = "lnk"
-            ofd.DereferenceLinks = False
-            ofd.Filter = "Shortcut files (*.lnk)|*.lnk"
-            ofd.FilterIndex = 1
-            ofd.Multiselect = False
-            ofd.RestoreDirectory = True
-            ofd.SupportMultiDottedExtensions = True
-            ofd.Title = "Select a shortcut file to open..."
+        Using dlg As New OpenFileDialog()
+            dlg.DefaultExt = "lnk"
+            dlg.DereferenceLinks = False
+            dlg.Filter = "Shortcut files (*.lnk)|*.lnk"
+            dlg.FilterIndex = 1
+            dlg.Multiselect = False
+            dlg.RestoreDirectory = True
+            dlg.SupportMultiDottedExtensions = True
+            dlg.Title = "Select a shortcut file to open..."
 
-            If ofd.ShowDialog = DialogResult.OK Then
-                Me.LoadShortcutInPropertyGrid(ofd.FileName)
+            If dlg.ShowDialog = DialogResult.OK Then
+                Me.LoadShortcutInPropertyGrid(dlg.FileName)
             End If
 
         End Using
@@ -177,10 +282,8 @@ Friend NotInheritable Class Form1 : Inherits Form
     ''' </param>
     ''' ----------------------------------------------------------------------------------------------------
     Private Sub SaveToolStripMenuItem_Click(sender As Object, e As EventArgs) Handles SaveToolStripMenuItem.Click
-
-        Dim shortcut As ShortcutFileInfo = DirectCast(Me.PropertyGrid1.SelectedObject, ShortcutFileInfo)
-        shortcut.Create()
-
+        Me.CurrentShortcut.Create()
+        Me.PropertyGrid1.Refresh()
     End Sub
 
     ''' ----------------------------------------------------------------------------------------------------
@@ -198,37 +301,35 @@ Friend NotInheritable Class Form1 : Inherits Form
     ''' ----------------------------------------------------------------------------------------------------
     Private Sub SaveAsToolStripMenuItem_Click(sender As Object, e As EventArgs) Handles SaveAsToolStripMenuItem.Click
 
-        Dim shortcut As ShortcutFileInfo = DirectCast(Me.PropertyGrid1.SelectedObject, ShortcutFileInfo)
+        Using dlg As New SaveFileDialog()
+            dlg.FileName = Me.CurrentShortcut.FullName
+            dlg.DefaultExt = "lnk"
+            dlg.DereferenceLinks = False
+            dlg.Filter = "Shortcut files (*.lnk)|*.lnk"
+            dlg.FilterIndex = 1
+            dlg.RestoreDirectory = True
+            dlg.SupportMultiDottedExtensions = True
+            dlg.Title = "Select a destination to save the shortcut file..."
 
-        Using ofd As New SaveFileDialog
-            ofd.FileName = shortcut.FullName
-            ofd.DefaultExt = "lnk"
-            ofd.DereferenceLinks = False
-            ofd.Filter = "Shortcut files (*.lnk)|*.lnk"
-            ofd.FilterIndex = 1
-            ofd.RestoreDirectory = True
-            ofd.SupportMultiDottedExtensions = True
-            ofd.Title = "Select a destination to save the shortcut file..."
+            If dlg.ShowDialog() = DialogResult.OK Then
 
-            If ofd.ShowDialog() = DialogResult.OK Then
-
-                Dim dstShortcut As New ShortcutFileInfo(ofd.FileName) With {.ViewMode = True}
+                Dim dstShortcut As New ShortcutFileInfo(dlg.FileName) With {.ViewMode = True}
                 With dstShortcut
-                    .Description = shortcut.Description
-                    .Hotkey = shortcut.Hotkey
-                    .Icon = shortcut.Icon
-                    .IconIndex = shortcut.IconIndex
-                    .Target = shortcut.Target
-                    .TargetArguments = shortcut.TargetArguments
-                    .WindowState = shortcut.WindowState
-                    .WorkingDirectory = shortcut.WorkingDirectory
+                    .Description = Me.CurrentShortcut.Description
+                    .Hotkey = Me.CurrentShortcut.Hotkey
+                    .Icon = Me.CurrentShortcut.Icon
+                    .IconIndex = Me.CurrentShortcut.IconIndex
+                    .Target = Me.CurrentShortcut.Target
+                    .TargetArguments = Me.CurrentShortcut.TargetArguments
+                    .WindowState = Me.CurrentShortcut.WindowState
+                    .WorkingDirectory = Me.CurrentShortcut.WorkingDirectory
 
                     .Create()
 
-                    .Attributes = shortcut.Attributes
-                    .CreationTime = shortcut.CreationTime
-                    .LastAccessTime = shortcut.LastAccessTime
-                    .LastWriteTime = shortcut.LastWriteTime
+                    .Attributes = Me.CurrentShortcut.Attributes
+                    .CreationTime = Me.CurrentShortcut.CreationTime
+                    .LastAccessTime = Me.CurrentShortcut.LastAccessTime
+                    .LastWriteTime = Me.CurrentShortcut.LastWriteTime
                 End With
 
             End If
@@ -251,11 +352,14 @@ Friend NotInheritable Class Form1 : Inherits Form
     ''' ----------------------------------------------------------------------------------------------------
     Private Sub CloseToolStripMenuItem_Click(sender As Object, e As EventArgs) Handles CloseToolStripMenuItem.Click
         Me.PropertyGrid1.SelectedObject = Nothing
-        Me.ToolStripStatusLabel1.Text = ""
+        Me.ToolStripStatusLabelFileName.Image = Nothing
+        Me.ToolStripStatusLabelFileName.Text = ""
 
         Me.SaveToolStripMenuItem.Enabled = False
         Me.SaveAsToolStripMenuItem.Enabled = False
         Me.CloseToolStripMenuItem.Enabled = False
+
+        Me.PropertyGrid1.ContextMenuStrip = Nothing
     End Sub
 
     ''' ----------------------------------------------------------------------------------------------------
@@ -273,6 +377,31 @@ Friend NotInheritable Class Form1 : Inherits Form
     ''' ----------------------------------------------------------------------------------------------------
     Private Sub ExitToolStripMenuItem_Click(sender As Object, e As EventArgs) Handles ExitToolStripMenuItem.Click
         Me.Close()
+    End Sub
+
+#End Region
+
+#Region " Settings Menu "
+
+    ''' ----------------------------------------------------------------------------------------------------
+    ''' <summary>
+    ''' Handles the <see cref="ToolStripComboBox.SelectedIndexChanged"/> event of the <see cref="Form1.ToolStripComboBoxFontSize"/> control.
+    ''' </summary>
+    ''' ----------------------------------------------------------------------------------------------------
+    ''' <param name="sender">
+    ''' The source of the event.
+    ''' </param>
+    ''' 
+    ''' <param name="e">
+    ''' The <see cref="EventArgs"/> instance containing the event data.
+    ''' </param>
+    ''' ----------------------------------------------------------------------------------------------------
+    Private Sub ToolStripComboBoxFontSize_SelectedIndexChanged(sender As Object, e As EventArgs) Handles ToolStripComboBoxFontSize.SelectedIndexChanged
+
+        Dim sz As Single = CSng(DirectCast(sender, ToolStripComboBox).SelectedItem)
+        My.Settings.FontSize = sz
+        Me.LoadFontSize()
+
     End Sub
 
     ''' ----------------------------------------------------------------------------------------------------
@@ -311,6 +440,10 @@ Friend NotInheritable Class Form1 : Inherits Form
         Me.LoadVisualTheme()
     End Sub
 
+#End Region
+
+#Region " About Menu "
+
     ''' ----------------------------------------------------------------------------------------------------
     ''' <summary>
     ''' Handles the <see cref="ToolStripMenuItem.Click"/> event of the <see cref="Form1.AboutToolStripMenuItem"/> control.
@@ -330,7 +463,249 @@ Friend NotInheritable Class Form1 : Inherits Form
 
 #End Region
 
+#End Region
+
+#Region " PropertyGrid Context Menu "
+
+    ''' ----------------------------------------------------------------------------------------------------
+    ''' <summary>
+    ''' Handles the <see cref="ToolStripDropDown.Opening"/> event of the <see cref="Form1.ContextMenuStrip1"/> menu.
+    ''' </summary>
+    ''' ----------------------------------------------------------------------------------------------------
+    ''' <param name="sender">
+    ''' The source of the event.
+    ''' </param>
+    ''' 
+    ''' <param name="e">
+    ''' The <see cref="CancelEventArgs"/> instance containing the event data.
+    ''' </param>
+    ''' ----------------------------------------------------------------------------------------------------
+    Private Sub ContextMenuStrip1_Opening(sender As Object, e As CancelEventArgs) Handles ContextMenuStrip1.Opening
+
+        Me.OpenShortcutMenuItem.Enabled = Me.CurrentShortcut.Exists
+        Me.ViewShortcutMenuItem.Enabled = Me.OpenShortcutMenuItem.Enabled
+
+        Me.OpenTargetMenuItem.Enabled = File.Exists(Me.CurrentShortcut.Target) OrElse Directory.Exists(Me.CurrentShortcut.Target)
+        Me.OpenTargetWithArgsMenuItem.Enabled = File.Exists(Me.CurrentShortcut.Target) AndAlso Not String.IsNullOrWhiteSpace(Me.CurrentShortcut.TargetArguments)
+        Me.ViewTargetMenuItem.Enabled = Me.OpenTargetMenuItem.Enabled
+
+        Me.ViewWorkingDirectoryMenuItem.Enabled = Directory.Exists(Me.CurrentShortcut.WorkingDirectory)
+        Me.ViewIconMenuItem.Enabled = File.Exists(Me.CurrentShortcut.Icon)
+
+    End Sub
+
+    ''' ----------------------------------------------------------------------------------------------------
+    ''' <summary>
+    ''' Handles the <see cref="ToolStripMenuItem.Click"/> event of the <see cref="Form1.OpenShortcutMenuItem"/> menu item.
+    ''' </summary>
+    ''' ----------------------------------------------------------------------------------------------------
+    ''' <param name="sender">
+    ''' The source of the event.
+    ''' </param>
+    ''' 
+    ''' <param name="e">
+    ''' The <see cref="EventArgs"/> instance containing the event data.
+    ''' </param>
+    ''' ----------------------------------------------------------------------------------------------------
+    Private Sub OpenShortcutMenuItem_Click(sender As Object, e As EventArgs) Handles OpenShortcutMenuItem.Click
+
+        Try
+            Process.Start(Me.CurrentShortcut.FullName)
+
+        Catch ex As Exception
+            MessageBox.Show(Me, ex.Message, Me.Text, MessageBoxButtons.OK, MessageBoxIcon.Error)
+
+        End Try
+
+    End Sub
+
+    ''' ----------------------------------------------------------------------------------------------------
+    ''' <summary>
+    ''' Handles the <see cref="ToolStripMenuItem.Click"/> event of the <see cref="Form1.OpenTargetMenuItem"/> menu item.
+    ''' </summary>
+    ''' ----------------------------------------------------------------------------------------------------
+    ''' <param name="sender">
+    ''' The source of the event.
+    ''' </param>
+    ''' 
+    ''' <param name="e">
+    ''' The <see cref="EventArgs"/> instance containing the event data.
+    ''' </param>
+    ''' ----------------------------------------------------------------------------------------------------
+    Private Sub OpenTargetMenuItem1_Click(sender As Object, e As EventArgs) Handles OpenTargetMenuItem.Click
+
+        Dim target As String = Me.CurrentShortcut.Target
+
+        If File.Exists(target) Then
+            Try
+                Process.Start(target)
+                Exit Sub
+
+            Catch ex As Exception
+                MessageBox.Show(Me, ex.Message, Me.Text, MessageBoxButtons.OK, MessageBoxIcon.Error)
+
+            End Try
+        End If
+
+        If Directory.Exists(target) Then
+            Try
+                FileUtil.InternalOpenInExplorer(target)
+                Exit Sub
+
+            Catch ex As Exception
+                MessageBox.Show(Me, ex.Message, Me.Text, MessageBoxButtons.OK, MessageBoxIcon.Error)
+
+            End Try
+        End If
+
+        MessageBox.Show(Me, "Can't find the shortcut target.", Me.Text, MessageBoxButtons.OK, MessageBoxIcon.Error)
+
+    End Sub
+
+    ''' ----------------------------------------------------------------------------------------------------
+    ''' <summary>
+    ''' Handles the <see cref="ToolStripMenuItem.Click"/> event of the <see cref="Form1.OpenTargetWithArgsMenuItem"/> menu item.
+    ''' </summary>
+    ''' ----------------------------------------------------------------------------------------------------
+    ''' <param name="sender">
+    ''' The source of the event.
+    ''' </param>
+    ''' 
+    ''' <param name="e">
+    ''' The <see cref="EventArgs"/> instance containing the event data.
+    ''' </param>
+    ''' ----------------------------------------------------------------------------------------------------
+    Private Sub OpenTargetWithArgsMenuItem_Click(sender As Object, e As EventArgs) Handles OpenTargetWithArgsMenuItem.Click
+
+        Try
+            Process.Start(Me.CurrentShortcut.Target, Me.CurrentShortcut.TargetArguments)
+            Exit Sub
+
+        Catch ex As Exception
+            MessageBox.Show(Me, ex.Message, Me.Text, MessageBoxButtons.OK, MessageBoxIcon.Error)
+
+        End Try
+
+    End Sub
+
+    ''' ----------------------------------------------------------------------------------------------------
+    ''' <summary>
+    ''' Handles the <see cref="ToolStripMenuItem.Click"/> event of the <see cref="Form1.ViewShortcutMenuItem"/> menu item.
+    ''' </summary>
+    ''' ----------------------------------------------------------------------------------------------------
+    ''' <param name="sender">
+    ''' The source of the event.
+    ''' </param>
+    ''' 
+    ''' <param name="e">
+    ''' The <see cref="EventArgs"/> instance containing the event data.
+    ''' </param>
+    ''' ----------------------------------------------------------------------------------------------------
+    Private Sub ViewShortcutMenuItem_Click(sender As Object, e As EventArgs) Handles ViewShortcutMenuItem.Click
+
+        Try
+            FileUtil.InternalOpenInExplorer(Me.CurrentShortcut.FullName)
+
+        Catch ex As Exception
+            MessageBox.Show(Me, ex.Message, Me.Text, MessageBoxButtons.OK, MessageBoxIcon.Error)
+
+        End Try
+
+    End Sub
+
+    ''' ----------------------------------------------------------------------------------------------------
+    ''' <summary>
+    ''' Handles the <see cref="ToolStripMenuItem.Click"/> event of the <see cref="Form1.ViewTargetMenuItem"/> menu item.
+    ''' </summary>
+    ''' ----------------------------------------------------------------------------------------------------
+    ''' <param name="sender">
+    ''' The source of the event.
+    ''' </param>
+    ''' 
+    ''' <param name="e">
+    ''' The <see cref="EventArgs"/> instance containing the event data.
+    ''' </param>
+    ''' ----------------------------------------------------------------------------------------------------
+    Private Sub ViewTargetMenuItem_Click(sender As Object, e As EventArgs) Handles ViewTargetMenuItem.Click
+
+        Try
+            FileUtil.InternalOpenInExplorer(Me.CurrentShortcut.Target)
+
+        Catch ex As Exception
+            MessageBox.Show(Me, ex.Message, Me.Text, MessageBoxButtons.OK, MessageBoxIcon.Error)
+
+        End Try
+
+    End Sub
+
+    ''' ----------------------------------------------------------------------------------------------------
+    ''' <summary>
+    ''' Handles the <see cref="ToolStripMenuItem.Click"/> event of the <see cref="Form1.ViewWorkingDirectoryMenuItem"/> menu item.
+    ''' </summary>
+    ''' ----------------------------------------------------------------------------------------------------
+    ''' <param name="sender">
+    ''' The source of the event.
+    ''' </param>
+    ''' 
+    ''' <param name="e">
+    ''' The <see cref="EventArgs"/> instance containing the event data.
+    ''' </param>
+    ''' ----------------------------------------------------------------------------------------------------
+    Private Sub ViewWorkingDirectoryMenuItem_Click(sender As Object, e As EventArgs) Handles ViewWorkingDirectoryMenuItem.Click
+
+        Try
+            FileUtil.InternalOpenInExplorer(Me.CurrentShortcut.WorkingDirectory)
+
+        Catch ex As Exception
+            MessageBox.Show(Me, ex.Message, Me.Text, MessageBoxButtons.OK, MessageBoxIcon.Error)
+
+        End Try
+
+    End Sub
+
+    ''' ----------------------------------------------------------------------------------------------------
+    ''' <summary>
+    ''' Handles the <see cref="ToolStripMenuItem.Click"/> event of the <see cref="Form1.ViewIconMenuItem"/> menu item.
+    ''' </summary>
+    ''' ----------------------------------------------------------------------------------------------------
+    ''' <param name="sender">
+    ''' The source of the event.
+    ''' </param>
+    ''' 
+    ''' <param name="e">
+    ''' The <see cref="EventArgs"/> instance containing the event data.
+    ''' </param>
+    ''' ----------------------------------------------------------------------------------------------------
+    Private Sub ViewIconMenuItem_Click(sender As Object, e As EventArgs) Handles ViewIconMenuItem.Click
+
+        Try
+            FileUtil.InternalOpenInExplorer(Me.CurrentShortcut.Icon)
+
+        Catch ex As Exception
+            MessageBox.Show(Me, ex.Message, Me.Text, MessageBoxButtons.OK, MessageBoxIcon.Error)
+
+        End Try
+
+    End Sub
+
+#End Region
+
+#End Region
+
 #Region " Private Methods "
+
+    ''' ----------------------------------------------------------------------------------------------------
+    ''' <summary>
+    ''' Loads the saved font size for the user-interface.
+    ''' </summary>
+    ''' ----------------------------------------------------------------------------------------------------
+    Private Sub LoadFontSize()
+        Me.MenuStrip1.Font = New Font(Me.MenuStrip1.Font.FontFamily, My.Settings.FontSize, Me.MenuStrip1.Font.Style)
+        Me.StatusStrip1.Font = New Font(Me.StatusStrip1.Font.FontFamily, My.Settings.FontSize, Me.StatusStrip1.Font.Style)
+        Me.ToolStripStatusLabelIcon.Font = New Font(Me.ToolStripStatusLabelIcon.Font.FontFamily, My.Settings.FontSize, Me.ToolStripStatusLabelIcon.Font.Style)
+        Me.ToolStripStatusLabelFileName.Font = New Font(Me.ToolStripStatusLabelFileName.Font.FontFamily, My.Settings.FontSize, Me.ToolStripStatusLabelFileName.Font.Style)
+        Me.PropertyGrid1.Font = New Font(Me.PropertyGrid1.Font.FontFamily, My.Settings.FontSize, Me.PropertyGrid1.Font.Style)
+    End Sub
 
     ''' ----------------------------------------------------------------------------------------------------
     ''' <summary>
@@ -420,22 +795,25 @@ Friend NotInheritable Class Form1 : Inherits Form
     ''' ----------------------------------------------------------------------------------------------------
     Private Sub LoadShortcutInPropertyGrid(ByVal filePath As String)
 
-        Dim shortcut As New ShortcutFileInfo(filePath) With {.ViewMode = True}
-        If Not shortcut.Exists Then
-            MessageBox.Show(Me, $"The lnk file does not exist: {shortcut.FullName}", Me.Name, MessageBoxButtons.OK, MessageBoxIcon.Error)
+        Me.CurrentShortcut = New ShortcutFileInfo(filePath) With {.ViewMode = True}
+        If Not Me.CurrentShortcut.Exists Then
+            MessageBox.Show(Me, $"The lnk file does not exist: {Me.CurrentShortcut.FullName}", Me.Name, MessageBoxButtons.OK, MessageBoxIcon.Error)
             Exit Sub
         End If
 
-        Me.PropertyGrid1.MoveSplitterTo(160)
-        Me.PropertyGrid1.SelectedObject = shortcut
-        Me.ToolStripStatusLabel1.Text = filePath
+        Me.PropertyGrid1.MoveSplitterTo(180)
+        Me.PropertyGrid1.SelectedObject = Me.CurrentShortcut
+        Me.ToolStripStatusLabelFileName.Text = filePath
 
         Me.RecentToolStripMenuItem.Enabled = True
         Me.SaveToolStripMenuItem.Enabled = True
         Me.SaveAsToolStripMenuItem.Enabled = True
         Me.CloseToolStripMenuItem.Enabled = True
 
-        Me.UpdateMruItems(shortcut)
+        Me.UpdateMruItems(Me.CurrentShortcut)
+        Me.ToolStripStatusLabelIcon.Image = Me.RecentToolStripMenuItem.DropDown.Items(0).Image
+
+        Me.PropertyGrid1.ContextMenuStrip = Me.ContextMenuStrip1
 
     End Sub
 

@@ -30,6 +30,8 @@ It is an alternative to the built-in shell-extension in **Windows** operating sy
 
 ![](Preview/Easy%20Link%20File%20Viewer%2002.png)
 
+![](Preview/Easy%20Link%20File%20Viewer%2003.png)
+
 ### 3rd party resources:
 
 PNG images included in this repository are from <a href="https://www.microsoft.com/en-us/download/details.aspx?id=35825" target="_blank">Visual Studio 2017 Image Library</a>.

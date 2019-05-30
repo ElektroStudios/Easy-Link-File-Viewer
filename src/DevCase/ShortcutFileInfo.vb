@@ -40,6 +40,7 @@
 ' Name As String
 ' Target As String
 ' TargetArguments As String
+' TargetDisplayName As String
 ' ViewMode As Boolean
 ' WindowState As ShortcutWindowState
 ' WorkingDirectory As String
@@ -102,16 +103,19 @@ Option Infer Off
 #Region " Imports "
 
 Imports System.ComponentModel
+Imports System.Drawing.Design
 Imports System.IO
 Imports System.Runtime.InteropServices
 Imports System.Security
 Imports System.Security.AccessControl
 Imports System.Text
+Imports System.Windows.Forms.Design
 Imports System.Xml.Serialization
+
+Imports DevCase.Core.Design
 Imports DevCase.Interop.Unmanaged.Win32
 Imports DevCase.Interop.Unmanaged.Win32.Enums
 Imports DevCase.Interop.Unmanaged.Win32.Interfaces
-Imports DevCase.Interop.Unmanaged.Win32.Structures
 
 #End Region
 
@@ -151,7 +155,7 @@ Namespace DevCase.Core.IO
     <TypeConverter(GetType(ExpandableObjectConverter))>
     <Category(NameOf(ShortcutFileInfo))>
     <Description("Provides information about a shortcut (.lnk) file.")>
-    <DefaultProperty(NameOf(ShortcutFileInfo.FullName))>
+    <DefaultProperty(NameOf(ShortcutFileInfo.Target))>
     Friend NotInheritable Class ShortcutFileInfo : Inherits FileSystemInfo
 
 #Region " Properties "
@@ -195,10 +199,11 @@ Namespace DevCase.Core.IO
         ''' The file attributes.
         ''' </value>
         ''' ----------------------------------------------------------------------------------------------------
-        <Description("The file size, in bytes, of the current shortcut file.")>
+        <Description("The file size of the shortcut file.")>
         <DisplayName("Length")>
         <Category("File Info")>
         <Browsable(True)>
+        <TypeConverter(GetType(FileSizeConverter))>
         Public ReadOnly Property Length As Long
             Get
                 Return New FileInfo(Me.FullName).Length
@@ -211,14 +216,14 @@ Namespace DevCase.Core.IO
 
         ''' ----------------------------------------------------------------------------------------------------
         ''' <summary>
-        ''' Gets or sets the file attributes of the current shortcut file.
+        ''' Gets or sets the file attributes of the shortcut file.
         ''' </summary>
         ''' ----------------------------------------------------------------------------------------------------
         ''' <value>
         ''' The file attributes.
         ''' </value>
         ''' ----------------------------------------------------------------------------------------------------
-        <Description("The file attributes of the current shortcut file.")>
+        <Description("The file attributes of the shortcut file.")>
         <DisplayName("Attributes")>
         <Category("File Info")>
         <Browsable(False)>
@@ -235,14 +240,14 @@ Namespace DevCase.Core.IO
 
         ''' ----------------------------------------------------------------------------------------------------
         ''' <summary>
-        ''' Gets or sets a value that determines if the current shortcut file is read-only.
+        ''' Gets or sets a value that determines if the shortcut file is read-only.
         ''' </summary>
         ''' ----------------------------------------------------------------------------------------------------
         ''' <value>
-        ''' <see langword="True"/> if the current shortcut file is read-only; otherwise, <see langword="False"/>.
+        ''' <see langword="True"/> if the shortcut file is read-only; otherwise, <see langword="False"/>.
         ''' </value>
         ''' ----------------------------------------------------------------------------------------------------
-        <Description("A value that determines if the current shortcut file is read-only.")>
+        <Description("A value that determines if the shortcut file is read-only.")>
         <DisplayName("Is Read-Only")>
         <Category("File Info")>
         <Browsable(False)>
@@ -325,14 +330,14 @@ Namespace DevCase.Core.IO
 
         ''' ----------------------------------------------------------------------------------------------------
         ''' <summary>
-        ''' Gets or sets the creation time, in coordinated universal time (UTC) of the current shortcut file.
+        ''' Gets or sets the creation time, in coordinated universal time (UTC) of the shortcut file.
         ''' </summary>
         ''' ----------------------------------------------------------------------------------------------------
         ''' <value>
         ''' The creation time UTC.
         ''' </value>
         ''' ----------------------------------------------------------------------------------------------------
-        <Description("The creation time, in coordinated universal time (UTC) of the current shortcut file.")>
+        <Description("The creation time, in coordinated universal time (UTC) of the shortcut file.")>
         <DisplayName("Creation Time (UTC)")>
         <Category("File Info")>
         <Browsable(False)>
@@ -349,14 +354,14 @@ Namespace DevCase.Core.IO
 
         ''' ----------------------------------------------------------------------------------------------------
         ''' <summary>
-        ''' Gets or sets the time, in coordinated universal time (UTC), the current shortcut file was last accessed.
+        ''' Gets or sets the time, in coordinated universal time (UTC), the shortcut file was last accessed.
         ''' </summary>
         ''' ----------------------------------------------------------------------------------------------------
         ''' <value>
         ''' The last access time UTC.
         ''' </value>
         ''' ----------------------------------------------------------------------------------------------------
-        <Description("The time, in coordinated universal time (UTC), the current shortcut file was last accessed.")>
+        <Description("The time, in coordinated universal time (UTC), the shortcut file was last accessed.")>
         <DisplayName("Last Access Time (UTC)")>
         <Category("File Info")>
         <Browsable(False)>
@@ -373,14 +378,14 @@ Namespace DevCase.Core.IO
 
         ''' ----------------------------------------------------------------------------------------------------
         ''' <summary>
-        ''' Gets or sets the time, in coordinated universal time (UTC), the current shortcut file was last written to.
+        ''' Gets or sets the time, in coordinated universal time (UTC), the shortcut file was last written to.
         ''' </summary>
         ''' ----------------------------------------------------------------------------------------------------
         ''' <value>
         ''' The last write time UTC.
         ''' </value>
         ''' ----------------------------------------------------------------------------------------------------
-        <Description("The time, in coordinated universal time (UTC), the current shortcut file was last written to.")>
+        <Description("The time, in coordinated universal time (UTC), the shortcut file was last written to.")>
         <DisplayName("Last Write Time (UTC)")>
         <Category("File Info")>
         <Browsable(False)>
@@ -397,14 +402,14 @@ Namespace DevCase.Core.IO
 
         ''' ----------------------------------------------------------------------------------------------------
         ''' <summary>
-        ''' Gets or sets the creation time of the current shortcut file.
+        ''' Gets or sets the creation time of the shortcut file.
         ''' </summary>
         ''' ----------------------------------------------------------------------------------------------------
         ''' <value>
         ''' The creation time.
         ''' </value>
         ''' ----------------------------------------------------------------------------------------------------
-        <Description("The creation time of the current shortcut file.")>
+        <Description("The creation time of the shortcut file.")>
         <DisplayName("Creation Time")>
         <Category("File Info")>
         <Browsable(False)>
@@ -421,14 +426,14 @@ Namespace DevCase.Core.IO
 
         ''' ----------------------------------------------------------------------------------------------------
         ''' <summary>
-        ''' Gets or sets the time the current shortcut file was last accessed.
+        ''' Gets or sets the time the shortcut file was last accessed.
         ''' </summary>
         ''' ----------------------------------------------------------------------------------------------------
         ''' <value>
         ''' The last access time.
         ''' </value>
         ''' ----------------------------------------------------------------------------------------------------
-        <Description("The time the current shortcut file was last accessed.")>
+        <Description("The time the shortcut file was last accessed.")>
         <DisplayName("Last Access Time")>
         <Category("File Info")>
         <Browsable(False)>
@@ -445,14 +450,14 @@ Namespace DevCase.Core.IO
 
         ''' ----------------------------------------------------------------------------------------------------
         ''' <summary>
-        ''' Gets or sets the time the current shortcut file was last written to.
+        ''' Gets or sets the time the shortcut file was last written to.
         ''' </summary>
         ''' ----------------------------------------------------------------------------------------------------
         ''' <value>
         ''' The last write time.
         ''' </value>
         ''' ----------------------------------------------------------------------------------------------------
-        <Description("The time the current shortcut file was last written to.")>
+        <Description("The time the shortcut file was last written to.")>
         <DisplayName("Last Write Time")>
         <Category("File Info")>
         <Browsable(False)>
@@ -509,6 +514,7 @@ Namespace DevCase.Core.IO
         <DisplayName("Hotkey")>
         <Category("Shortcut")>
         <DefaultValue(Keys.None)>
+        <Editor(GetType(ShortcutKeysEditor), GetType(UITypeEditor))>
         Public Property Hotkey As Keys
             Get
                 Return Me.hotkey_
@@ -531,13 +537,14 @@ Namespace DevCase.Core.IO
 
         ''' ----------------------------------------------------------------------------------------------------
         ''' <summary>
-        ''' Gets or sets the full path to the icon file.
+        ''' Gets or sets the full path of the icon file.
         ''' </summary>
         ''' ----------------------------------------------------------------------------------------------------
-        <Description("The full path to the icon file.")>
+        <Description("The full path of the icon file.")>
         <DisplayName("Icon")>
         <Category("Shortcut")>
         <DefaultValue("")>
+        <Editor(GetType(IconFileNameEditor), GetType(UITypeEditor))>
         Public Property Icon As String
             Get
                 Return Me.icon_
@@ -553,17 +560,18 @@ Namespace DevCase.Core.IO
         ''' <summary>
         ''' ( Backing Field of <see cref="ShortcutFileInfo.Icon"/> property. )
         ''' <para></para>
-        ''' The full path to the icon file.
+        ''' The full path of the icon file.
         ''' </summary>
         ''' ----------------------------------------------------------------------------------------------------
         Private icon_ As String
 
         ''' ----------------------------------------------------------------------------------------------------
         ''' <summary>
-        ''' Gets or sets the index of the image to use for the icon file.
+        ''' Gets or sets the image index within the icon file.
         ''' </summary>
         ''' ----------------------------------------------------------------------------------------------------
-        <Description("The index of the image to use for the icon file.")>
+        <Editor(GetType(ShortcutFileInfoIconIndexEditor), GetType(UITypeEditor))>
+        <Description("The image index within the icon file.")>
         <DisplayName("Icon Index")>
         <Category("Shortcut")>
         <DefaultValue(0)>
@@ -582,7 +590,7 @@ Namespace DevCase.Core.IO
         ''' <summary>
         ''' ( Backing Field of <see cref="ShortcutFileInfo.IconIndex"/> property. )
         ''' <para></para>
-        ''' The index of the image to use for the icon file.
+        ''' The image index within the icon file.
         ''' </summary>
         ''' ----------------------------------------------------------------------------------------------------
         Private iconIndex_ As Integer
@@ -611,20 +619,21 @@ Namespace DevCase.Core.IO
         ''' <summary>
         ''' ( Backing Field of <see cref="ShortcutFileInfo.WindowState"/> property. )
         ''' <para></para>
-        ''' The window state for the target file or directory.
+        ''' The window state of the target file or directory.
         ''' </summary>
         ''' ----------------------------------------------------------------------------------------------------
         Private windowState_ As ShortcutWindowState
 
         ''' ----------------------------------------------------------------------------------------------------
         ''' <summary>
-        ''' Gets or sets the full path to the target file or directory.
+        ''' Gets or sets the full path of the target file or directory.
         ''' </summary>
         ''' ----------------------------------------------------------------------------------------------------
-        <Description("The full path to the target file or directory.")>
+        <Description("The full path of the target file or directory.")>
         <DisplayName("Target")>
         <Category("Shortcut")>
         <DefaultValue("")>
+        <Editor(GetType(FileOrFolderNameEditor), GetType(UITypeEditor))>
         Public Property Target As String
             Get
                 Return Me.target_
@@ -640,17 +649,17 @@ Namespace DevCase.Core.IO
         ''' <summary>
         ''' ( Backing Field of <see cref="ShortcutFileInfo.Target"/> property. )
         ''' <para></para>
-        ''' The full path to the target file or directory.
+        ''' The full path of the target file or directory.
         ''' </summary>
         ''' ----------------------------------------------------------------------------------------------------
         Private target_ As String
 
         ''' ----------------------------------------------------------------------------------------------------
         ''' <summary>
-        ''' Gets or sets the command-line arguments for a target executable file.
+        ''' Gets or sets the command-line arguments of the target.
         ''' </summary>
         ''' ----------------------------------------------------------------------------------------------------
-        <Description("The command-line arguments for a target executable file.")>
+        <Description("The command-line arguments for the target.")>
         <DisplayName("Target Arguments")>
         <Category("Shortcut")>
         <DefaultValue("")>
@@ -669,10 +678,29 @@ Namespace DevCase.Core.IO
         ''' <summary>
         ''' ( Backing Field of <see cref="ShortcutFileInfo.TargetArguments"/> property. )
         ''' <para></para>
-        ''' The command-line arguments for a target executable file.
+        ''' The command-line arguments of the target.
         ''' </summary>
         ''' ----------------------------------------------------------------------------------------------------
         Private targetArguments_ As String
+
+        ''' ----------------------------------------------------------------------------------------------------
+        ''' <summary>
+        ''' Gets the display name of the target file or directory.
+        ''' <para></para>
+        ''' Returns a empty string if the target does not exist.
+        ''' </summary>
+        ''' ----------------------------------------------------------------------------------------------------
+        <Description("The display name of the target file or directory. Or a empty string if the target does not exist.")>
+        <DisplayName("Target Display Name")>
+        <Category("Shortcut")>
+        <DefaultValue("")>
+        Public ReadOnly Property TargetDisplayName As String
+            Get
+                Dim shellItem As IShellItem = Nothing
+                NativeMethods.SHCreateItemFromParsingName(Me.target_, IntPtr.Zero, GetType(IShellItem).GUID, shellItem)
+                Return shellItem?.GetDisplayName(ShellItemGetDisplayName.NormalDisplay).ToString()
+            End Get
+        End Property
 
         ''' ----------------------------------------------------------------------------------------------------
         ''' <summary>
@@ -683,6 +711,7 @@ Namespace DevCase.Core.IO
         <DisplayName("Working Directory")>
         <Category("Shortcut")>
         <DefaultValue("")>
+        <Editor(GetType(FolderNameEditor), GetType(UITypeEditor))>
         Public Property WorkingDirectory As String
             Get
                 Return Me.workingDirectory_
@@ -721,7 +750,7 @@ Namespace DevCase.Core.IO
         ''' </value>
         ''' ----------------------------------------------------------------------------------------------------
         <Browsable(False)>
-        <EditorBrowsable(EditorBrowsableState.Never)>
+        <EditorBrowsable(EditorBrowsableState.Advanced)>
         Public Property ViewMode As Boolean
             Get
                 Return Me.viewMode_
@@ -1112,7 +1141,6 @@ Namespace DevCase.Core.IO
         ''' ----------------------------------------------------------------------------------------------------
         <DebuggerStepThrough>
         Private Sub ReadLink()
-
             Dim arguments As New StringBuilder(260)
             Dim description As New StringBuilder(260)
             Dim hotkey As UShort
@@ -1138,8 +1166,9 @@ Namespace DevCase.Core.IO
                 .GetWorkingDirectory(workingDir, workingDir.Capacity)
 
                 ' SHGetNameFromIDList() can retrieve common file system paths, and CLSIDs/virtual folders.
-                If NativeMethods.SHGetNameFromIDList(pidl, ShellItemGetDisplayName.DesktopAbsoluteParsing, target) <> HResult.S_OK Then
+                If (pidl = IntPtr.Zero) OrElse NativeMethods.SHGetNameFromIDList(pidl, ShellItemGetDisplayName.DesktopAbsoluteParsing, target) <> HResult.S_OK Then
                     target.Clear()
+
                     ' IShellLinkW.GetPath() only can retrieve common file system paths.
                     .GetPath(target, target.Capacity, Nothing, IShellLinkGetPathFlags.RawPath)
                 End If

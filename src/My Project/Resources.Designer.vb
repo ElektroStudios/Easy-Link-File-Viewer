@@ -123,6 +123,26 @@ Namespace My.Resources
         '''<summary>
         '''  Looks up a localized resource of type System.Drawing.Bitmap.
         '''</summary>
+        Friend ReadOnly Property FolderOpen_16x() As System.Drawing.Bitmap
+            Get
+                Dim obj As Object = ResourceManager.GetObject("FolderOpen_16x", resourceCulture)
+                Return CType(obj,System.Drawing.Bitmap)
+            End Get
+        End Property
+        
+        '''<summary>
+        '''  Looks up a localized resource of type System.Drawing.Bitmap.
+        '''</summary>
+        Friend ReadOnly Property FontSize_16x() As System.Drawing.Bitmap
+            Get
+                Dim obj As Object = ResourceManager.GetObject("FontSize_16x", resourceCulture)
+                Return CType(obj,System.Drawing.Bitmap)
+            End Get
+        End Property
+        
+        '''<summary>
+        '''  Looks up a localized resource of type System.Drawing.Bitmap.
+        '''</summary>
         Friend ReadOnly Property FSFile_16x() As System.Drawing.Bitmap
             Get
                 Dim obj As Object = ResourceManager.GetObject("FSFile_16x", resourceCulture)
@@ -136,6 +156,26 @@ Namespace My.Resources
         Friend ReadOnly Property Logo() As System.Drawing.Bitmap
             Get
                 Dim obj As Object = ResourceManager.GetObject("Logo", resourceCulture)
+                Return CType(obj,System.Drawing.Bitmap)
+            End Get
+        End Property
+        
+        '''<summary>
+        '''  Looks up a localized resource of type System.Drawing.Bitmap.
+        '''</summary>
+        Friend ReadOnly Property NewFile_16x() As System.Drawing.Bitmap
+            Get
+                Dim obj As Object = ResourceManager.GetObject("NewFile_16x", resourceCulture)
+                Return CType(obj,System.Drawing.Bitmap)
+            End Get
+        End Property
+        
+        '''<summary>
+        '''  Looks up a localized resource of type System.Drawing.Bitmap.
+        '''</summary>
+        Friend ReadOnly Property Open_16x() As System.Drawing.Bitmap
+            Get
+                Dim obj As Object = ResourceManager.GetObject("Open_16x", resourceCulture)
                 Return CType(obj,System.Drawing.Bitmap)
             End Get
         End Property
