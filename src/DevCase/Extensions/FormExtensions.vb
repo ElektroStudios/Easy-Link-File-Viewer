@@ -33,7 +33,7 @@ Namespace DevCase.Core.Extensions
     ''' </summary>
     ''' ----------------------------------------------------------------------------------------------------
     <HideModuleName>
-    Public Module FormExtensions
+    Friend Module FormExtensions
 
 #Region " Public Extension Methods "
 

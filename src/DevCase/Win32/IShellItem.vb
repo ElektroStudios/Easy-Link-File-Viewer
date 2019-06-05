@@ -47,7 +47,7 @@ Namespace DevCase.Interop.Unmanaged.Win32.Interfaces
     <ComImport>
     <InterfaceType(ComInterfaceType.InterfaceIsIUnknown)>
     <Guid("43826d1e-e718-42ee-bc55-a1e261c37bfe")>
-    Public Interface IShellItem
+    Friend Interface IShellItem
 
         <EditorBrowsable(EditorBrowsableState.Never)>
         Function NotImplemented_BindToHandler() As Object

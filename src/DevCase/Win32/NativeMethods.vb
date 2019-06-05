@@ -62,6 +62,52 @@ Namespace DevCase.Interop.Unmanaged.Win32
 
 #End Region
 
+#Region " Kernel32.dll "
+
+        ''' ----------------------------------------------------------------------------------------------------
+        ''' <summary>
+        ''' Sets the process preferred UI languages for the current process.
+        ''' </summary>
+        ''' ----------------------------------------------------------------------------------------------------
+        ''' <remarks>
+        ''' <see href="https://docs.microsoft.com/en-us/windows/desktop/api/winnls/nf-winnls-setprocesspreferreduilanguages"/>
+        ''' </remarks>
+        ''' ----------------------------------------------------------------------------------------------------
+        ''' <param name="flags">
+        ''' Flags identifying the language format to use for the process preferred UI languages.
+        ''' </param>
+        ''' 
+        ''' <param name="languagesBuffer">
+        ''' Pointer to a double null-terminated multi-string buffer that contains an ordered, 
+        ''' null-delimited list in decreasing order of preference. 
+        ''' <para></para>
+        ''' If there are more than five languages in the buffer, the function only sets the first five valid languages.
+        ''' <para></para>
+        ''' Alternatively, this parameter can contain NULL if no language list is required. 
+        ''' In this case, the function clears the preferred UI languages for the process.
+        ''' </param>
+        ''' 
+        ''' <param name="refNumLanguages">
+        ''' Pointer to the number of languages that has been set in the process language list from the input buffer, 
+        ''' up to a maximum of five.
+        ''' </param>
+        ''' ----------------------------------------------------------------------------------------------------
+        ''' <returns>
+        ''' If the function succeeds, the return value is <see langword="True"/>. 
+        ''' If the function fails, the return value is <see langword="False"/>.
+        ''' <para></para>
+        ''' To get extended error information, call <see cref="Marshal.GetLastWin32Error()"/>.
+        ''' </returns>
+        ''' ----------------------------------------------------------------------------------------------------
+        <DllImport("Kernel32.dll", SetLastError:=True, ExactSpelling:=True, CharSet:=CharSet.Unicode)>
+        Friend Shared Function SetProcessPreferredUILanguages(ByVal flags As MuiLanguageMode,
+                                                              ByVal languagesBuffer As String,
+                                                        <Out> ByRef refNumLanguages As UInteger
+        ) As Boolean
+        End Function
+
+#End Region
+
 #Region " Shell32.dll "
 
         ''' ----------------------------------------------------------------------------------------------------
@@ -159,7 +205,7 @@ Namespace DevCase.Interop.Unmanaged.Win32
         ''' </returns>
         ''' ----------------------------------------------------------------------------------------------------
         <DllImport("Shell32.dll", CharSet:=CharSet.Auto, BestFitMapping:=False, ThrowOnUnmappableChar:=True)>
-        Public Shared Function SHGetNameFromIDList(ByVal pidl As IntPtr,
+        Friend Shared Function SHGetNameFromIDList(ByVal pidl As IntPtr,
                                                    ByVal sigdn As ShellItemGetDisplayName,
                                              <Out> ByRef refName As StringBuilder
         ) As HResult
@@ -202,7 +248,7 @@ Namespace DevCase.Interop.Unmanaged.Win32
         ''' </returns>
         ''' ----------------------------------------------------------------------------------------------------
         <DllImport("Shell32.dll", SetLastError:=True, CharSet:=CharSet.Auto, BestFitMapping:=False, ThrowOnUnmappableChar:=True)>
-        Public Shared Function SHCreateItemFromParsingName(ByVal path As String,
+        Friend Shared Function SHCreateItemFromParsingName(ByVal path As String,
                                                            ByVal pbc As IntPtr,
                                                            ByRef refIID As Guid,
                       <MarshalAs(UnmanagedType.Interface)> ByRef refShellItem As IShellItem
@@ -265,13 +311,97 @@ Namespace DevCase.Interop.Unmanaged.Win32
         ''' ----------------------------------------------------------------------------------------------------
         <SuppressUnmanagedCodeSecurity>
         <DllImport("Shell32.dll", SetLastError:=False, CharSet:=CharSet.Auto, BestFitMapping:=False, ThrowOnUnmappableChar:=True)>
-        Public Shared Function SHDefExtractIcon(ByVal iconFile As String,
+        Friend Shared Function SHDefExtractIcon(ByVal iconFile As String,
                                                 ByVal iconIndex As Integer,
                                                 ByVal flags As UInteger,
                                                 ByRef refHiconLarge As IntPtr,
                                                 ByRef refHiconSmall As IntPtr,
                                                 ByVal iconSize As UInteger
         ) As HResult
+        End Function
+
+        ''' ----------------------------------------------------------------------------------------------------
+        ''' <summary>
+        ''' Displays a dialog box that allows the user to choose an icon from the 
+        ''' selection available embedded in a resource such as an executable or DLL file.
+        ''' </summary>
+        ''' ----------------------------------------------------------------------------------------------------
+        ''' <remarks>
+        ''' <see href="https://docs.microsoft.com/en-us/windows/desktop/api/shlobj_core/nf-shlobj_core-pickicondlg"/>
+        ''' </remarks>
+        ''' ----------------------------------------------------------------------------------------------------
+        ''' <param name="hWnd">
+        ''' The handle of the parent window. This value can be <see cref="IntPtr.zero"/>.
+        ''' </param>
+        ''' 
+        ''' <param name="iconPath">
+        ''' A pointer to a string that contains the null-terminated, 
+        ''' fully qualified path of the default resource that contains the icons. 
+        ''' <para></para>
+        ''' If the user chooses a different resource in the dialog, 
+        ''' this buffer contains the path of that file when the function returns. 
+        ''' <para></para>
+        ''' This buffer should be at least MAX_PATH characters in length, or the returned path may be truncated. 
+        ''' <para></para>
+        ''' You should verify that the path is valid before using it.
+        ''' </param>
+        ''' 
+        ''' <param name="iconPathSize">
+        ''' The number of characters in <paramref name="iconPath"/>, including the terminating NULL character.
+        ''' </param>
+        ''' 
+        ''' <param name="refIconIndex">
+        ''' A pointer to an integer that on entry specifies the index of the initial selection and, 
+        ''' when this function returns successfully, receives the index of the icon that was selected.
+        ''' </param>
+        ''' ----------------------------------------------------------------------------------------------------
+        ''' <returns>
+        ''' Returns <see langword="true"/> if successful; otherwise, <see langword="false"/>.
+        ''' </returns>
+        ''' ----------------------------------------------------------------------------------------------------
+        <DllImport("Shell32.dll", SetLastError:=True, CharSet:=CharSet.Auto, BestFitMapping:=False, ThrowOnUnmappableChar:=True)>
+        Friend Shared Function PickIconDlg(ByVal hWnd As IntPtr,
+                                           ByVal iconPath As String,
+             <MarshalAs(UnmanagedType.U4)> ByVal iconPathSize As Integer,
+                                           ByRef refIconIndex As Integer
+        ) As <MarshalAs(UnmanagedType.Bool)> Boolean
+        End Function
+
+#End Region
+
+#Region " ShlwApi.dll "
+
+        ''' ----------------------------------------------------------------------------------------------------
+        ''' <summary>
+        ''' Converts a numeric value into a string that represents the number expressed as a size value in bytes, 
+        ''' kilobytes, megabytes, gigabytes, petabytes or exabytes, depending on the size.
+        ''' </summary>
+        ''' ----------------------------------------------------------------------------------------------------
+        ''' <remarks>
+        ''' <see href="https://docs.microsoft.com/en-us/windows/desktop/api/shlwapi/nf-shlwapi-strformatbytesize64a"/>
+        ''' </remarks>
+        ''' ----------------------------------------------------------------------------------------------------
+        ''' <param name="number">
+        ''' The numeric value to be converted.
+        ''' </param>
+        ''' 
+        ''' <param name="buffer">
+        ''' A pointer to a buffer that, when this function returns successfully, receives the converted number.
+        ''' </param>
+        ''' 
+        ''' <param name="bufferSize">
+        ''' The size of <paramref name="buffer"/>, in characters.
+        ''' </param>
+        ''' ----------------------------------------------------------------------------------------------------
+        ''' <returns>
+        ''' Returns a pointer to the converted string, or NULL if the conversion fails.
+        ''' </returns>
+        ''' ----------------------------------------------------------------------------------------------------
+        <DllImport("ShlwApi.dll", SetLastError:=True, ExactSpelling:=True, CharSet:=CharSet.Ansi)>
+        Friend Shared Function StrFormatByteSize64A(ByVal number As ULong,
+                                                    ByVal buffer As StringBuilder,
+                                                    ByVal bufferSize As UInteger
+        ) As IntPtr
         End Function
 
 #End Region

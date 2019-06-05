@@ -30,7 +30,7 @@ Namespace DevCase.Interop.Unmanaged.Win32.Enums
     ''' <see href="https://docs.microsoft.com/en-us/windows/desktop/api/shobjidl_core/ne-shobjidl_core-_sigdn"/>
     ''' </remarks>
     ''' ----------------------------------------------------------------------------------------------------
-    Public Enum ShellItemGetDisplayName As UInteger ' SIGDN
+    Friend Enum ShellItemGetDisplayName As UInteger ' SIGDN
 
         ''' <summary>
         ''' Returns the editing name relative to the desktop. In UI this name is suitable for display to the user.

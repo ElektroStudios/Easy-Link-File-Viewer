@@ -33,7 +33,7 @@ Namespace DevCase.Interop.Unmanaged.Win32.Enums
     ''' List of HRESULT codes: <see href="https://msdn.microsoft.com/en-us/library/cc704587.aspx"/> class.
     ''' </remarks>
     ''' ----------------------------------------------------------------------------------------------------
-    Public Enum HResult As Integer
+    Friend Enum HResult As Integer
 
         ' *****************************************************************************
         '                            WARNING!, NEED TO KNOW...

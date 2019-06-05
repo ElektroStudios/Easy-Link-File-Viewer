@@ -24,6 +24,7 @@ Imports System.IO
 
 Imports DevCase.Core.Imaging.Tools
 Imports DevCase.Core.IO
+Imports DevCase.Interop.Unmanaged.Win32
 
 #End Region
 
@@ -70,7 +71,6 @@ Namespace DevCase.Core.Design
         ''' </param>
         ''' ----------------------------------------------------------------------------------------------------
         Public Overrides Sub PaintValue(ByVal e As PaintValueEventArgs)
-
             Dim ico As Icon = Nothing
             Dim index As Integer = CInt(e.Value)
 
@@ -155,8 +155,29 @@ Namespace DevCase.Core.Design
         ''' </returns>
         ''' ----------------------------------------------------------------------------------------------------
         Public Overrides Function EditValue(ByVal context As ITypeDescriptorContext, ByVal provider As IServiceProvider, ByVal value As Object) As Object
+
             Me.UpdateFields(context)
-            Return MyBase.EditValue(context, provider, value)
+
+            Dim path As String = Me.iconPath
+            If String.IsNullOrEmpty(path) Then
+                path = Me.target
+            End If
+
+            If File.Exists(path) Then
+                If path.EndsWith(".ico", StringComparison.OrdinalIgnoreCase) OrElse
+                    path.EndsWith(".icl", StringComparison.OrdinalIgnoreCase) OrElse
+                    path.EndsWith(".exe", StringComparison.OrdinalIgnoreCase) OrElse
+                    path.EndsWith(".dll", StringComparison.OrdinalIgnoreCase) Then
+
+                    Dim iconIndex As Integer
+                    If NativeMethods.PickIconDlg(Process.GetCurrentProcess.MainWindowHandle(), path, 0, iconIndex) Then
+                        value = iconIndex
+                    End If
+                End If
+            End If
+
+            Return value
+
         End Function
 
         ''' ----------------------------------------------------------------------------------------------------
@@ -174,7 +195,7 @@ Namespace DevCase.Core.Design
         ''' ----------------------------------------------------------------------------------------------------
         Public Overrides Function GetEditStyle(ByVal context As ITypeDescriptorContext) As UITypeEditorEditStyle
             Me.UpdateFields(context)
-            Return UITypeEditorEditStyle.None
+            Return UITypeEditorEditStyle.Modal
         End Function
 
 #End Region

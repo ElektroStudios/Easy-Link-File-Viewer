@@ -33,7 +33,7 @@ Namespace DevCase.Core.Extensions
     ''' </summary>
     ''' ----------------------------------------------------------------------------------------------------
     <HideModuleName>
-    Public Module ControlExtensions
+    Friend Module ControlExtensions
 
 #Region " Public Extension Methods "
 
@@ -188,7 +188,7 @@ Namespace DevCase.Core.Extensions
                 ctrl.BackColor = NumericUpDown.DefaultBackColor
                 ctrl.ForeColor = NumericUpDown.DefaultForeColor
 
-            ElseIf ctrl.GetType() = GetType(panel) Then
+            ElseIf ctrl.GetType() = GetType(Panel) Then
                 ctrl.BackColor = Panel.DefaultBackColor
                 ctrl.ForeColor = Panel.DefaultForeColor
 

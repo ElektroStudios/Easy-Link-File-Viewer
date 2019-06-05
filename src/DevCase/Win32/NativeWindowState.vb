@@ -29,7 +29,7 @@ Namespace DevCase.Interop.Unmanaged.Win32.Enums
     ''' <see href="https://msdn.microsoft.com/en-us/library/windows/desktop/ms633548%28v=vs.85%29.aspx"/>
     ''' </remarks>
     ''' ----------------------------------------------------------------------------------------------------
-    Public Enum NativeWindowState As Integer
+    Friend Enum NativeWindowState As Integer
 
         ''' <summary>
         ''' Hides the window and activates another window.

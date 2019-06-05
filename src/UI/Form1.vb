@@ -1,6 +1,6 @@
 ﻿' ***********************************************************************
 ' Author   : ElektroStudios
-' Modified : 30-May-2019
+' Modified : 04-June-2019
 ' ***********************************************************************
 
 #Region " Option Statements "
@@ -14,8 +14,11 @@ Option Infer Off
 #Region " Imports "
 
 Imports System.ComponentModel
+Imports System.Globalization
 Imports System.IO
+Imports System.Threading
 
+Imports DevCase.Core.Application.Tools
 Imports DevCase.Core.Extensions
 Imports DevCase.Core.IO
 Imports DevCase.Core.IO.Tools
@@ -52,6 +55,12 @@ Friend NotInheritable Class Form1 : Inherits Form
     ''' ----------------------------------------------------------------------------------------------------
     Public Sub New()
         MyClass.InitializeComponent()
+
+        Dim ci As CultureInfo = CultureInfo.CreateSpecificCulture("en-US")
+        Thread.CurrentThread.CurrentCulture = ci
+        Thread.CurrentThread.CurrentUICulture = ci
+        ' Set file dialogs language too.
+        CultureUtil.SetProcessPreferredUILanguages(ci.Name)
     End Sub
 
 #End Region
@@ -360,6 +369,7 @@ Friend NotInheritable Class Form1 : Inherits Form
         Me.CloseToolStripMenuItem.Enabled = False
 
         Me.PropertyGrid1.ContextMenuStrip = Nothing
+        Me.StatusStrip1.ContextMenuStrip = Nothing
     End Sub
 
     ''' ----------------------------------------------------------------------------------------------------
@@ -814,6 +824,7 @@ Friend NotInheritable Class Form1 : Inherits Form
         Me.ToolStripStatusLabelIcon.Image = Me.RecentToolStripMenuItem.DropDown.Items(0).Image
 
         Me.PropertyGrid1.ContextMenuStrip = Me.ContextMenuStrip1
+        Me.StatusStrip1.ContextMenuStrip = Me.ContextMenuStrip1
 
     End Sub
 

@@ -80,19 +80,19 @@
     <Import Include="System.Threading.Tasks" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="DevCase\CultureUtil.vb" />
     <Compile Include="DevCase\FileUtil.vb" />
     <Compile Include="DevCase\ShortcutFileInfoIconIndexEditor.vb" />
     <Compile Include="DevCase\Win32\HResult.vb" />
     <Compile Include="DevCase\Win32\IShellItem.vb" />
+    <Compile Include="DevCase\Win32\MuiLanguageMode.vb" />
     <Compile Include="DevCase\Win32\ShellItemGetDisplayName.vb" />
-    <Compile Include="DevCase\Filesize.vb" />
     <Compile Include="DevCase\FileSizeConverter.vb" />
     <Compile Include="DevCase\OpenFileOrFolderDialog.vb">
       <SubType>Component</SubType>
     </Compile>
     <Compile Include="DevCase\FileOrFolderNameEditor.vb" />
     <Compile Include="DevCase\IconFileNameEditor.vb" />
-    <Compile Include="DevCase\SizeUnits.vb" />
     <Compile Include="UI\AboutBox1.Designer.vb">
       <DependentUpon>AboutBox1.vb</DependentUpon>
     </Compile>

@@ -34,7 +34,7 @@ Namespace DevCase.Core.Extensions
     ''' </summary>
     ''' ----------------------------------------------------------------------------------------------------
     <HideModuleName>
-    Public Module PropertyGridExtensions
+    Friend Module PropertyGridExtensions
 
 #Region " Public Extension Methods "
 

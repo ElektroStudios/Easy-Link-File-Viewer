@@ -33,8 +33,10 @@ Option Infer Off
 Imports System.ComponentModel
 Imports System.ComponentModel.Design.Serialization
 Imports System.Globalization
-
+Imports System.Runtime.InteropServices
+Imports System.Text
 Imports DevCase.Core.IO
+Imports DevCase.Interop.Unmanaged.Win32
 
 #End Region
 
@@ -44,8 +46,9 @@ Namespace DevCase.Core.Design
 
     ''' ----------------------------------------------------------------------------------------------------
     ''' <summary>
-    ''' Provides a type converter to convert from a file size specified in bytes, 
-    ''' to a rounded file size string using the most approximated unit of size.
+    ''' Provides a type converter to converts a numeric value 
+    ''' into a string that represents the number expressed as a size value in bytes, 
+    ''' kilobytes, megabytes, gigabytes, petabytes or exabytes, depending on the size.
     ''' <para></para>
     ''' Conversion examples:
     ''' <para></para>
@@ -60,13 +63,23 @@ Namespace DevCase.Core.Design
     ''' ----------------------------------------------------------------------------------------------------
     ''' <example> This is a code example.
     ''' <code>
-    ''' &lt;TypeConverter(GetType(FileSizeConverter))&gt;
-    ''' &lt;Browsable(True)&gt;
-    ''' Public ReadOnly Property FileSize As Long = 2048 ' Bytes
+    ''' Public Class Form1
     ''' 
-    ''' &lt;TypeConverter(GetType(FileSizeConverter))&gt;
-    ''' &lt;Browsable(True)&gt;
-    ''' Public ReadOnly Property FileSize As New Filesize(2048, SizeUnits.Byte)
+    '''     Private Sub Form1_Load(sender As Object, e As EventArgs) Handles MyBase.Load
+    '''         Me.PropertyGrid1.SelectedObject = New TestClass
+    '''     End Sub
+    '''     
+    ''' End Class
+    ''' 
+    ''' Public Class TestClass
+    ''' 
+    '''     &lt;TypeConverter(GetType(FileSizeConverter))&gt;
+    '''     Public ReadOnly Property FileSize1 As Long = 1024 ' Bytes
+    ''' 
+    '''     &lt;TypeConverter(GetType(FileSizeConverter))&gt;
+    '''     Public ReadOnly Property FileSize2 As New Filesize(1024, SizeUnits.Byte)
+    '''     
+    ''' End Class
     ''' </code>
     ''' </example>
     ''' ----------------------------------------------------------------------------------------------------
@@ -169,11 +182,25 @@ Namespace DevCase.Core.Design
             End If
 
             If (destinationType Is GetType(String)) Then
-                If (TypeOf value Is Filesize) Then
-                    Return DirectCast(value, Filesize).ToString()
+                'If (TypeOf value Is DevCase.Core.IO.Filesize) Then  ' Return 'Filesize' string format.
+                '    Return DirectCast(value, DevCase.Core.IO.Filesize).ToString()
+                'Else
+                Dim sb As New StringBuilder(16)
+                Dim longValue As ULong
+                If ULong.TryParse(value.ToString(), longValue) Then ' Return native string format.
+                    Dim result As IntPtr = NativeMethods.StrFormatByteSize64A(longValue, sb, CUInt(sb.Capacity))
+                    Dim win32Err As Integer = Marshal.GetLastWin32Error()
+
+                    If (result <> IntPtr.Zero) Then
+                        Return sb.ToString()
+                    Else
+                        Return New Win32Exception(win32Err).Message
+                    End If
+                Else ' Return original value.
+                    Return value
                 End If
 
-                Return New Filesize(CType(value, Double), SizeUnits.Byte).ToString()
+                'End If
             End If
 
             Return MyBase.ConvertTo(context, culture, value, destinationType)

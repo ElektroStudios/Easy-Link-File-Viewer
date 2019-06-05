@@ -25,14 +25,8 @@ Partial Friend Class Form1
         Me.components = New System.ComponentModel.Container()
         Dim resources As System.ComponentModel.ComponentResourceManager = New System.ComponentModel.ComponentResourceManager(GetType(Form1))
         Me.MenuStrip1 = New System.Windows.Forms.MenuStrip()
-        Me.PropertyGrid1 = New System.Windows.Forms.PropertyGrid()
-        Me.ContextMenuStrip1 = New System.Windows.Forms.ContextMenuStrip(Me.components)
-        Me.StatusStrip1 = New System.Windows.Forms.StatusStrip()
-        Me.ToolStripStatusLabelIcon = New System.Windows.Forms.ToolStripStatusLabel()
-        Me.ToolStripStatusLabelFileName = New System.Windows.Forms.ToolStripStatusLabel()
         Me.FileToolStripMenuItem = New System.Windows.Forms.ToolStripMenuItem()
         Me.NewToolStripMenuItem = New System.Windows.Forms.ToolStripMenuItem()
-        Me.ToolStripSeparator3 = New System.Windows.Forms.ToolStripSeparator()
         Me.RecentToolStripMenuItem = New System.Windows.Forms.ToolStripMenuItem()
         Me.ToolStripSeparator1 = New System.Windows.Forms.ToolStripSeparator()
         Me.OpenToolStripMenuItem = New System.Windows.Forms.ToolStripMenuItem()
@@ -48,6 +42,8 @@ Partial Friend Class Form1
         Me.DefaultToolStripMenuItem = New System.Windows.Forms.ToolStripMenuItem()
         Me.DarkToolStripMenuItem = New System.Windows.Forms.ToolStripMenuItem()
         Me.AboutToolStripMenuItem = New System.Windows.Forms.ToolStripMenuItem()
+        Me.PropertyGrid1 = New System.Windows.Forms.PropertyGrid()
+        Me.ContextMenuStrip1 = New System.Windows.Forms.ContextMenuStrip(Me.components)
         Me.OpenShortcutMenuItem = New System.Windows.Forms.ToolStripMenuItem()
         Me.OpenTargetMenuItem = New System.Windows.Forms.ToolStripMenuItem()
         Me.OpenTargetWithArgsMenuItem = New System.Windows.Forms.ToolStripMenuItem()
@@ -55,6 +51,9 @@ Partial Friend Class Form1
         Me.ViewTargetMenuItem = New System.Windows.Forms.ToolStripMenuItem()
         Me.ViewWorkingDirectoryMenuItem = New System.Windows.Forms.ToolStripMenuItem()
         Me.ViewIconMenuItem = New System.Windows.Forms.ToolStripMenuItem()
+        Me.StatusStrip1 = New System.Windows.Forms.StatusStrip()
+        Me.ToolStripStatusLabelIcon = New System.Windows.Forms.ToolStripStatusLabel()
+        Me.ToolStripStatusLabelFileName = New System.Windows.Forms.ToolStripStatusLabel()
         Me.MenuStrip1.SuspendLayout()
         Me.ContextMenuStrip1.SuspendLayout()
         Me.StatusStrip1.SuspendLayout()
@@ -70,56 +69,9 @@ Partial Friend Class Form1
         Me.MenuStrip1.TabIndex = 0
         Me.MenuStrip1.Text = "MenuStrip1"
         '
-        'PropertyGrid1
-        '
-        Me.PropertyGrid1.AllowDrop = True
-        Me.PropertyGrid1.Dock = System.Windows.Forms.DockStyle.Fill
-        Me.PropertyGrid1.Font = New System.Drawing.Font("Microsoft Sans Serif", 10.0!)
-        Me.PropertyGrid1.Location = New System.Drawing.Point(0, 27)
-        Me.PropertyGrid1.Name = "PropertyGrid1"
-        Me.PropertyGrid1.Size = New System.Drawing.Size(684, 360)
-        Me.PropertyGrid1.TabIndex = 1
-        '
-        'ContextMenuStrip1
-        '
-        Me.ContextMenuStrip1.Items.AddRange(New System.Windows.Forms.ToolStripItem() {Me.OpenShortcutMenuItem, Me.OpenTargetMenuItem, Me.OpenTargetWithArgsMenuItem, Me.ViewShortcutMenuItem, Me.ViewTargetMenuItem, Me.ViewWorkingDirectoryMenuItem, Me.ViewIconMenuItem})
-        Me.ContextMenuStrip1.Name = "ContextMenuStrip1"
-        Me.ContextMenuStrip1.Size = New System.Drawing.Size(257, 158)
-        '
-        'StatusStrip1
-        '
-        Me.StatusStrip1.BackColor = System.Drawing.SystemColors.Control
-        Me.StatusStrip1.Items.AddRange(New System.Windows.Forms.ToolStripItem() {Me.ToolStripStatusLabelIcon, Me.ToolStripStatusLabelFileName})
-        Me.StatusStrip1.Location = New System.Drawing.Point(0, 387)
-        Me.StatusStrip1.Name = "StatusStrip1"
-        Me.StatusStrip1.Size = New System.Drawing.Size(684, 24)
-        Me.StatusStrip1.TabIndex = 2
-        Me.StatusStrip1.Text = "StatusStrip1"
-        '
-        'ToolStripStatusLabelIcon
-        '
-        Me.ToolStripStatusLabelIcon.Font = New System.Drawing.Font("Segoe UI", 10.0!)
-        Me.ToolStripStatusLabelIcon.ImageAlign = System.Drawing.ContentAlignment.MiddleRight
-        Me.ToolStripStatusLabelIcon.Name = "ToolStripStatusLabelIcon"
-        Me.ToolStripStatusLabelIcon.Size = New System.Drawing.Size(42, 19)
-        Me.ToolStripStatusLabelIcon.Text = "{icon}"
-        Me.ToolStripStatusLabelIcon.TextImageRelation = System.Windows.Forms.TextImageRelation.Overlay
-        '
-        'ToolStripStatusLabelFileName
-        '
-        Me.ToolStripStatusLabelFileName.AutoToolTip = True
-        Me.ToolStripStatusLabelFileName.Font = New System.Drawing.Font("Segoe UI", 10.0!)
-        Me.ToolStripStatusLabelFileName.ImageAlign = System.Drawing.ContentAlignment.MiddleLeft
-        Me.ToolStripStatusLabelFileName.LinkBehavior = System.Windows.Forms.LinkBehavior.NeverUnderline
-        Me.ToolStripStatusLabelFileName.Name = "ToolStripStatusLabelFileName"
-        Me.ToolStripStatusLabelFileName.Size = New System.Drawing.Size(627, 19)
-        Me.ToolStripStatusLabelFileName.Spring = True
-        Me.ToolStripStatusLabelFileName.Text = "{fullpath}     "
-        Me.ToolStripStatusLabelFileName.TextAlign = System.Drawing.ContentAlignment.MiddleLeft
-        '
         'FileToolStripMenuItem
         '
-        Me.FileToolStripMenuItem.DropDownItems.AddRange(New System.Windows.Forms.ToolStripItem() {Me.NewToolStripMenuItem, Me.ToolStripSeparator3, Me.RecentToolStripMenuItem, Me.ToolStripSeparator1, Me.OpenToolStripMenuItem, Me.SaveToolStripMenuItem, Me.SaveAsToolStripMenuItem, Me.CloseToolStripMenuItem, Me.ToolStripSeparator2, Me.ExitToolStripMenuItem})
+        Me.FileToolStripMenuItem.DropDownItems.AddRange(New System.Windows.Forms.ToolStripItem() {Me.NewToolStripMenuItem, Me.OpenToolStripMenuItem, Me.SaveToolStripMenuItem, Me.SaveAsToolStripMenuItem, Me.CloseToolStripMenuItem, Me.ToolStripSeparator1, Me.RecentToolStripMenuItem, Me.ToolStripSeparator2, Me.ExitToolStripMenuItem})
         Me.FileToolStripMenuItem.Image = Global.My.Resources.Resources.FSFile_16x
         Me.FileToolStripMenuItem.Name = "FileToolStripMenuItem"
         Me.FileToolStripMenuItem.Size = New System.Drawing.Size(57, 23)
@@ -131,11 +83,6 @@ Partial Friend Class Form1
         Me.NewToolStripMenuItem.Name = "NewToolStripMenuItem"
         Me.NewToolStripMenuItem.Size = New System.Drawing.Size(180, 24)
         Me.NewToolStripMenuItem.Text = "New"
-        '
-        'ToolStripSeparator3
-        '
-        Me.ToolStripSeparator3.Name = "ToolStripSeparator3"
-        Me.ToolStripSeparator3.Size = New System.Drawing.Size(177, 6)
         '
         'RecentToolStripMenuItem
         '
@@ -245,6 +192,22 @@ Partial Friend Class Form1
         Me.AboutToolStripMenuItem.Size = New System.Drawing.Size(84, 23)
         Me.AboutToolStripMenuItem.Text = "About..."
         '
+        'PropertyGrid1
+        '
+        Me.PropertyGrid1.AllowDrop = True
+        Me.PropertyGrid1.Dock = System.Windows.Forms.DockStyle.Fill
+        Me.PropertyGrid1.Font = New System.Drawing.Font("Microsoft Sans Serif", 10.0!)
+        Me.PropertyGrid1.Location = New System.Drawing.Point(0, 27)
+        Me.PropertyGrid1.Name = "PropertyGrid1"
+        Me.PropertyGrid1.Size = New System.Drawing.Size(684, 360)
+        Me.PropertyGrid1.TabIndex = 1
+        '
+        'ContextMenuStrip1
+        '
+        Me.ContextMenuStrip1.Items.AddRange(New System.Windows.Forms.ToolStripItem() {Me.OpenShortcutMenuItem, Me.OpenTargetMenuItem, Me.OpenTargetWithArgsMenuItem, Me.ViewShortcutMenuItem, Me.ViewTargetMenuItem, Me.ViewWorkingDirectoryMenuItem, Me.ViewIconMenuItem})
+        Me.ContextMenuStrip1.Name = "ContextMenuStrip1"
+        Me.ContextMenuStrip1.Size = New System.Drawing.Size(257, 158)
+        '
         'OpenShortcutMenuItem
         '
         Me.OpenShortcutMenuItem.Image = Global.My.Resources.Resources.Open_16x
@@ -293,6 +256,38 @@ Partial Friend Class Form1
         Me.ViewIconMenuItem.Name = "ViewIconMenuItem"
         Me.ViewIconMenuItem.Size = New System.Drawing.Size(256, 22)
         Me.ViewIconMenuItem.Text = "View Icon in Explorer"
+        '
+        'StatusStrip1
+        '
+        Me.StatusStrip1.BackColor = System.Drawing.SystemColors.Control
+        Me.StatusStrip1.ContextMenuStrip = Me.ContextMenuStrip1
+        Me.StatusStrip1.Items.AddRange(New System.Windows.Forms.ToolStripItem() {Me.ToolStripStatusLabelIcon, Me.ToolStripStatusLabelFileName})
+        Me.StatusStrip1.Location = New System.Drawing.Point(0, 387)
+        Me.StatusStrip1.Name = "StatusStrip1"
+        Me.StatusStrip1.Size = New System.Drawing.Size(684, 24)
+        Me.StatusStrip1.TabIndex = 2
+        Me.StatusStrip1.Text = "StatusStrip1"
+        '
+        'ToolStripStatusLabelIcon
+        '
+        Me.ToolStripStatusLabelIcon.Font = New System.Drawing.Font("Segoe UI", 10.0!)
+        Me.ToolStripStatusLabelIcon.ImageAlign = System.Drawing.ContentAlignment.MiddleRight
+        Me.ToolStripStatusLabelIcon.Name = "ToolStripStatusLabelIcon"
+        Me.ToolStripStatusLabelIcon.Size = New System.Drawing.Size(42, 19)
+        Me.ToolStripStatusLabelIcon.Text = "{icon}"
+        Me.ToolStripStatusLabelIcon.TextImageRelation = System.Windows.Forms.TextImageRelation.Overlay
+        '
+        'ToolStripStatusLabelFileName
+        '
+        Me.ToolStripStatusLabelFileName.AutoToolTip = True
+        Me.ToolStripStatusLabelFileName.Font = New System.Drawing.Font("Segoe UI", 10.0!)
+        Me.ToolStripStatusLabelFileName.ImageAlign = System.Drawing.ContentAlignment.MiddleLeft
+        Me.ToolStripStatusLabelFileName.LinkBehavior = System.Windows.Forms.LinkBehavior.NeverUnderline
+        Me.ToolStripStatusLabelFileName.Name = "ToolStripStatusLabelFileName"
+        Me.ToolStripStatusLabelFileName.Size = New System.Drawing.Size(596, 19)
+        Me.ToolStripStatusLabelFileName.Spring = True
+        Me.ToolStripStatusLabelFileName.Text = "{fullpath}     "
+        Me.ToolStripStatusLabelFileName.TextAlign = System.Drawing.ContentAlignment.MiddleLeft
         '
         'Form1
         '
@@ -347,5 +342,4 @@ Partial Friend Class Form1
     Friend WithEvents ToolStripComboBoxFontSize As ToolStripComboBox
     Friend WithEvents ToolStripStatusLabelIcon As ToolStripStatusLabel
     Friend WithEvents NewToolStripMenuItem As ToolStripMenuItem
-    Friend WithEvents ToolStripSeparator3 As ToolStripSeparator
 End Class
