@@ -2,7 +2,7 @@
 
 ![](Design/GitHub%20Readme.png)
 
-**Easy Link File Viewer** is a simple program to open, modify and write shortcut (.lnk) files with easy.
+**Easy Link File Viewer** is a simple program to open, modify and write shortcut (.lnk) files with ease.
 
 It is an alternative to the built-in shell-extension in **Windows** operating system.
 
