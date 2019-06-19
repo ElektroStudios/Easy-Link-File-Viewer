@@ -20,6 +20,7 @@ Option Infer Off
 
 Imports System.ComponentModel
 Imports System.Runtime.CompilerServices
+Imports DevCase.Core.Application.UserInterface
 
 #End Region
 
@@ -39,11 +40,15 @@ Namespace DevCase.Core.Extensions
 
         ''' ----------------------------------------------------------------------------------------------------
         ''' <summary>
-        ''' Changes the color appearance of the source <see cref="Form"/> to its default appearance.
+        ''' Changes the color appearance of the source <see cref="Form"/> using the specified style.
         ''' </summary>
         ''' ----------------------------------------------------------------------------------------------------
         ''' <param name="f">
         ''' The source <see cref="Form"/>.
+        ''' </param>
+        ''' 
+        ''' <param name="style">
+        ''' The visual style.
         ''' </param>
         ''' 
         ''' <param name="childControls">
@@ -53,46 +58,57 @@ Namespace DevCase.Core.Extensions
         <DebuggerStepThrough>
         <Extension>
         <EditorBrowsable(EditorBrowsableState.Always)>
-        Public Sub SetThemeDefault(ByVal f As Form, ByVal childControls As Boolean)
-            f.BackColor = Form.DefaultBackColor
-            f.ForeColor = Form.DefaultForeColor
+        Public Sub SetVisualStyle(ByVal f As Form, ByVal style As VisualStyle, ByVal childControls As Boolean)
+
+            Select Case style
+
+                Case VisualStyle.Default
+                    f.BackColor = Form.DefaultBackColor
+                    f.ForeColor = Form.DefaultForeColor
+
+
+                Case VisualStyle.VisualStudioDark
+                    f.BackColor = Color.FromArgb(255, 45, 45, 48)
+                    f.ForeColor = Color.Gainsboro
+
+                Case Else
+                    Throw New InvalidEnumArgumentException(NameOf(style), style, GetType(VisualStyle))
+
+            End Select
 
             If (childControls) Then
-                ForEachControl(f, True, Sub(ctrl As Control)
-                                            If (ctrl.GetType().IsPublic) Then
-                                                ctrl.SetThemeDefault()
-                                            End If
-                                        End Sub)
+                f.ForEachControl(True,
+                                              Sub(ctrl As Control)
+                                                  If (ctrl.GetType().IsPublic) Then
+                                                      ctrl.SetVisualStyle(style)
+                                                  End If
+                                              End Sub)
             End If
         End Sub
 
         ''' ----------------------------------------------------------------------------------------------------
         ''' <summary>
-        ''' Changes the color appearance of the source <see cref="Form"/> to Visual Studio Dark Theme appearance.
+        ''' Iterate through all the controls in the source <see cref="Form"/> 
+        ''' and performs the specified action on each one.
         ''' </summary>
         ''' ----------------------------------------------------------------------------------------------------
         ''' <param name="f">
         ''' The source <see cref="Form"/>.
         ''' </param>
         ''' 
-        ''' <param name="childControls">
-        ''' <see langword="True"/> to change the color appearance of child controls too.
+        ''' <param name="recursive">
+        ''' If <see langword="True"/>, iterates through controls of child controls too.
+        ''' </param>
+        ''' 
+        ''' <param name="action">
+        ''' An <see cref="Action(Of Control)"/> to perform on each control.
         ''' </param>
         ''' ----------------------------------------------------------------------------------------------------
         <DebuggerStepThrough>
         <Extension>
         <EditorBrowsable(EditorBrowsableState.Always)>
-        Public Sub SetThemeVisualStudioDark(ByVal f As Form, ByVal childControls As Boolean)
-            f.BackColor = Color.FromArgb(255, 45, 45, 48)
-            f.ForeColor = Color.Gainsboro
-
-            If (childControls) Then
-                ForEachControl(f, True, Sub(ctrl As Control)
-                                            If (ctrl.GetType().IsPublic) Then
-                                                ctrl.SetThemeVisualStudioDark()
-                                            End If
-                                        End Sub)
-            End If
+        Public Sub ForEachControl(ByVal f As Form, ByVal recursive As Boolean, ByVal action As Action(Of Control))
+            f.ForEachControl(Of Control)(recursive, action)
         End Sub
 
 #End Region

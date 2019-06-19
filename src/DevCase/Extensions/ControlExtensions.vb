@@ -1,11 +1,11 @@
 ﻿' This source-code is freely distributed as part of "DevCase for .NET Framework".
-' 
-' Maybe you would like to consider to buy this powerful set of libraries to support me. 
+'
+' Maybe you would like to consider to buy this powerful set of libraries to support me.
 ' You can do loads of things with my apis for a big amount of diverse thematics.
-' 
+'
 ' Here is a link to the purchase page:
 ' https://codecanyon.net/item/elektrokit-class-library-for-net/19260282
-' 
+'
 ' Thank you.
 
 #Region " Option Statements "
@@ -19,7 +19,10 @@ Option Infer Off
 #Region " Imports "
 
 Imports System.ComponentModel
+Imports System.Linq.Expressions
+Imports System.Reflection
 Imports System.Runtime.CompilerServices
+Imports DevCase.Core.Application.UserInterface
 
 #End Region
 
@@ -39,18 +42,18 @@ Namespace DevCase.Core.Extensions
 
         ''' ----------------------------------------------------------------------------------------------------
         ''' <summary>
-        ''' Iterate through all the controls in the source <see cref="Control"/> 
+        ''' Iterate through all the controls in the source <see cref="Control"/>
         ''' and performs the specified action on each one.
         ''' </summary>
         ''' ----------------------------------------------------------------------------------------------------
         ''' <param name="parent">
         ''' The source <see cref="Control"/>.
         ''' </param>
-        ''' 
+        '''
         ''' <param name="recursive">
         ''' If <see langword="True"/>, iterates through controls of child controls too.
         ''' </param>
-        ''' 
+        '''
         ''' <param name="action">
         ''' An <see cref="Action(Of Control)"/> to perform on each control.
         ''' </param>
@@ -59,27 +62,27 @@ Namespace DevCase.Core.Extensions
         <Extension>
         <EditorBrowsable(EditorBrowsableState.Always)>
         Public Sub ForEachControl(ByVal parent As Control, ByVal recursive As Boolean, ByVal action As Action(Of Control))
-            ControlExtensions.ForEachControl(Of Control)(parent, recursive, action)
+            parent.ForEachControl(Of Control)(recursive, action)
         End Sub
 
         ''' ----------------------------------------------------------------------------------------------------
         ''' <summary>
-        ''' Iterate through all the controls of the specified type in the source <see cref="Control"/> 
+        ''' Iterate through all the controls of the specified type in the source <see cref="Control"/>
         ''' and performs the specified action on each one.
         ''' </summary>
         ''' ----------------------------------------------------------------------------------------------------
         ''' <typeparam name="T">
         ''' The type of the control.
         ''' </typeparam>
-        ''' 
+        '''
         ''' <param name="parent">
         ''' The source <see cref="Control"/>.
         ''' </param>
-        ''' 
+        '''
         ''' <param name="recursive">
         ''' If <see langword="True"/>, iterates through controls of child controls too.
         ''' </param>
-        ''' 
+        '''
         ''' <param name="action">
         ''' An <see cref="Action(Of Control)"/> to perform on each control.
         ''' </param>
@@ -91,10 +94,47 @@ Namespace DevCase.Core.Extensions
             For Each ctrl As Control In parent.Controls.OfType(Of T)
                 action(ctrl)
                 If (recursive) Then
-                    ControlExtensions.ForEachControl(Of T)(ctrl, recursive, action)
+                    ctrl.ForEachControl(Of T)(recursive, action)
                 End If
             Next ctrl
         End Sub
+
+        ''' ----------------------------------------------------------------------------------------------------
+        ''' <summary>
+        ''' Changes the color appearance of the source <see cref="Control"/> using the specified style.
+        ''' </summary>
+        ''' ----------------------------------------------------------------------------------------------------
+        ''' <param name="ctrl">
+        ''' The source <see cref="Control"/>.
+        ''' </param>
+        '''
+        ''' <param name="style">
+        ''' The visual style.
+        ''' </param>
+        ''' ----------------------------------------------------------------------------------------------------
+        <DebuggerStepThrough>
+        <Extension>
+        <EditorBrowsable(EditorBrowsableState.Always)>
+        Public Sub SetVisualStyle(ByVal ctrl As Control, ByVal style As VisualStyle)
+
+            Select Case style
+
+                Case VisualStyle.Default
+                    ControlExtensions.Internal_SetThemeDefault(ctrl)
+
+                Case VisualStyle.VisualStudioDark
+                    ControlExtensions.Internal_SetThemeVisualStudioDark(ctrl)
+
+                Case Else
+                    Throw New InvalidEnumArgumentException(NameOf(style), style, GetType(VisualStyle))
+
+            End Select
+
+        End Sub
+
+#End Region
+
+#Region " Private Methods "
 
         ''' ----------------------------------------------------------------------------------------------------
         ''' <summary>
@@ -106,9 +146,7 @@ Namespace DevCase.Core.Extensions
         ''' </param>
         ''' ----------------------------------------------------------------------------------------------------
         <DebuggerStepThrough>
-        <Extension>
-        <EditorBrowsable(EditorBrowsableState.Always)>
-        Public Sub SetThemeDefault(ByVal ctrl As Control)
+        Private Sub Internal_SetThemeDefault(ByVal ctrl As Control)
 
             If ctrl.GetType() = GetType(Button) Then
                 ctrl.BackColor = Button.DefaultBackColor
@@ -181,8 +219,17 @@ Namespace DevCase.Core.Extensions
                 ctrl.ForeColor = MonthCalendar.DefaultForeColor
 
             ElseIf ctrl.GetType() = GetType(MenuStrip) Then
-                ctrl.BackColor = MenuStrip.DefaultBackColor
-                ctrl.ForeColor = MenuStrip.DefaultForeColor
+                Dim menu As MenuStrip = DirectCast(ctrl, MenuStrip)
+                menu.BackColor = MenuStrip.DefaultBackColor
+                menu.ForeColor = MenuStrip.DefaultForeColor
+                For Each menuItem As ToolStripMenuItem In menu.Items.OfType(Of ToolStripMenuItem)
+                    RemoveHandler menuItem.MouseEnter, AddressOf ControlExtensions.ToolStripMenuItem_MouseEnter_VisualStudioDark
+                    RemoveHandler menuItem.MouseLeave, AddressOf ControlExtensions.ToolStripMenuItem_MouseLeave_VisualStudioDark
+                    RemoveHandler menuItem.DropDownClosed, AddressOf ControlExtensions.ToolStripMenuItem_DropDownClosed_VisualStudioDark
+
+                    menuItem.BackColor = MenuStrip.DefaultBackColor
+                    menuItem.ForeColor = MenuStrip.DefaultForeColor
+                Next
 
             ElseIf ctrl.GetType() = GetType(NumericUpDown) Then
                 ctrl.BackColor = NumericUpDown.DefaultBackColor
@@ -289,7 +336,7 @@ Namespace DevCase.Core.Extensions
                 ctrl.ForeColor = WebBrowserBase.DefaultForeColor
 
             Else
-                Throw New NotImplementedException($"A color appearance for the specified control type is not implemented: '{ctrl.GetType().FullName}'")
+                Throw New NotImplementedException($"A visual style for the specified control type is not implemented: '{ctrl.GetType().FullName}'")
 
             End If
 
@@ -305,9 +352,7 @@ Namespace DevCase.Core.Extensions
         ''' </param>
         ''' ----------------------------------------------------------------------------------------------------
         <DebuggerStepThrough>
-        <Extension>
-        <EditorBrowsable(EditorBrowsableState.Always)>
-        Public Sub SetThemeVisualStudioDark(ByVal ctrl As Control)
+        Private Sub Internal_SetThemeVisualStudioDark(ByVal ctrl As Control)
 
             If ctrl.GetType() = GetType(Button) Then
                 ctrl.BackColor = Color.FromArgb(255, 37, 37, 38)
@@ -380,8 +425,22 @@ Namespace DevCase.Core.Extensions
                 ctrl.ForeColor = Color.Gainsboro
 
             ElseIf ctrl.GetType() = GetType(MenuStrip) Then
-                ctrl.BackColor = Color.FromArgb(255, 45, 45, 48)
-                ctrl.ForeColor = Color.Gainsboro
+                Dim menu As MenuStrip = DirectCast(ctrl, MenuStrip)
+                menu.BackColor = Color.FromArgb(255, 45, 45, 48)
+                menu.ForeColor = Color.Gainsboro
+
+                For Each menuItem As ToolStripMenuItem In menu.Items.OfType(Of ToolStripMenuItem)
+                    RemoveHandler menuItem.MouseEnter, AddressOf ControlExtensions.ToolStripMenuItem_MouseEnter_VisualStudioDark
+                    RemoveHandler menuItem.MouseLeave, AddressOf ControlExtensions.ToolStripMenuItem_MouseLeave_VisualStudioDark
+                    RemoveHandler menuItem.DropDownClosed, AddressOf ControlExtensions.ToolStripMenuItem_DropDownClosed_VisualStudioDark
+
+                    menuItem.BackColor = Color.FromArgb(255, 45, 45, 48)
+                    menuItem.ForeColor = Color.Gainsboro
+
+                    AddHandler menuItem.MouseEnter, AddressOf ControlExtensions.ToolStripMenuItem_MouseEnter_VisualStudioDark
+                    AddHandler menuItem.MouseLeave, AddressOf ControlExtensions.ToolStripMenuItem_MouseLeave_VisualStudioDark
+                    AddHandler menuItem.DropDownClosed, AddressOf ControlExtensions.ToolStripMenuItem_DropDownClosed_VisualStudioDark
+                Next
 
             ElseIf ctrl.GetType() = GetType(NumericUpDown) Then
                 ctrl.BackColor = Color.FromArgb(255, 37, 37, 38)
@@ -488,13 +547,81 @@ Namespace DevCase.Core.Extensions
                 ctrl.ForeColor = Color.Gainsboro
 
             Else
-                MsgBox(ctrl.GetType().IsNotPublic.ToString)
-
-
-                Throw New NotImplementedException($"A color appearance for the specified control type is not implemented: '{ctrl.GetType().FullName}'")
+                Throw New NotImplementedException($"A visual style for the specified control type is not implemented: '{ctrl.GetType().FullName}'")
 
             End If
 
+        End Sub
+
+#End Region
+
+#Region " Event Handlers "
+
+        ''' ----------------------------------------------------------------------------------------------------
+        ''' <summary>
+        ''' Handles the <see cref="ToolStripItem.MouseEnter"/> event for <see cref="ToolStripMenuItem"/> controls
+        ''' that has the <see cref="VisualStyle.VisualStudioDark"/> style applied.
+        ''' </summary>
+        ''' ----------------------------------------------------------------------------------------------------
+        ''' <seealso cref="ControlExtensions.SetVisualStyle"/>
+        ''' ----------------------------------------------------------------------------------------------------
+        ''' <param name="sender">
+        ''' The source of the event.
+        ''' </param>
+        '''
+        ''' <param name="e">
+        ''' The <see cref="EventArgs"/> instance containing the event data.
+        ''' </param>
+        ''' ----------------------------------------------------------------------------------------------------
+        Private Sub ToolStripMenuItem_MouseEnter_VisualStudioDark(ByVal sender As Object, ByVal e As EventArgs)
+            Dim item As ToolStripMenuItem = DirectCast(sender, ToolStripMenuItem)
+            item.ForeColor = Color.Black
+        End Sub
+
+        ''' ----------------------------------------------------------------------------------------------------
+        ''' <summary>
+        ''' Handles the <see cref="ToolStripItem.MouseLeave"/> event for <see cref="ToolStripMenuItem"/> controls
+        ''' that has the <see cref="VisualStyle.VisualStudioDark"/> style applied.
+        ''' </summary>
+        ''' ----------------------------------------------------------------------------------------------------
+        ''' <seealso cref="ControlExtensions.SetVisualStyle"/>
+        ''' ----------------------------------------------------------------------------------------------------
+        ''' <param name="sender">
+        ''' The source of the event.
+        ''' </param>
+        '''
+        ''' <param name="e">
+        ''' The <see cref="EventArgs"/> instance containing the event data.
+        ''' </param>
+        ''' ----------------------------------------------------------------------------------------------------
+        Private Sub ToolStripMenuItem_MouseLeave_VisualStudioDark(ByVal sender As Object, ByVal e As EventArgs)
+            Dim item As ToolStripMenuItem = DirectCast(sender, ToolStripMenuItem)
+            If item.Pressed Then
+                item.ForeColor = Color.Black
+            Else
+                item.ForeColor = Color.Gainsboro
+            End If
+        End Sub
+
+        ''' ----------------------------------------------------------------------------------------------------
+        ''' <summary>
+        ''' Handles the <see cref="ToolStripMenuItem.DropDownClosed"/> event for <see cref="ToolStripMenuItem"/> controls
+        ''' that has the <see cref="VisualStyle.VisualStudioDark"/> style applied.
+        ''' </summary>
+        ''' ----------------------------------------------------------------------------------------------------
+        ''' <seealso cref="ControlExtensions.SetVisualStyle"/>
+        ''' ----------------------------------------------------------------------------------------------------
+        ''' <param name="sender">
+        ''' The source of the event.
+        ''' </param>
+        '''
+        ''' <param name="e">
+        ''' The <see cref="EventArgs"/> instance containing the event data.
+        ''' </param>
+        ''' ----------------------------------------------------------------------------------------------------
+        Private Sub ToolStripMenuItem_DropDownClosed_VisualStudioDark(ByVal sender As Object, ByVal e As EventArgs)
+            Dim item As ToolStripMenuItem = DirectCast(sender, ToolStripMenuItem)
+            item.ForeColor = Color.Gainsboro
         End Sub
 
 #End Region

@@ -19,6 +19,7 @@ Imports System.IO
 Imports System.Threading
 
 Imports DevCase.Core.Application.Tools
+Imports DevCase.Core.Application.UserInterface
 Imports DevCase.Core.Extensions
 Imports DevCase.Core.IO
 Imports DevCase.Core.IO.Tools
@@ -726,15 +727,15 @@ Friend NotInheritable Class Form1 : Inherits Form
         Select Case My.Settings.VisualThemeIndex
 
             Case 0 ' Default theme
-                Me.SetThemeDefault(True)
-                My.Forms.AboutBox1.SetThemeDefault(True)
+                Me.SetVisualStyle(VisualStyle.Default, True)
+                My.Forms.AboutBox1.SetVisualStyle(VisualStyle.Default, True)
 
                 Me.DefaultToolStripMenuItem.Checked = True
                 Me.DarkToolStripMenuItem.Checked = False
 
             Case 1 ' Dark theme
-                Me.SetThemeVisualStudioDark(True)
-                My.Forms.AboutBox1.SetThemeVisualStudioDark(True)
+                Me.SetVisualStyle(VisualStyle.VisualStudioDark, True)
+                My.Forms.AboutBox1.SetVisualStyle(VisualStyle.VisualStudioDark, True)
 
                 Me.DefaultToolStripMenuItem.Checked = False
                 Me.DarkToolStripMenuItem.Checked = True

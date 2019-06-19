@@ -139,6 +139,7 @@
       <DependentUpon>Settings.settings</DependentUpon>
       <DesignTimeSharedInput>True</DesignTimeSharedInput>
     </Compile>
+    <Compile Include="DevCase\VisualStyle.vb" />
   </ItemGroup>
   <ItemGroup>
     <EmbeddedResource Include="UI\AboutBox1.resx">
