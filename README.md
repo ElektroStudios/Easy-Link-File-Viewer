@@ -4,7 +4,7 @@
 
 **Easy Link File Viewer** is a simple program to open, modify and write shortcut (.lnk) files with ease.
 
-It is an alternative to the built-in shell-extension in **Windows** operating system.
+It is an alternative to the built-in shell-extension included in **Windows** operating system.
 
 ### Features
 
