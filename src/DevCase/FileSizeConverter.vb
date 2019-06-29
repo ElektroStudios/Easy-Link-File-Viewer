@@ -35,7 +35,6 @@ Imports System.ComponentModel.Design.Serialization
 Imports System.Globalization
 Imports System.Runtime.InteropServices
 Imports System.Text
-Imports DevCase.Core.IO
 Imports DevCase.Interop.Unmanaged.Win32
 
 #End Region
@@ -117,7 +116,7 @@ Namespace DevCase.Core.Design
         ''' <see langword="true" /> if this converter can perform the operation; otherwise, <see langword="false" />.
         ''' </returns>
         ''' ----------------------------------------------------------------------------------------------------
-        Public Overrides Function CanConvertFrom(ByVal context As ITypeDescriptorContext, ByVal sourceType As Type) As Boolean
+        Public Overrides Function CanConvertFrom(context As ITypeDescriptorContext, sourceType As Type) As Boolean
 
             Return False
 
@@ -140,7 +139,7 @@ Namespace DevCase.Core.Design
         ''' <see langword="True"/> if this converter can perform the conversion; otherwise, <see langword="False"/>.
         ''' </returns>
         ''' ----------------------------------------------------------------------------------------------------
-        Public Overloads Overrides Function CanConvertTo(ByVal context As ITypeDescriptorContext, ByVal destinationType As Type) As Boolean
+        Public Overloads Overrides Function CanConvertTo(context As ITypeDescriptorContext, destinationType As Type) As Boolean
 
             If (destinationType = GetType(InstanceDescriptor)) Then
                 Return True
@@ -175,7 +174,7 @@ Namespace DevCase.Core.Design
         ''' An <see cref="Object"/> that represents the converted value.
         ''' </returns>
         ''' ----------------------------------------------------------------------------------------------------
-        Public Overrides Function ConvertTo(ByVal context As ITypeDescriptorContext, ByVal culture As CultureInfo, ByVal value As Object, ByVal destinationType As Type) As Object
+        Public Overrides Function ConvertTo(context As ITypeDescriptorContext, culture As CultureInfo, value As Object, destinationType As Type) As Object
 
             If (destinationType Is Nothing) Then
                 Throw New ArgumentNullException("destinationType")

@@ -27,12 +27,12 @@ Partial Friend Class Form1
         Me.MenuStrip1 = New System.Windows.Forms.MenuStrip()
         Me.FileToolStripMenuItem = New System.Windows.Forms.ToolStripMenuItem()
         Me.NewToolStripMenuItem = New System.Windows.Forms.ToolStripMenuItem()
-        Me.RecentToolStripMenuItem = New System.Windows.Forms.ToolStripMenuItem()
-        Me.ToolStripSeparator1 = New System.Windows.Forms.ToolStripSeparator()
         Me.OpenToolStripMenuItem = New System.Windows.Forms.ToolStripMenuItem()
         Me.SaveToolStripMenuItem = New System.Windows.Forms.ToolStripMenuItem()
         Me.SaveAsToolStripMenuItem = New System.Windows.Forms.ToolStripMenuItem()
         Me.CloseToolStripMenuItem = New System.Windows.Forms.ToolStripMenuItem()
+        Me.ToolStripSeparator1 = New System.Windows.Forms.ToolStripSeparator()
+        Me.RecentToolStripMenuItem = New System.Windows.Forms.ToolStripMenuItem()
         Me.ToolStripSeparator2 = New System.Windows.Forms.ToolStripSeparator()
         Me.ExitToolStripMenuItem = New System.Windows.Forms.ToolStripMenuItem()
         Me.SettingsToolStripMenuItem = New System.Windows.Forms.ToolStripMenuItem()
@@ -42,7 +42,6 @@ Partial Friend Class Form1
         Me.DefaultToolStripMenuItem = New System.Windows.Forms.ToolStripMenuItem()
         Me.DarkToolStripMenuItem = New System.Windows.Forms.ToolStripMenuItem()
         Me.AboutToolStripMenuItem = New System.Windows.Forms.ToolStripMenuItem()
-        Me.PropertyGrid1 = New System.Windows.Forms.PropertyGrid()
         Me.ContextMenuStrip1 = New System.Windows.Forms.ContextMenuStrip(Me.components)
         Me.OpenShortcutMenuItem = New System.Windows.Forms.ToolStripMenuItem()
         Me.OpenTargetMenuItem = New System.Windows.Forms.ToolStripMenuItem()
@@ -54,18 +53,26 @@ Partial Friend Class Form1
         Me.StatusStrip1 = New System.Windows.Forms.StatusStrip()
         Me.ToolStripStatusLabelIcon = New System.Windows.Forms.ToolStripStatusLabel()
         Me.ToolStripStatusLabelFileName = New System.Windows.Forms.ToolStripStatusLabel()
-        Me.MenuStrip1.SuspendLayout()
-        Me.ContextMenuStrip1.SuspendLayout()
-        Me.StatusStrip1.SuspendLayout()
-        Me.SuspendLayout()
+        Me.TabControl1 = New Manina.Windows.Forms.TabControl()
+        Me.Tab_PropertyEditor = New Manina.Windows.Forms.Tab()
+        Me.PropertyGrid1 = New System.Windows.Forms.PropertyGrid()
+        Me.Tab_HexViewer = New Manina.Windows.Forms.Tab()
+        Me.HexBox1 = New Be.Windows.Forms.HexBox()
+        Me.MenuStrip1.SuspendLayout
+        Me.ContextMenuStrip1.SuspendLayout
+        Me.StatusStrip1.SuspendLayout
+        Me.TabControl1.SuspendLayout
+        Me.Tab_PropertyEditor.SuspendLayout
+        Me.Tab_HexViewer.SuspendLayout
+        Me.SuspendLayout
         '
         'MenuStrip1
         '
-        Me.MenuStrip1.Font = New System.Drawing.Font("Segoe UI", 10.0!)
+        Me.MenuStrip1.Font = New System.Drawing.Font("Segoe UI", 10!)
         Me.MenuStrip1.Items.AddRange(New System.Windows.Forms.ToolStripItem() {Me.FileToolStripMenuItem, Me.SettingsToolStripMenuItem, Me.AboutToolStripMenuItem})
         Me.MenuStrip1.Location = New System.Drawing.Point(0, 0)
         Me.MenuStrip1.Name = "MenuStrip1"
-        Me.MenuStrip1.Size = New System.Drawing.Size(684, 27)
+        Me.MenuStrip1.Size = New System.Drawing.Size(724, 27)
         Me.MenuStrip1.TabIndex = 0
         Me.MenuStrip1.Text = "MenuStrip1"
         '
@@ -81,63 +88,63 @@ Partial Friend Class Form1
         '
         Me.NewToolStripMenuItem.Image = Global.My.Resources.Resources.NewFile_16x
         Me.NewToolStripMenuItem.Name = "NewToolStripMenuItem"
-        Me.NewToolStripMenuItem.Size = New System.Drawing.Size(180, 24)
+        Me.NewToolStripMenuItem.Size = New System.Drawing.Size(134, 24)
         Me.NewToolStripMenuItem.Text = "New"
-        '
-        'RecentToolStripMenuItem
-        '
-        Me.RecentToolStripMenuItem.Enabled = False
-        Me.RecentToolStripMenuItem.Image = Global.My.Resources.Resources.FileGroup_16x
-        Me.RecentToolStripMenuItem.Name = "RecentToolStripMenuItem"
-        Me.RecentToolStripMenuItem.Size = New System.Drawing.Size(180, 24)
-        Me.RecentToolStripMenuItem.Text = "Recent..."
-        '
-        'ToolStripSeparator1
-        '
-        Me.ToolStripSeparator1.Name = "ToolStripSeparator1"
-        Me.ToolStripSeparator1.Size = New System.Drawing.Size(177, 6)
         '
         'OpenToolStripMenuItem
         '
         Me.OpenToolStripMenuItem.Image = Global.My.Resources.Resources.OpenFile_16x
         Me.OpenToolStripMenuItem.Name = "OpenToolStripMenuItem"
-        Me.OpenToolStripMenuItem.Size = New System.Drawing.Size(180, 24)
+        Me.OpenToolStripMenuItem.Size = New System.Drawing.Size(134, 24)
         Me.OpenToolStripMenuItem.Text = "Open"
         '
         'SaveToolStripMenuItem
         '
-        Me.SaveToolStripMenuItem.Enabled = False
+        Me.SaveToolStripMenuItem.Enabled = false
         Me.SaveToolStripMenuItem.Image = Global.My.Resources.Resources.Save_16x
         Me.SaveToolStripMenuItem.Name = "SaveToolStripMenuItem"
-        Me.SaveToolStripMenuItem.Size = New System.Drawing.Size(180, 24)
+        Me.SaveToolStripMenuItem.Size = New System.Drawing.Size(134, 24)
         Me.SaveToolStripMenuItem.Text = "Save"
         '
         'SaveAsToolStripMenuItem
         '
-        Me.SaveAsToolStripMenuItem.Enabled = False
+        Me.SaveAsToolStripMenuItem.Enabled = false
         Me.SaveAsToolStripMenuItem.Image = Global.My.Resources.Resources.Save_16x
         Me.SaveAsToolStripMenuItem.Name = "SaveAsToolStripMenuItem"
-        Me.SaveAsToolStripMenuItem.Size = New System.Drawing.Size(180, 24)
+        Me.SaveAsToolStripMenuItem.Size = New System.Drawing.Size(134, 24)
         Me.SaveAsToolStripMenuItem.Text = "Save As..."
         '
         'CloseToolStripMenuItem
         '
-        Me.CloseToolStripMenuItem.Enabled = False
+        Me.CloseToolStripMenuItem.Enabled = false
         Me.CloseToolStripMenuItem.Image = Global.My.Resources.Resources.FileExclude_16x
         Me.CloseToolStripMenuItem.Name = "CloseToolStripMenuItem"
-        Me.CloseToolStripMenuItem.Size = New System.Drawing.Size(180, 24)
+        Me.CloseToolStripMenuItem.Size = New System.Drawing.Size(134, 24)
         Me.CloseToolStripMenuItem.Text = "Close"
+        '
+        'ToolStripSeparator1
+        '
+        Me.ToolStripSeparator1.Name = "ToolStripSeparator1"
+        Me.ToolStripSeparator1.Size = New System.Drawing.Size(131, 6)
+        '
+        'RecentToolStripMenuItem
+        '
+        Me.RecentToolStripMenuItem.Enabled = false
+        Me.RecentToolStripMenuItem.Image = Global.My.Resources.Resources.FileGroup_16x
+        Me.RecentToolStripMenuItem.Name = "RecentToolStripMenuItem"
+        Me.RecentToolStripMenuItem.Size = New System.Drawing.Size(134, 24)
+        Me.RecentToolStripMenuItem.Text = "Recent..."
         '
         'ToolStripSeparator2
         '
         Me.ToolStripSeparator2.Name = "ToolStripSeparator2"
-        Me.ToolStripSeparator2.Size = New System.Drawing.Size(177, 6)
+        Me.ToolStripSeparator2.Size = New System.Drawing.Size(131, 6)
         '
         'ExitToolStripMenuItem
         '
         Me.ExitToolStripMenuItem.Image = Global.My.Resources.Resources.Close_red_16x
         Me.ExitToolStripMenuItem.Name = "ExitToolStripMenuItem"
-        Me.ExitToolStripMenuItem.Size = New System.Drawing.Size(180, 24)
+        Me.ExitToolStripMenuItem.Size = New System.Drawing.Size(134, 24)
         Me.ExitToolStripMenuItem.Text = "Exit"
         '
         'SettingsToolStripMenuItem
@@ -191,16 +198,6 @@ Partial Friend Class Form1
         Me.AboutToolStripMenuItem.Name = "AboutToolStripMenuItem"
         Me.AboutToolStripMenuItem.Size = New System.Drawing.Size(84, 23)
         Me.AboutToolStripMenuItem.Text = "About..."
-        '
-        'PropertyGrid1
-        '
-        Me.PropertyGrid1.AllowDrop = True
-        Me.PropertyGrid1.Dock = System.Windows.Forms.DockStyle.Fill
-        Me.PropertyGrid1.Font = New System.Drawing.Font("Microsoft Sans Serif", 10.0!)
-        Me.PropertyGrid1.Location = New System.Drawing.Point(0, 27)
-        Me.PropertyGrid1.Name = "PropertyGrid1"
-        Me.PropertyGrid1.Size = New System.Drawing.Size(684, 360)
-        Me.PropertyGrid1.TabIndex = 1
         '
         'ContextMenuStrip1
         '
@@ -262,15 +259,15 @@ Partial Friend Class Form1
         Me.StatusStrip1.BackColor = System.Drawing.SystemColors.Control
         Me.StatusStrip1.ContextMenuStrip = Me.ContextMenuStrip1
         Me.StatusStrip1.Items.AddRange(New System.Windows.Forms.ToolStripItem() {Me.ToolStripStatusLabelIcon, Me.ToolStripStatusLabelFileName})
-        Me.StatusStrip1.Location = New System.Drawing.Point(0, 387)
+        Me.StatusStrip1.Location = New System.Drawing.Point(0, 417)
         Me.StatusStrip1.Name = "StatusStrip1"
-        Me.StatusStrip1.Size = New System.Drawing.Size(684, 24)
+        Me.StatusStrip1.Size = New System.Drawing.Size(724, 24)
         Me.StatusStrip1.TabIndex = 2
         Me.StatusStrip1.Text = "StatusStrip1"
         '
         'ToolStripStatusLabelIcon
         '
-        Me.ToolStripStatusLabelIcon.Font = New System.Drawing.Font("Segoe UI", 10.0!)
+        Me.ToolStripStatusLabelIcon.Font = New System.Drawing.Font("Segoe UI", 10!)
         Me.ToolStripStatusLabelIcon.ImageAlign = System.Drawing.ContentAlignment.MiddleRight
         Me.ToolStripStatusLabelIcon.Name = "ToolStripStatusLabelIcon"
         Me.ToolStripStatusLabelIcon.Size = New System.Drawing.Size(42, 19)
@@ -279,38 +276,100 @@ Partial Friend Class Form1
         '
         'ToolStripStatusLabelFileName
         '
-        Me.ToolStripStatusLabelFileName.AutoToolTip = True
-        Me.ToolStripStatusLabelFileName.Font = New System.Drawing.Font("Segoe UI", 10.0!)
+        Me.ToolStripStatusLabelFileName.AutoToolTip = true
+        Me.ToolStripStatusLabelFileName.Font = New System.Drawing.Font("Segoe UI", 10!)
         Me.ToolStripStatusLabelFileName.ImageAlign = System.Drawing.ContentAlignment.MiddleLeft
         Me.ToolStripStatusLabelFileName.LinkBehavior = System.Windows.Forms.LinkBehavior.NeverUnderline
         Me.ToolStripStatusLabelFileName.Name = "ToolStripStatusLabelFileName"
-        Me.ToolStripStatusLabelFileName.Size = New System.Drawing.Size(596, 19)
-        Me.ToolStripStatusLabelFileName.Spring = True
+        Me.ToolStripStatusLabelFileName.Size = New System.Drawing.Size(667, 19)
+        Me.ToolStripStatusLabelFileName.Spring = true
         Me.ToolStripStatusLabelFileName.Text = "{fullpath}     "
         Me.ToolStripStatusLabelFileName.TextAlign = System.Drawing.ContentAlignment.MiddleLeft
         '
+        'TabControl1
+        '
+        Me.TabControl1.BorderStyle = System.Windows.Forms.BorderStyle.Fixed3D
+        Me.TabControl1.Controls.Add(Me.Tab_PropertyEditor)
+        Me.TabControl1.Controls.Add(Me.Tab_HexViewer)
+        Me.TabControl1.Dock = System.Windows.Forms.DockStyle.Fill
+        Me.TabControl1.Location = New System.Drawing.Point(0, 27)
+        Me.TabControl1.Name = "TabControl1"
+        Me.TabControl1.Size = New System.Drawing.Size(724, 390)
+        Me.TabControl1.TabIndex = 6
+        Me.TabControl1.TabSize = New System.Drawing.Size(110, 25)
+        Me.TabControl1.TabSizing = Manina.Windows.Forms.TabSizing.Fixed
+        '
+        'Tab_PropertyEditor
+        '
+        Me.Tab_PropertyEditor.Controls.Add(Me.PropertyGrid1)
+        Me.Tab_PropertyEditor.Icon = Global.My.Resources.Resources.EditPage_16x
+        Me.Tab_PropertyEditor.Location = New System.Drawing.Point(1, 25)
+        Me.Tab_PropertyEditor.Name = "Tab_PropertyEditor"
+        Me.Tab_PropertyEditor.Size = New System.Drawing.Size(722, 364)
+        Me.Tab_PropertyEditor.Text = "Property Editor"
+        '
+        'PropertyGrid1
+        '
+        Me.PropertyGrid1.AllowDrop = true
+        Me.PropertyGrid1.Dock = System.Windows.Forms.DockStyle.Fill
+        Me.PropertyGrid1.Font = New System.Drawing.Font("Microsoft Sans Serif", 10!)
+        Me.PropertyGrid1.Location = New System.Drawing.Point(0, 0)
+        Me.PropertyGrid1.Name = "PropertyGrid1"
+        Me.PropertyGrid1.Size = New System.Drawing.Size(722, 364)
+        Me.PropertyGrid1.TabIndex = 1
+        '
+        'Tab_HexViewer
+        '
+        Me.Tab_HexViewer.Controls.Add(Me.HexBox1)
+        Me.Tab_HexViewer.Icon = Global.My.Resources.Resources.Registry_16x
+        Me.Tab_HexViewer.Location = New System.Drawing.Point(1, 25)
+        Me.Tab_HexViewer.Name = "Tab_HexViewer"
+        Me.Tab_HexViewer.Size = New System.Drawing.Size(722, 364)
+        Me.Tab_HexViewer.Text = "Hex. Viewer"
+        '
+        'HexBox1
+        '
+        Me.HexBox1.AllowDrop = true
+        Me.HexBox1.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle
+        Me.HexBox1.ColumnInfoVisible = true
+        Me.HexBox1.Dock = System.Windows.Forms.DockStyle.Fill
+        Me.HexBox1.Font = New System.Drawing.Font("Segoe UI", 10!)
+        Me.HexBox1.LineInfoVisible = true
+        Me.HexBox1.Location = New System.Drawing.Point(0, 0)
+        Me.HexBox1.Name = "HexBox1"
+        Me.HexBox1.ReadOnly = true
+        Me.HexBox1.ShadowSelectionColor = System.Drawing.Color.FromArgb(CType(CType(100,Byte),Integer), CType(CType(60,Byte),Integer), CType(CType(188,Byte),Integer), CType(CType(255,Byte),Integer))
+        Me.HexBox1.Size = New System.Drawing.Size(722, 364)
+        Me.HexBox1.StringViewVisible = true
+        Me.HexBox1.TabIndex = 0
+        Me.HexBox1.UseFixedBytesPerLine = true
+        Me.HexBox1.VScrollBarVisible = true
+        '
         'Form1
         '
-        Me.AutoScaleDimensions = New System.Drawing.SizeF(6.0!, 13.0!)
+        Me.AutoScaleDimensions = New System.Drawing.SizeF(6!, 13!)
         Me.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font
-        Me.ClientSize = New System.Drawing.Size(684, 411)
-        Me.Controls.Add(Me.PropertyGrid1)
+        Me.ClientSize = New System.Drawing.Size(724, 441)
+        Me.Controls.Add(Me.TabControl1)
         Me.Controls.Add(Me.StatusStrip1)
         Me.Controls.Add(Me.MenuStrip1)
-        Me.Icon = CType(resources.GetObject("$this.Icon"), System.Drawing.Icon)
+        Me.Icon = CType(resources.GetObject("$this.Icon"),System.Drawing.Icon)
         Me.MainMenuStrip = Me.MenuStrip1
         Me.Name = "Form1"
         Me.StartPosition = System.Windows.Forms.FormStartPosition.CenterScreen
         Me.Text = "Easy Link File Viewer"
-        Me.MenuStrip1.ResumeLayout(False)
-        Me.MenuStrip1.PerformLayout()
-        Me.ContextMenuStrip1.ResumeLayout(False)
-        Me.StatusStrip1.ResumeLayout(False)
-        Me.StatusStrip1.PerformLayout()
-        Me.ResumeLayout(False)
-        Me.PerformLayout()
+        Me.MenuStrip1.ResumeLayout(false)
+        Me.MenuStrip1.PerformLayout
+        Me.ContextMenuStrip1.ResumeLayout(false)
+        Me.StatusStrip1.ResumeLayout(false)
+        Me.StatusStrip1.PerformLayout
+        Me.TabControl1.ResumeLayout(false)
+        Me.Tab_PropertyEditor.ResumeLayout(false)
+        Me.Tab_HexViewer.ResumeLayout(false)
+        Me.ResumeLayout(false)
+        Me.PerformLayout
 
-    End Sub
+End Sub
 
     Friend WithEvents MenuStrip1 As MenuStrip
     Friend WithEvents FileToolStripMenuItem As ToolStripMenuItem
@@ -342,4 +401,8 @@ Partial Friend Class Form1
     Friend WithEvents ToolStripComboBoxFontSize As ToolStripComboBox
     Friend WithEvents ToolStripStatusLabelIcon As ToolStripStatusLabel
     Friend WithEvents NewToolStripMenuItem As ToolStripMenuItem
+    Friend WithEvents HexBox1 As Be.Windows.Forms.HexBox
+    Friend WithEvents TabControl1 As Manina.Windows.Forms.TabControl
+    Friend WithEvents Tab_PropertyEditor As Manina.Windows.Forms.Tab
+    Friend WithEvents Tab_HexViewer As Manina.Windows.Forms.Tab
 End Class

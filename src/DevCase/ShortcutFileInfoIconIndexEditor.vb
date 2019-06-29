@@ -70,7 +70,7 @@ Namespace DevCase.Core.Design
         ''' What to paint and where to paint it.
         ''' </param>
         ''' ----------------------------------------------------------------------------------------------------
-        Public Overrides Sub PaintValue(ByVal e As PaintValueEventArgs)
+        Public Overrides Sub PaintValue(e As PaintValueEventArgs)
             Dim ico As Icon = Nothing
             Dim index As Integer = CInt(e.Value)
 
@@ -154,7 +154,7 @@ Namespace DevCase.Core.Design
         ''' If the value of the object has not changed, this should return the same object it was passed.
         ''' </returns>
         ''' ----------------------------------------------------------------------------------------------------
-        Public Overrides Function EditValue(ByVal context As ITypeDescriptorContext, ByVal provider As IServiceProvider, ByVal value As Object) As Object
+        Public Overrides Function EditValue(context As ITypeDescriptorContext, provider As IServiceProvider, value As Object) As Object
 
             Me.UpdateFields(context)
 
@@ -193,7 +193,7 @@ Namespace DevCase.Core.Design
         ''' One of the <see cref="UITypeEditorEditStyle"/> values indicating the provided editing style.
         ''' </returns>
         ''' ----------------------------------------------------------------------------------------------------
-        Public Overrides Function GetEditStyle(ByVal context As ITypeDescriptorContext) As UITypeEditorEditStyle
+        Public Overrides Function GetEditStyle(context As ITypeDescriptorContext) As UITypeEditorEditStyle
             Me.UpdateFields(context)
             Return UITypeEditorEditStyle.Modal
         End Function
@@ -212,7 +212,7 @@ Namespace DevCase.Core.Design
         ''' A type descriptor context that can be used to provide additional context information.
         ''' </param>
         ''' ----------------------------------------------------------------------------------------------------
-        Private Sub UpdateFields(ByVal context As ITypeDescriptorContext)
+        Private Sub UpdateFields(context As ITypeDescriptorContext)
             Dim lnk As ShortcutFileInfo = DirectCast(context.Instance, ShortcutFileInfo)
             Me.iconPath = lnk.Icon
             Me.target = lnk.Target

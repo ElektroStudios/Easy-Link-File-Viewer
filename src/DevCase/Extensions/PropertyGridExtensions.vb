@@ -55,7 +55,7 @@ Namespace DevCase.Core.Extensions
         <DebuggerStepThrough>
         <Extension>
         <EditorBrowsable(EditorBrowsableState.Always)>
-        Public Sub MoveSplitterTo(ByVal propGrid As PropertyGrid, ByVal width As Integer)
+        Public Sub MoveSplitterTo(propGrid As PropertyGrid, width As Integer)
 
             If Not (propGrid.Visible) Then
                 Throw New InvalidOperationException("The PropertyGrid must be visible in order to move its splitter control.")

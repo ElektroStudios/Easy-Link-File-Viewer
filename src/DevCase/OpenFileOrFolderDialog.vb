@@ -262,7 +262,7 @@ Namespace DevCase.UserControls.Controls
                 End Try
             End Get
             <DebuggerStepThrough>
-            Set(ByVal value As String)
+            Set(value As String)
                 Me.Dialog.FileName = value
             End Set
         End Property
@@ -334,7 +334,7 @@ Namespace DevCase.UserControls.Controls
         ''' </returns>
         ''' ----------------------------------------------------------------------------------------------------
         <DebuggerStepThrough>
-        Public Shadows Function ShowDialog(ByVal owner As IWin32Window) As DialogResult
+        Public Shadows Function ShowDialog(owner As IWin32Window) As DialogResult
             ' Set initial directory (used when 'Me.dialog.FileName' is set from outside)
             If Not (String.IsNullOrWhiteSpace(Me.Dialog.FileName)) Then
                 Try
@@ -397,7 +397,7 @@ Namespace DevCase.UserControls.Controls
         ''' </param>
         ''' ----------------------------------------------------------------------------------------------------
         <DebuggerStepThrough>
-        Protected Sub OnItemOk(ByVal e As CancelEventArgs)
+        Protected Sub OnItemOk(e As CancelEventArgs)
             If (Me.ItemOkEvent IsNot Nothing) Then
                 RaiseEvent ItemOk(Me, e)
             End If
@@ -421,7 +421,7 @@ Namespace DevCase.UserControls.Controls
         ''' </param>
         ''' ----------------------------------------------------------------------------------------------------
         <DebuggerStepThrough>
-        Private Sub Dialog_OnFileOk(ByVal sender As Object, ByVal e As CancelEventArgs) Handles Dialog.FileOk
+        Private Sub Dialog_OnFileOk(sender As Object, e As CancelEventArgs) Handles Dialog.FileOk
             Me.OnItemOk(e)
         End Sub
 
@@ -439,7 +439,7 @@ Namespace DevCase.UserControls.Controls
         ''' </param>
         ''' ----------------------------------------------------------------------------------------------------
         <DebuggerStepThrough>
-        Private Sub Dialog_OnFileOk(ByVal sender As Object, ByVal e As EventArgs) Handles Dialog.HelpRequest
+        Private Sub Dialog_OnFileOk(sender As Object, e As EventArgs) Handles Dialog.HelpRequest
             Me.OnHelpRequest(e)
         End Sub
 
@@ -461,7 +461,7 @@ Namespace DevCase.UserControls.Controls
         ''' </returns>
         ''' ----------------------------------------------------------------------------------------------------
         <DebuggerStepperBoundary>
-        Protected Overrides Function RunDialog(ByVal hwndOwner As IntPtr) As Boolean
+        Protected Overrides Function RunDialog(hwndOwner As IntPtr) As Boolean
             Return True
         End Function
 

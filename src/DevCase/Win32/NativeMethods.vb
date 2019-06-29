@@ -100,8 +100,8 @@ Namespace DevCase.Interop.Unmanaged.Win32
         ''' </returns>
         ''' ----------------------------------------------------------------------------------------------------
         <DllImport("Kernel32.dll", SetLastError:=True, ExactSpelling:=True, CharSet:=CharSet.Unicode)>
-        Friend Shared Function SetProcessPreferredUILanguages(ByVal flags As MuiLanguageMode,
-                                                              ByVal languagesBuffer As String,
+        Friend Shared Function SetProcessPreferredUILanguages(flags As MuiLanguageMode,
+                                                              languagesBuffer As String,
                                                         <Out> ByRef refNumLanguages As UInteger
         ) As Boolean
         End Function
@@ -169,11 +169,11 @@ Namespace DevCase.Interop.Unmanaged.Win32
         ''' ----------------------------------------------------------------------------------------------------
         <SuppressUnmanagedCodeSecurity>
         <DllImport("Shell32.dll", CharSet:=CharSet.Auto, BestFitMapping:=False, ThrowOnUnmappableChar:=True)>
-        Friend Shared Function SHGetFileInfo(ByVal path As String,
-               <MarshalAs(UnmanagedType.U4)> ByVal fileAttribs As FileAttributes,
+        Friend Shared Function SHGetFileInfo(path As String,
+               <MarshalAs(UnmanagedType.U4)> fileAttribs As FileAttributes,
                                              ByRef refShellFileInfo As ShellFileInfo,
-               <MarshalAs(UnmanagedType.U4)> ByVal size As UInteger,
-               <MarshalAs(UnmanagedType.U4)> ByVal flags As SHGetFileInfoFlags
+               <MarshalAs(UnmanagedType.U4)> size As UInteger,
+               <MarshalAs(UnmanagedType.U4)> flags As SHGetFileInfoFlags
         ) As IntPtr
         End Function
 
@@ -205,8 +205,8 @@ Namespace DevCase.Interop.Unmanaged.Win32
         ''' </returns>
         ''' ----------------------------------------------------------------------------------------------------
         <DllImport("Shell32.dll", CharSet:=CharSet.Auto, BestFitMapping:=False, ThrowOnUnmappableChar:=True)>
-        Friend Shared Function SHGetNameFromIDList(ByVal pidl As IntPtr,
-                                                   ByVal sigdn As ShellItemGetDisplayName,
+        Friend Shared Function SHGetNameFromIDList(pidl As IntPtr,
+                                                   sigdn As ShellItemGetDisplayName,
                                              <Out> ByRef refName As StringBuilder
         ) As HResult
         End Function
@@ -248,8 +248,8 @@ Namespace DevCase.Interop.Unmanaged.Win32
         ''' </returns>
         ''' ----------------------------------------------------------------------------------------------------
         <DllImport("Shell32.dll", SetLastError:=True, CharSet:=CharSet.Auto, BestFitMapping:=False, ThrowOnUnmappableChar:=True)>
-        Friend Shared Function SHCreateItemFromParsingName(ByVal path As String,
-                                                           ByVal pbc As IntPtr,
+        Friend Shared Function SHCreateItemFromParsingName(path As String,
+                                                           pbc As IntPtr,
                                                            ByRef refIID As Guid,
                       <MarshalAs(UnmanagedType.Interface)> ByRef refShellItem As IShellItem
         ) As HResult
@@ -311,12 +311,12 @@ Namespace DevCase.Interop.Unmanaged.Win32
         ''' ----------------------------------------------------------------------------------------------------
         <SuppressUnmanagedCodeSecurity>
         <DllImport("Shell32.dll", SetLastError:=False, CharSet:=CharSet.Auto, BestFitMapping:=False, ThrowOnUnmappableChar:=True)>
-        Friend Shared Function SHDefExtractIcon(ByVal iconFile As String,
-                                                ByVal iconIndex As Integer,
-                                                ByVal flags As UInteger,
+        Friend Shared Function SHDefExtractIcon(iconFile As String,
+                                                iconIndex As Integer,
+                                                flags As UInteger,
                                                 ByRef refHiconLarge As IntPtr,
                                                 ByRef refHiconSmall As IntPtr,
-                                                ByVal iconSize As UInteger
+                                                iconSize As UInteger
         ) As HResult
         End Function
 
@@ -360,9 +360,9 @@ Namespace DevCase.Interop.Unmanaged.Win32
         ''' </returns>
         ''' ----------------------------------------------------------------------------------------------------
         <DllImport("Shell32.dll", SetLastError:=True, CharSet:=CharSet.Auto, BestFitMapping:=False, ThrowOnUnmappableChar:=True)>
-        Friend Shared Function PickIconDlg(ByVal hWnd As IntPtr,
-                                           ByVal iconPath As String,
-             <MarshalAs(UnmanagedType.U4)> ByVal iconPathSize As Integer,
+        Friend Shared Function PickIconDlg(hWnd As IntPtr,
+                                           iconPath As String,
+             <MarshalAs(UnmanagedType.U4)> iconPathSize As Integer,
                                            ByRef refIconIndex As Integer
         ) As <MarshalAs(UnmanagedType.Bool)> Boolean
         End Function
@@ -398,9 +398,9 @@ Namespace DevCase.Interop.Unmanaged.Win32
         ''' </returns>
         ''' ----------------------------------------------------------------------------------------------------
         <DllImport("ShlwApi.dll", SetLastError:=True, ExactSpelling:=True, CharSet:=CharSet.Ansi)>
-        Friend Shared Function StrFormatByteSize64A(ByVal number As ULong,
-                                                    ByVal buffer As StringBuilder,
-                                                    ByVal bufferSize As UInteger
+        Friend Shared Function StrFormatByteSize64A(number As ULong,
+                                                    buffer As StringBuilder,
+                                                    bufferSize As UInteger
         ) As IntPtr
         End Function
 
@@ -433,7 +433,7 @@ Namespace DevCase.Interop.Unmanaged.Win32
         ''' ----------------------------------------------------------------------------------------------------
         <SuppressUnmanagedCodeSecurity>
         <DllImport("User32.dll", SetLastError:=True)>
-        Friend Shared Function DestroyIcon(ByVal hIcon As IntPtr
+        Friend Shared Function DestroyIcon(hIcon As IntPtr
         ) As <MarshalAs(UnmanagedType.Bool)> Boolean
         End Function
 

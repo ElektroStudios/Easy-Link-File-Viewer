@@ -58,7 +58,7 @@ Namespace DevCase.Core.Extensions
         <DebuggerStepThrough>
         <Extension>
         <EditorBrowsable(EditorBrowsableState.Always)>
-        Public Sub SetVisualStyle(ByVal f As Form, ByVal style As VisualStyle, ByVal childControls As Boolean)
+        Public Sub SetVisualStyle(f As Form, style As VisualStyle, childControls As Boolean)
 
             Select Case style
 
@@ -107,7 +107,7 @@ Namespace DevCase.Core.Extensions
         <DebuggerStepThrough>
         <Extension>
         <EditorBrowsable(EditorBrowsableState.Always)>
-        Public Sub ForEachControl(ByVal f As Form, ByVal recursive As Boolean, ByVal action As Action(Of Control))
+        Public Sub ForEachControl(f As Form, recursive As Boolean, action As Action(Of Control))
             f.ForEachControl(Of Control)(recursive, action)
         End Sub
 

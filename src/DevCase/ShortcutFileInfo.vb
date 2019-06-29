@@ -796,7 +796,7 @@ Namespace DevCase.Core.IO
         ''' </param>
         ''' ----------------------------------------------------------------------------------------------------
         <SecuritySafeCritical>
-        Public Sub New(ByVal filePath As String)
+        Public Sub New(filePath As String)
             Me.OriginalPath = filePath
             Me.FullPath = Path.GetFullPath(filePath)
 
@@ -815,7 +815,7 @@ Namespace DevCase.Core.IO
         ''' </param>
         ''' ----------------------------------------------------------------------------------------------------
         <SecuritySafeCritical>
-        Public Sub New(ByVal file As FileInfo)
+        Public Sub New(file As FileInfo)
             Me.New(file.FullName)
         End Sub
 
@@ -929,7 +929,7 @@ Namespace DevCase.Core.IO
         ''' ----------------------------------------------------------------------------------------------------
         <DebuggerStepThrough>
         <SecuritySafeCritical>
-        Public Sub MoveTo(ByVal destFileName As String)
+        Public Sub MoveTo(destFileName As String)
             Dim file As New FileInfo(Me.FullName)
             file.MoveTo(destFileName)
         End Sub
@@ -948,7 +948,7 @@ Namespace DevCase.Core.IO
         ''' </returns>
         ''' ----------------------------------------------------------------------------------------------------
         <DebuggerStepThrough>
-        Public Function Open(ByVal mode As FileMode) As FileStream
+        Public Function Open(mode As FileMode) As FileStream
             Return New FileInfo(Me.FullName).Open(mode)
         End Function
 
@@ -1091,7 +1091,7 @@ Namespace DevCase.Core.IO
         ''' </returns>
         ''' ----------------------------------------------------------------------------------------------------
         <DebuggerStepThrough>
-        Public Shadows Function Equals(ByVal file As ShortcutFileInfo) As Boolean
+        Public Shadows Function Equals(file As ShortcutFileInfo) As Boolean
             Return (Me = file)
         End Function
 
@@ -1118,7 +1118,7 @@ Namespace DevCase.Core.IO
         ''' </param>
         ''' ----------------------------------------------------------------------------------------------------
         <DebuggerStepThrough>
-        Public Sub Resolve(ByVal owner As IntPtr, ByVal flags As IShellLinkResolveFlags)
+        Public Sub Resolve(owner As IntPtr, flags As IShellLinkResolveFlags)
 
             Dim lnk As New CShellLink()
             Dim lnkW As IShellLinkW
@@ -1265,7 +1265,7 @@ Namespace DevCase.Core.IO
         ''' </returns>
         ''' ----------------------------------------------------------------------------------------------------
         <DebuggerStepThrough>
-        Private Function HotkeyToKeys(ByVal keyModifier As ShortcutHotkeyModifier, ByVal keyAccesor As Keys) As Keys
+        Private Function HotkeyToKeys(keyModifier As ShortcutHotkeyModifier, keyAccesor As Keys) As Keys
 
             Dim key As Keys = keyAccesor
 
@@ -1299,7 +1299,7 @@ Namespace DevCase.Core.IO
         ''' </returns>
         ''' ----------------------------------------------------------------------------------------------------
         <DebuggerStepThrough>
-        Private Function KeysToHotkey(ByVal key As Keys) As UShort
+        Private Function KeysToHotkey(key As Keys) As UShort
 
             Dim keyModifier As ShortcutHotkeyModifier = ShortcutHotkeyModifier.None
             Dim keyAccesor As Keys = CType(BitConverter.GetBytes(key)(0), Keys)
@@ -1338,7 +1338,7 @@ Namespace DevCase.Core.IO
         ''' </returns>
         ''' ----------------------------------------------------------------------------------------------------
         <DebuggerStepThrough>
-        Public Shared Widening Operator CType(ByVal file As ShortcutFileInfo) As FileInfo
+        Public Shared Widening Operator CType(file As ShortcutFileInfo) As FileInfo
             Return New FileInfo(file.ToString())
         End Operator
 
@@ -1356,7 +1356,7 @@ Namespace DevCase.Core.IO
         ''' </returns>
         ''' ----------------------------------------------------------------------------------------------------
         <DebuggerStepThrough>
-        Public Shared Widening Operator CType(ByVal file As FileInfo) As ShortcutFileInfo
+        Public Shared Widening Operator CType(file As FileInfo) As ShortcutFileInfo
             Return New ShortcutFileInfo(file)
         End Operator
 
@@ -1378,7 +1378,7 @@ Namespace DevCase.Core.IO
         ''' otherwise, <see langword="False"/>.
         ''' </returns>
         ''' ----------------------------------------------------------------------------------------------------
-        Public Shared Operator =(ByVal first As ShortcutFileInfo, ByVal second As ShortcutFileInfo) As Boolean
+        Public Shared Operator =(first As ShortcutFileInfo, second As ShortcutFileInfo) As Boolean
 
             Return (first.Attributes = second.Attributes) AndAlso
                    (first.CreationTime = second.CreationTime) AndAlso
@@ -1414,7 +1414,7 @@ Namespace DevCase.Core.IO
         ''' otherwise, <see langword="False"/>.
         ''' </returns>
         ''' ----------------------------------------------------------------------------------------------------
-        Public Shared Operator <>(ByVal first As ShortcutFileInfo, ByVal second As ShortcutFileInfo) As Boolean
+        Public Shared Operator <>(first As ShortcutFileInfo, second As ShortcutFileInfo) As Boolean
             Return Not (first = second)
         End Operator
 

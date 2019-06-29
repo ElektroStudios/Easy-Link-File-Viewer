@@ -70,10 +70,10 @@ Namespace DevCase.Interop.Unmanaged.Win32.Interfaces
         ''' Flags that specify the type of path information to retrieve.
         ''' </param>
         ''' ----------------------------------------------------------------------------------------------------
-        Sub GetPath(<Out(), MarshalAs(UnmanagedType.LPWStr)> ByVal file As StringBuilder,
-                                                             ByVal maxPath As Integer,
+        Sub GetPath(<Out(), MarshalAs(UnmanagedType.LPWStr)> file As StringBuilder,
+                                                             maxPath As Integer,
                                                              ByRef refWin32FindData As Win32FindDataW,
-                                                             ByVal flags As IShellLinkGetPathFlags)
+                                                             flags As IShellLinkGetPathFlags)
 
         ''' ----------------------------------------------------------------------------------------------------
         ''' <summary>
@@ -95,7 +95,7 @@ Namespace DevCase.Interop.Unmanaged.Win32.Interfaces
         ''' The object's fully qualified PIDL.
         ''' </param>
         ''' ----------------------------------------------------------------------------------------------------
-        Sub SetIDList(ByVal pidl As IntPtr)
+        Sub SetIDList(pidl As IntPtr)
 
         ''' ----------------------------------------------------------------------------------------------------
         ''' <summary>
@@ -110,8 +110,8 @@ Namespace DevCase.Interop.Unmanaged.Win32.Interfaces
         ''' The maximum number of characters to copy to the buffer pointed to by the pszName parameter.
         ''' </param>
         ''' ----------------------------------------------------------------------------------------------------
-        Sub GetDescription(<Out(), MarshalAs(UnmanagedType.LPWStr)> ByVal name As StringBuilder,
-                                                                    ByVal maxName As Integer)
+        Sub GetDescription(<Out(), MarshalAs(UnmanagedType.LPWStr)> name As StringBuilder,
+                                                                    maxName As Integer)
 
         ''' ----------------------------------------------------------------------------------------------------
         ''' <summary>
@@ -123,7 +123,7 @@ Namespace DevCase.Interop.Unmanaged.Win32.Interfaces
         ''' A pointer to a buffer containing the new description string.
         ''' </param>
         ''' ----------------------------------------------------------------------------------------------------
-        Sub SetDescription(<MarshalAs(UnmanagedType.LPWStr)> ByVal name As String)
+        Sub SetDescription(<MarshalAs(UnmanagedType.LPWStr)> name As String)
 
         ''' ----------------------------------------------------------------------------------------------------
         ''' <summary>
@@ -140,8 +140,8 @@ Namespace DevCase.Interop.Unmanaged.Win32.Interfaces
         ''' The name of the working directory is truncated if it is longer than the maximum specified by this parameter.
         ''' </param>
         ''' ----------------------------------------------------------------------------------------------------
-        Sub GetWorkingDirectory(<Out(), MarshalAs(UnmanagedType.LPWStr)> ByVal dir As StringBuilder,
-                                                                         ByVal maxPath As Integer)
+        Sub GetWorkingDirectory(<Out(), MarshalAs(UnmanagedType.LPWStr)> dir As StringBuilder,
+                                                                         maxPath As Integer)
 
         ''' ----------------------------------------------------------------------------------------------------
         ''' <summary>
@@ -152,7 +152,7 @@ Namespace DevCase.Interop.Unmanaged.Win32.Interfaces
         ''' The address of a buffer that contains the name of the new working directory.
         ''' </param>
         ''' ----------------------------------------------------------------------------------------------------
-        Sub SetWorkingDirectory(<MarshalAs(UnmanagedType.LPWStr)> ByVal dir As String)
+        Sub SetWorkingDirectory(<MarshalAs(UnmanagedType.LPWStr)> dir As String)
 
         ''' ----------------------------------------------------------------------------------------------------
         ''' <summary>
@@ -172,8 +172,8 @@ Namespace DevCase.Interop.Unmanaged.Win32.Interfaces
         ''' version of Windows.
         ''' </param>
         ''' ----------------------------------------------------------------------------------------------------
-        Sub GetArguments(<Out(), MarshalAs(UnmanagedType.LPWStr)> ByVal args As StringBuilder,
-                                                                  ByVal maxPath As Integer)
+        Sub GetArguments(<Out(), MarshalAs(UnmanagedType.LPWStr)> args As StringBuilder,
+                                                                  maxPath As Integer)
 
         ''' ----------------------------------------------------------------------------------------------------
         ''' <summary>
@@ -189,7 +189,7 @@ Namespace DevCase.Interop.Unmanaged.Win32.Interfaces
         ''' version of Windows.
         ''' </param>
         ''' ----------------------------------------------------------------------------------------------------
-        Sub SetArguments(<MarshalAs(UnmanagedType.LPWStr)> ByVal args As String)
+        Sub SetArguments(<MarshalAs(UnmanagedType.LPWStr)> args As String)
 
         ''' ----------------------------------------------------------------------------------------------------
         ''' <summary>
@@ -215,7 +215,7 @@ Namespace DevCase.Interop.Unmanaged.Win32.Interfaces
         ''' The virtual key code is in the low-order byte, and the modifier flags are in the high-order byte.
         ''' </param>
         ''' ----------------------------------------------------------------------------------------------------
-        Sub SetHotkey(ByVal hotkey As UShort)
+        Sub SetHotkey(hotkey As UShort)
 
         ''' ----------------------------------------------------------------------------------------------------
         ''' <summary>
@@ -239,7 +239,7 @@ Namespace DevCase.Interop.Unmanaged.Win32.Interfaces
         ''' A <see cref="NativeWindowState"/> flags.
         ''' </param>
         ''' ----------------------------------------------------------------------------------------------------
-        Sub SetShowCmd(ByVal windowState As NativeWindowState)
+        Sub SetShowCmd(windowState As NativeWindowState)
 
         ''' ----------------------------------------------------------------------------------------------------
         ''' <summary>
@@ -258,8 +258,8 @@ Namespace DevCase.Interop.Unmanaged.Win32.Interfaces
         ''' The address of a value that receives the index of the icon.
         ''' </param>
         ''' ----------------------------------------------------------------------------------------------------
-        Sub GetIconLocation(<Out(), MarshalAs(UnmanagedType.LPWStr)> ByVal iconPath As StringBuilder,
-                                                                     ByVal iconPathSize As Integer,
+        Sub GetIconLocation(<Out(), MarshalAs(UnmanagedType.LPWStr)> iconPath As StringBuilder,
+                                                                     iconPathSize As Integer,
                                                                      ByRef refIconIndex As Integer)
 
         ''' ----------------------------------------------------------------------------------------------------
@@ -275,8 +275,8 @@ Namespace DevCase.Interop.Unmanaged.Win32.Interfaces
         ''' The index of the icon.
         ''' </param>
         ''' ----------------------------------------------------------------------------------------------------
-        Sub SetIconLocation(<MarshalAs(UnmanagedType.LPWStr)> ByVal iconPath As String,
-                                                              ByVal iconIndex As Integer)
+        Sub SetIconLocation(<MarshalAs(UnmanagedType.LPWStr)> iconPath As String,
+                                                              iconIndex As Integer)
 
         ''' ----------------------------------------------------------------------------------------------------
         ''' <summary>
@@ -296,8 +296,8 @@ Namespace DevCase.Interop.Unmanaged.Win32.Interfaces
         ''' Set this parameter to zero.
         ''' </param>
         ''' ----------------------------------------------------------------------------------------------------
-        Sub SetRelativePath(<MarshalAs(UnmanagedType.LPWStr)> ByVal pathRelative As String,
-                                                              ByVal reserved As Integer)
+        Sub SetRelativePath(<MarshalAs(UnmanagedType.LPWStr)> pathRelative As String,
+                                                              reserved As Integer)
 
         ''' ----------------------------------------------------------------------------------------------------
         ''' <summary>
@@ -314,8 +314,8 @@ Namespace DevCase.Interop.Unmanaged.Win32.Interfaces
         ''' Action flags.
         ''' </param>
         ''' ----------------------------------------------------------------------------------------------------
-        Sub Resolve(ByVal hWnd As IntPtr,
-                    ByVal flags As IShellLinkResolveFlags)
+        Sub Resolve(hWnd As IntPtr,
+                    flags As IShellLinkResolveFlags)
 
         ''' ----------------------------------------------------------------------------------------------------
         ''' <summary>
@@ -326,7 +326,7 @@ Namespace DevCase.Interop.Unmanaged.Win32.Interfaces
         ''' The address of a buffer that contains the new path.
         ''' </param>
         ''' ----------------------------------------------------------------------------------------------------
-        Sub SetPath(ByVal file As String)
+        Sub SetPath(file As String)
 
     End Interface
 

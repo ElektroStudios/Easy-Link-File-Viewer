@@ -20,9 +20,6 @@ Option Infer Off
 
 Imports System.ComponentModel
 Imports System.Drawing.Design
-Imports System.IO
-Imports System.Text
-Imports System.Windows.Forms.Design
 Imports DevCase.UserControls.Controls
 
 #End Region
@@ -72,7 +69,7 @@ Namespace DevCase.Core.Design
         ''' then <see cref="UITypeEditor.GetEditStyle"/> will return <see cref="UITypeEditorEditStyle.None"/>.
         ''' </returns>
         ''' ----------------------------------------------------------------------------------------------------
-        Public Overrides Function GetEditStyle(ByVal context As ITypeDescriptorContext) As UITypeEditorEditStyle
+        Public Overrides Function GetEditStyle(context As ITypeDescriptorContext) As UITypeEditorEditStyle
             Return UITypeEditorEditStyle.Modal
         End Function
 
@@ -99,7 +96,7 @@ Namespace DevCase.Core.Design
         ''' If the value of the object has not changed, this should return the same object it was passed.
         ''' </returns>
         ''' ----------------------------------------------------------------------------------------------------
-        Public Overrides Function EditValue(ByVal context As ITypeDescriptorContext, ByVal provider As IServiceProvider, ByVal value As Object) As Object
+        Public Overrides Function EditValue(context As ITypeDescriptorContext, provider As IServiceProvider, value As Object) As Object
 
             Using dlg As New OpenFileOrFolderDialog() With {
                 .Title = "Select a file or folder...",

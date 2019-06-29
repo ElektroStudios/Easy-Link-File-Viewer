@@ -1,6 +1,6 @@
 ﻿' ***********************************************************************
 ' Author   : ElektroStudios
-' Modified : 04-June-2019
+' Modified : 29-June-2019
 ' ***********************************************************************
 
 #Region " Option Statements "
@@ -43,8 +43,15 @@ Friend NotInheritable Class Form1 : Inherits Form
     ''' The current <see cref="ShortcutFileInfo"/> instance that is loaded in the <see cref="Form1.PropertyGrid1"/> control.
     ''' </summary>
     ''' ----------------------------------------------------------------------------------------------------
-    Private CurrentShortcut As ShortcutFileInfo
-
+    Private currentShortcut As ShortcutFileInfo
+    
+    ''' ----------------------------------------------------------------------------------------------------
+    ''' <summary>
+    ''' The current <see cref="Be.Windows.Forms.DynamicFileByteProvider"/> instance that is loaded in the <see cref="Form1.HexBox1"/> control.
+    ''' </summary>
+    ''' ----------------------------------------------------------------------------------------------------
+    Private currentFileByteProvider As Be.Windows.Forms.DynamicFileByteProvider
+ 
 #End Region
 
 #Region " Constructors "
@@ -89,6 +96,14 @@ Friend NotInheritable Class Form1 : Inherits Form
         Me.ToolStripComboBoxFontSize.SelectedItem = CStr(My.Settings.FontSize)
 
         Me.LoadVisualTheme()
+
+        ' Load file from command-line arguments.
+        If My.Application.CommandLineArgs.Any()
+            Dim data As New DataObject(DataFormats.FileDrop, My.Application.CommandLineArgs.ToArray())
+            Dim args As new DragEventArgs(data, Nothing, 0, 0, Nothing, DragDropEffects.Copy)
+            Me.PropertyGrid1_DragDrop(Me, args)
+        End If
+
     End Sub
 
     ''' ----------------------------------------------------------------------------------------------------
@@ -125,9 +140,34 @@ Friend NotInheritable Class Form1 : Inherits Form
     ''' </param>
     ''' ----------------------------------------------------------------------------------------------------
     Private Sub Form1_Resize(sender As Object, e As EventArgs) Handles MyBase.Resize
-        Me.PropertyGrid1.MoveSplitterTo(180)
+
+        Me.AdjustPropertyGridSplitter()
+
     End Sub
 
+#End Region
+
+#Region " Tab Control "
+    
+    ''' ----------------------------------------------------------------------------------------------------
+    ''' <summary>
+    ''' Handles the <see cref="Manina.Windows.Forms.PagedControl.PageChanged"/> event of the <see cref="Form1.TabControl1"/> control.
+    ''' </summary>
+    ''' ----------------------------------------------------------------------------------------------------
+    ''' <param name="sender">
+    ''' The source of the event.
+    ''' </param>
+    ''' 
+    ''' <param name="e">
+    ''' The <see cref="Manina.Windows.Forms.PageChangedEventArgs"/> instance containing the event data.
+    ''' </param>
+    ''' ----------------------------------------------------------------------------------------------------
+    Private Sub TabControl1_TabIndexChanged(sender As Object, e As Manina.Windows.Forms.PageChangedEventArgs) Handles TabControl1.PageChanged
+        
+        Me.AdjustPropertyGridSplitter()
+
+    End Sub
+    
 #End Region
 
 #Region " PropertyGrid "
@@ -197,6 +237,59 @@ Friend NotInheritable Class Form1 : Inherits Form
     Private Sub PropertyGrid1_PropertyValueChanged(sender As Object, e As PropertyValueChangedEventArgs) Handles PropertyGrid1.PropertyValueChanged
         ' Force refresh of ShortcutFileInfo properties.
         Me.PropertyGrid1.Refresh()
+    End Sub
+
+#End Region
+    
+#Region " Hexadecimal Box (HexBox) "
+
+    ''' ----------------------------------------------------------------------------------------------------
+    ''' <summary>
+    ''' Handles the <see cref="Control.DragDrop"/> event of the <see cref="Form1.HexBox1"/> control.
+    ''' </summary>
+    ''' ----------------------------------------------------------------------------------------------------
+    ''' <param name="sender">
+    ''' The source of the event.
+    ''' </param>
+    ''' 
+    ''' <param name="e">
+    ''' The <see cref="DragEventArgs"/> instance containing the event data.
+    ''' </param>
+    ''' ----------------------------------------------------------------------------------------------------
+    Private Sub HexBox1_DragDrop(sender As Object, e As DragEventArgs) Handles HexBox1.DragDrop
+        
+        If (e.Effect = DragDropEffects.Copy) Then
+            Dim filePath As String = DirectCast(e.Data.GetData(DataFormats.FileDrop), String()).Single()
+            Dim fi As New FileInfo(filePath)
+            If (fi.Exists) AndAlso (fi.Extension.Equals(".lnk", StringComparison.OrdinalIgnoreCase)) Then
+                Me.LoadShortcutInPropertyGrid(filePath)
+            End If
+        End If
+
+    End Sub
+
+    ''' ----------------------------------------------------------------------------------------------------
+    ''' <summary>
+    ''' Handles the <see cref="Control.DragEnter"/> event of the <see cref="Form1.HexBox1"/> control.
+    ''' </summary>
+    ''' ----------------------------------------------------------------------------------------------------
+    ''' <param name="sender">
+    ''' The source of the event.
+    ''' </param>
+    ''' 
+    ''' <param name="e">
+    ''' The <see cref="DragEventArgs"/> instance containing the event data.
+    ''' </param>
+    ''' ----------------------------------------------------------------------------------------------------
+    Private Sub HexBox1_DragEnter(sender As Object, e As DragEventArgs) Handles HexBox1.DragEnter
+
+        If (e.Data.GetDataPresent(DataFormats.FileDrop)) Then
+            Dim filePaths() As String = DirectCast(e.Data.GetData(DataFormats.FileDrop), String())
+            If (filePaths.Length = 1) AndAlso Path.GetExtension(filePaths(0)).Equals(".lnk", StringComparison.OrdinalIgnoreCase) Then
+                e.Effect = DragDropEffects.Copy
+            End If
+        End If
+
     End Sub
 
 #End Region
@@ -294,6 +387,7 @@ Friend NotInheritable Class Form1 : Inherits Form
     Private Sub SaveToolStripMenuItem_Click(sender As Object, e As EventArgs) Handles SaveToolStripMenuItem.Click
         Me.CurrentShortcut.Create()
         Me.PropertyGrid1.Refresh()
+        Me.LoadShortcutInHexBox(Me.CurrentShortcut.FullName)
     End Sub
 
     ''' ----------------------------------------------------------------------------------------------------
@@ -361,6 +455,13 @@ Friend NotInheritable Class Form1 : Inherits Form
     ''' </param>
     ''' ----------------------------------------------------------------------------------------------------
     Private Sub CloseToolStripMenuItem_Click(sender As Object, e As EventArgs) Handles CloseToolStripMenuItem.Click
+        
+        Me.HexBox1.ByteProvider = Nothing
+        If Me.currentFileByteProvider IsNot Nothing
+            Me.currentFileByteProvider.Dispose()
+            Me.currentFileByteProvider = Nothing
+        End If
+
         Me.PropertyGrid1.SelectedObject = Nothing
         Me.ToolStripStatusLabelFileName.Image = Nothing
         Me.ToolStripStatusLabelFileName.Text = ""
@@ -741,6 +842,7 @@ Friend NotInheritable Class Form1 : Inherits Form
                 Me.DarkToolStripMenuItem.Checked = True
 
             Case Else
+                ' Do nothing.
 
         End Select
     End Sub
@@ -754,7 +856,7 @@ Friend NotInheritable Class Form1 : Inherits Form
     ''' The source <see cref="ShortcutFileInfo"/> to add at the top of the MRU items.
     ''' </param>
     ''' ----------------------------------------------------------------------------------------------------
-    Private Sub UpdateMruItems(ByVal shortcut As ShortcutFileInfo)
+    Private Sub UpdateMruItems(shortcut As ShortcutFileInfo)
 
         ' Search and remove existing MRU item.
         For Each item As ToolStripMenuItem In Me.RecentToolStripMenuItem.DropDown.Items
@@ -766,9 +868,9 @@ Friend NotInheritable Class Form1 : Inherits Form
         Next
 
         ' Keep maximum capacity.
-        Const MaxMruCapacity As Integer = 10
-        If (Me.RecentToolStripMenuItem.DropDown.Items.Count = MaxMruCapacity) Then
-            Me.RecentToolStripMenuItem.DropDown.Items(MaxMruCapacity - 1).Dispose()
+        Const maxMruCapacity As Integer = 10
+        If (Me.RecentToolStripMenuItem.DropDown.Items.Count = maxMruCapacity) Then
+            Me.RecentToolStripMenuItem.DropDown.Items(maxMruCapacity - 1).Dispose()
         End If
 
         ' Retrieve shortcut's file icon.
@@ -804,7 +906,7 @@ Friend NotInheritable Class Form1 : Inherits Form
     ''' The shortcut file (.lnk) path.
     ''' </param>
     ''' ----------------------------------------------------------------------------------------------------
-    Private Sub LoadShortcutInPropertyGrid(ByVal filePath As String)
+    Private Sub LoadShortcutInPropertyGrid(filePath As String)
 
         Me.CurrentShortcut = New ShortcutFileInfo(filePath) With {.ViewMode = True}
         If Not Me.CurrentShortcut.Exists Then
@@ -812,7 +914,7 @@ Friend NotInheritable Class Form1 : Inherits Form
             Exit Sub
         End If
 
-        Me.PropertyGrid1.MoveSplitterTo(180)
+        Me.AdjustPropertyGridSplitter()
         Me.PropertyGrid1.SelectedObject = Me.CurrentShortcut
         Me.ToolStripStatusLabelFileName.Text = filePath
 
@@ -827,6 +929,39 @@ Friend NotInheritable Class Form1 : Inherits Form
         Me.PropertyGrid1.ContextMenuStrip = Me.ContextMenuStrip1
         Me.StatusStrip1.ContextMenuStrip = Me.ContextMenuStrip1
 
+        Me.LoadShortcutInHexBox(Me.CurrentShortcut.FullName)
+    End Sub
+
+    
+    ''' ----------------------------------------------------------------------------------------------------
+    ''' <summary>
+    ''' Loads a shortcut file into the <see cref="Form1.HexBox1"/> control.
+    ''' </summary>
+    ''' ----------------------------------------------------------------------------------------------------
+    ''' <param name="filePath">
+    ''' The shortcut file (.lnk) path.
+    ''' </param>
+    ''' ----------------------------------------------------------------------------------------------------
+    Private Sub LoadShortcutInHexBox(filePath As String)
+        
+        If Me.currentFileByteProvider IsNot Nothing
+            Me.currentFileByteProvider.Dispose()
+            Me.currentFileByteProvider = Nothing
+        End If
+
+        Me.currentFileByteProvider = new Be.Windows.Forms.DynamicFileByteProvider(filePath, True)
+        Me.HexBox1.ByteProvider = Nothing
+        Me.HexBox1.ByteProvider = Me.currentFileByteProvider
+
+    End Sub
+
+    Private Sub AdjustPropertyGridSplitter()
+        If Me.TabControl1.SelectedTab is Me.Tab_PropertyEditor 
+            Try
+                Me.PropertyGrid1.MoveSplitterTo(180)
+            Catch
+            End Try
+        End If
     End Sub
 
 #End Region

@@ -78,8 +78,8 @@ Namespace DevCase.Interop.Unmanaged.Win32.Interfaces
         ''' </param>
         ''' ----------------------------------------------------------------------------------------------------
         <PreserveSig()>
-        Sub Load(<[In](), MarshalAs(UnmanagedType.LPWStr)> ByVal fileName As String,
-                                                           ByVal mode As UInteger)
+        Sub Load(<[In](), MarshalAs(UnmanagedType.LPWStr)> fileName As String,
+                                                           mode As UInteger)
 
         ''' ----------------------------------------------------------------------------------------------------
         ''' <summary>
@@ -107,8 +107,8 @@ Namespace DevCase.Interop.Unmanaged.Win32.Interfaces
         ''' </param>
         ''' ----------------------------------------------------------------------------------------------------
         <PreserveSig()>
-        Sub Save(<[In](), MarshalAs(UnmanagedType.LPWStr)> ByVal fileName As String,
-                 <[In](), MarshalAs(UnmanagedType.Bool)> ByVal remember As Boolean)
+        Sub Save(<[In](), MarshalAs(UnmanagedType.LPWStr)> fileName As String,
+                 <[In](), MarshalAs(UnmanagedType.Bool)> remember As Boolean)
 
         ''' ----------------------------------------------------------------------------------------------------
         ''' <summary>
@@ -125,7 +125,7 @@ Namespace DevCase.Interop.Unmanaged.Win32.Interfaces
         ''' </param>
         ''' ----------------------------------------------------------------------------------------------------
         <PreserveSig()>
-        Sub SaveCompleted(<[In](), MarshalAs(UnmanagedType.LPWStr)> ByVal fileName As String)
+        Sub SaveCompleted(<[In](), MarshalAs(UnmanagedType.LPWStr)> fileName As String)
 
         ''' ----------------------------------------------------------------------------------------------------
         ''' <summary>
@@ -139,7 +139,7 @@ Namespace DevCase.Interop.Unmanaged.Win32.Interfaces
         ''' </param>
         ''' ----------------------------------------------------------------------------------------------------
         <PreserveSig()>
-        Sub GetCurFile(<[In](), MarshalAs(UnmanagedType.LPWStr)> ByVal fileName As String)
+        Sub GetCurFile(<[In](), MarshalAs(UnmanagedType.LPWStr)> fileName As String)
 
     End Interface
 

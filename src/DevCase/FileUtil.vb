@@ -72,7 +72,7 @@ Namespace DevCase.Core.IO.Tools
         ''' </exception>
         ''' ----------------------------------------------------------------------------------------------------
         <DebuggerStepThrough>
-        Friend Shared Sub InternalOpenInExplorer(ByVal itemPath As String)
+        Friend Shared Sub InternalOpenInExplorer(itemPath As String)
 
             Dim arguments As String
 

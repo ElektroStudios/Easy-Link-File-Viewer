@@ -78,7 +78,7 @@ Namespace DevCase.Interop.Unmanaged.Win32.Interfaces
         ''' </returns>
         ''' ----------------------------------------------------------------------------------------------------
         <MethodImpl(MethodImplOptions.InternalCall, MethodCodeType:=MethodCodeType.Runtime)>
-        Function GetDisplayName(ByVal sigdn As ShellItemGetDisplayName) As StringBuilder
+        Function GetDisplayName(sigdn As ShellItemGetDisplayName) As StringBuilder
 
         <EditorBrowsable(EditorBrowsableState.Never)>
         Function NotImplemented_GetAttributes() As UInteger

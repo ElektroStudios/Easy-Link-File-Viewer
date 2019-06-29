@@ -39,7 +39,7 @@ Friend NotInheritable Class AboutBox1 : Inherits Form
     ''' The <see cref="EventArgs"/> instance containing the event data.
     ''' </param>
     ''' ----------------------------------------------------------------------------------------------------
-    Private Sub AboutBox1_Load(ByVal sender As Object, ByVal e As EventArgs) Handles MyBase.Load
+    Private Sub AboutBox1_Load(sender As Object, e As EventArgs) Handles MyBase.Load
         ' Set the title of the form.
         Dim ApplicationTitle As String
         If (My.Application.Info.Title <> "") Then
@@ -71,7 +71,7 @@ Friend NotInheritable Class AboutBox1 : Inherits Form
     ''' The <see cref="EventArgs"/> instance containing the event data.
     ''' </param>
     ''' ----------------------------------------------------------------------------------------------------
-    Private Sub OKButton_Click(ByVal sender As Object, ByVal e As EventArgs) Handles OKButton.Click
+    Private Sub OKButton_Click(sender As Object, e As EventArgs) Handles OKButton.Click
         Me.Close()
     End Sub
 

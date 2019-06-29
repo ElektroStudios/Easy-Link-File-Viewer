@@ -78,7 +78,7 @@ Namespace DevCase.Core.Imaging.Tools
         ''' </returns>
         ''' ----------------------------------------------------------------------------------------------------
         <DebuggerStepThrough>
-        Public Shared Function ExtractIconFromDirectory(ByVal directoryPath As String) As Icon
+        Public Shared Function ExtractIconFromDirectory(directoryPath As String) As Icon
 
             ' Note that the icon returned by "SHGetFileInfo" function 
             ' is limited to "SHGetFileInfoFlags.IconSizeSmall" (16x16) 
@@ -123,7 +123,7 @@ Namespace DevCase.Core.Imaging.Tools
         ''' </returns>
         ''' ----------------------------------------------------------------------------------------------------
         <DebuggerStepThrough>
-        Public Shared Function ExtractIconFromFile(ByVal filepath As String) As Icon
+        Public Shared Function ExtractIconFromFile(filepath As String) As Icon
 
             ' Note that the icon returned by "SHGetFileInfo" function 
             ' is limited to "SHGetFileInfoFlags.IconSizeSmall" (16x16) 
@@ -171,7 +171,7 @@ Namespace DevCase.Core.Imaging.Tools
         ''' </returns>
         ''' ----------------------------------------------------------------------------------------------------
         <DebuggerStepThrough>
-        Public Shared Function ExtractIconFromFileExtension(ByVal ext As String) As Icon
+        Public Shared Function ExtractIconFromFileExtension(ext As String) As Icon
 
             ' Note that the icon returned by "SHGetFileInfo" function 
             ' is limited to "SHGetFileInfoFlags.IconSizeSmall" (16x16) 
@@ -216,8 +216,8 @@ Namespace DevCase.Core.Imaging.Tools
         ''' </param>
         ''' ----------------------------------------------------------------------------------------------------
         <DebuggerStepThrough>
-        Public Shared Function ExtractIconFromExecutableFile(ByVal filepath As String,
-                                                             ByVal iconIndex As Integer) As Icon
+        Public Shared Function ExtractIconFromExecutableFile(filepath As String,
+                                                             iconIndex As Integer) As Icon
 
             Return ImageUtil.ExtractIconFromExecutableFile(filepath, iconIndex, 0)
 
@@ -249,9 +249,9 @@ Namespace DevCase.Core.Imaging.Tools
         ''' </param>
         ''' ----------------------------------------------------------------------------------------------------
         <DebuggerStepThrough>
-        Public Shared Function ExtractIconFromExecutableFile(ByVal filepath As String,
-                                                             ByVal iconIndex As Integer,
-                                                             ByVal iconSize As Integer) As Icon
+        Public Shared Function ExtractIconFromExecutableFile(filepath As String,
+                                                             iconIndex As Integer,
+                                                             iconSize As Integer) As Icon
 
             Dim hiconLarge As IntPtr
             Dim result As Integer = NativeMethods.SHDefExtractIcon(filepath, iconIndex, 0, hiconLarge, Nothing, CUInt(iconSize))

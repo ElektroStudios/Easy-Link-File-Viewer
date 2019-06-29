@@ -19,9 +19,9 @@ Option Infer Off
 #Region " Imports "
 
 Imports System.ComponentModel
-Imports System.Linq.Expressions
-Imports System.Reflection
+Imports System.ComponentModel.Design
 Imports System.Runtime.CompilerServices
+
 Imports DevCase.Core.Application.UserInterface
 
 #End Region
@@ -61,7 +61,7 @@ Namespace DevCase.Core.Extensions
         <DebuggerStepThrough>
         <Extension>
         <EditorBrowsable(EditorBrowsableState.Always)>
-        Public Sub ForEachControl(ByVal parent As Control, ByVal recursive As Boolean, ByVal action As Action(Of Control))
+        Public Sub ForEachControl(parent As Control, recursive As Boolean, action As Action(Of Control))
             parent.ForEachControl(Of Control)(recursive, action)
         End Sub
 
@@ -90,7 +90,7 @@ Namespace DevCase.Core.Extensions
         <DebuggerStepThrough>
         <Extension>
         <EditorBrowsable(EditorBrowsableState.Always)>
-        Public Sub ForEachControl(Of T As Control)(ByVal parent As Control, ByVal recursive As Boolean, ByVal action As Action(Of Control))
+        Public Sub ForEachControl(Of T As Control)(parent As Control, recursive As Boolean, action As Action(Of Control))
             For Each ctrl As Control In parent.Controls.OfType(Of T)
                 action(ctrl)
                 If (recursive) Then
@@ -115,7 +115,7 @@ Namespace DevCase.Core.Extensions
         <DebuggerStepThrough>
         <Extension>
         <EditorBrowsable(EditorBrowsableState.Always)>
-        Public Sub SetVisualStyle(ByVal ctrl As Control, ByVal style As VisualStyle)
+        Public Sub SetVisualStyle(ctrl As Control, style As VisualStyle)
 
             Select Case style
 
@@ -146,12 +146,16 @@ Namespace DevCase.Core.Extensions
         ''' </param>
         ''' ----------------------------------------------------------------------------------------------------
         <DebuggerStepThrough>
-        Private Sub Internal_SetThemeDefault(ByVal ctrl As Control)
+        Private Sub Internal_SetThemeDefault(ctrl As Control)
 
             If ctrl.GetType() = GetType(Button) Then
                 ctrl.BackColor = Button.DefaultBackColor
                 ctrl.ForeColor = Button.DefaultForeColor
-
+                
+            ElseIf ctrl.GetType() = GetType(ByteViewer) Then
+                ctrl.BackColor = ByteViewer.DefaultBackColor
+                ctrl.ForeColor = ByteViewer.DefaultForeColor
+                
             ElseIf ctrl.GetType() = GetType(CheckBox) Then
                 ctrl.BackColor = CheckBox.DefaultBackColor
                 ctrl.ForeColor = CheckBox.DefaultForeColor
@@ -336,7 +340,9 @@ Namespace DevCase.Core.Extensions
                 ctrl.ForeColor = WebBrowserBase.DefaultForeColor
 
             Else
-                Throw New NotImplementedException($"A visual style for the specified control type is not implemented: '{ctrl.GetType().FullName}'")
+                ctrl.BackColor = Control.DefaultBackColor
+                ctrl.ForeColor = Control.DefaultForeColor
+               ' Throw New NotImplementedException($"A visual style for the specified control type is not implemented: '{ctrl.GetType().FullName}'")
 
             End If
 
@@ -352,12 +358,16 @@ Namespace DevCase.Core.Extensions
         ''' </param>
         ''' ----------------------------------------------------------------------------------------------------
         <DebuggerStepThrough>
-        Private Sub Internal_SetThemeVisualStudioDark(ByVal ctrl As Control)
+        Private Sub Internal_SetThemeVisualStudioDark(ctrl As Control)
 
             If ctrl.GetType() = GetType(Button) Then
                 ctrl.BackColor = Color.FromArgb(255, 37, 37, 38)
                 ctrl.ForeColor = Color.Gainsboro
-
+                
+            ElseIf ctrl.GetType() = GetType(ByteViewer) Then
+                ctrl.BackColor = Color.FromArgb(255, 37, 37, 38)
+                ctrl.ForeColor = Color.Gainsboro
+                
             ElseIf ctrl.GetType() = GetType(CheckBox) Then
                 ctrl.BackColor = Color.FromArgb(255, 45, 45, 48)
                 ctrl.ForeColor = Color.Gainsboro
@@ -509,7 +519,7 @@ Namespace DevCase.Core.Extensions
             ElseIf ctrl.GetType() = GetType(TabControl) Then
                 ctrl.BackColor = Color.FromArgb(255, 45, 45, 48)
                 ctrl.ForeColor = Color.Gainsboro
-
+                
             ElseIf ctrl.GetType() = GetType(TabPage) Then
                 ctrl.BackColor = Color.FromArgb(255, 45, 45, 48)
                 ctrl.ForeColor = Color.Gainsboro
@@ -547,7 +557,10 @@ Namespace DevCase.Core.Extensions
                 ctrl.ForeColor = Color.Gainsboro
 
             Else
-                Throw New NotImplementedException($"A visual style for the specified control type is not implemented: '{ctrl.GetType().FullName}'")
+                ctrl.BackColor = Color.FromArgb(255, 37, 37, 38)
+                ctrl.ForeColor = Color.Gainsboro
+
+              '  Throw New NotImplementedException($"A visual style for the specified control type is not implemented: '{ctrl.GetType().FullName}'")
 
             End If
 
@@ -573,7 +586,7 @@ Namespace DevCase.Core.Extensions
         ''' The <see cref="EventArgs"/> instance containing the event data.
         ''' </param>
         ''' ----------------------------------------------------------------------------------------------------
-        Private Sub ToolStripMenuItem_MouseEnter_VisualStudioDark(ByVal sender As Object, ByVal e As EventArgs)
+        Private Sub ToolStripMenuItem_MouseEnter_VisualStudioDark(sender As Object, e As EventArgs)
             Dim item As ToolStripMenuItem = DirectCast(sender, ToolStripMenuItem)
             item.ForeColor = Color.Black
         End Sub
@@ -594,7 +607,7 @@ Namespace DevCase.Core.Extensions
         ''' The <see cref="EventArgs"/> instance containing the event data.
         ''' </param>
         ''' ----------------------------------------------------------------------------------------------------
-        Private Sub ToolStripMenuItem_MouseLeave_VisualStudioDark(ByVal sender As Object, ByVal e As EventArgs)
+        Private Sub ToolStripMenuItem_MouseLeave_VisualStudioDark(sender As Object, e As EventArgs)
             Dim item As ToolStripMenuItem = DirectCast(sender, ToolStripMenuItem)
             If item.Pressed Then
                 item.ForeColor = Color.Black
@@ -619,7 +632,7 @@ Namespace DevCase.Core.Extensions
         ''' The <see cref="EventArgs"/> instance containing the event data.
         ''' </param>
         ''' ----------------------------------------------------------------------------------------------------
-        Private Sub ToolStripMenuItem_DropDownClosed_VisualStudioDark(ByVal sender As Object, ByVal e As EventArgs)
+        Private Sub ToolStripMenuItem_DropDownClosed_VisualStudioDark(sender As Object, e As EventArgs)
             Dim item As ToolStripMenuItem = DirectCast(sender, ToolStripMenuItem)
             item.ForeColor = Color.Gainsboro
         End Sub

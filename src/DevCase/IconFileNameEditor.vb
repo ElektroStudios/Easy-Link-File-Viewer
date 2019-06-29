@@ -58,7 +58,7 @@ Namespace DevCase.Core.Design
         ''' <param name="dlg">
         ''' The <see cref="OpenFileDialog"/> to use to select a file name.
         ''' </param>
-        Protected Overrides Sub InitializeDialog(ByVal dlg As OpenFileDialog)
+        Protected Overrides Sub InitializeDialog(dlg As OpenFileDialog)
             MyBase.InitializeDialog(dlg)
 
             With dlg
