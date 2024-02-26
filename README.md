@@ -67,7 +67,7 @@ It is an alternative to the built-in shell-extension in Windows OS.
 
 ## 🤖 Getting Started
 
-Download the latest release by clicking [here](https://github.com/ElektroStudios/Easy-Link-File-Viewer/releases/latest),
+Download the latest release by clicking [here](https://github.com/ElektroStudios/Easy-Link-File-Viewer/releases/latest).
 
 ## 🔄 Change Log
 
