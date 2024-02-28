@@ -145,6 +145,7 @@ Friend Module JotUtil
         JotUtil.menuItemTrackingConfig.Track(My.Forms.Form1.DefaultToolStripMenuItem)
         JotUtil.menuItemTrackingConfig.Track(My.Forms.Form1.DarkToolStripMenuItem)
         JotUtil.menuItemTrackingConfig.Track(My.Forms.Form1.ShowToolbarToolStripMenuItem)
+        JotUtil.menuItemTrackingConfig.Track(My.Forms.Form1.AddProgramShortcutToExplorersContextmenuToolStripMenuItem)
         JotUtil.toolStripComboBoxTrackingConfig.Track(My.Forms.Form1.ToolStripComboBoxFontSize)
     End Sub
 

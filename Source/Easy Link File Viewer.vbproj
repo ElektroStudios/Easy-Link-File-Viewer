@@ -115,6 +115,7 @@
     <Compile Include="DevCase\FileOrFolderNameEditor.vb" />
     <Compile Include="DevCase\IconFileNameEditor.vb" />
     <Compile Include="JotUtil.vb" />
+    <Compile Include="DevCase\RegistryUtil.vb" />
     <Compile Include="UI\AboutBox1.Designer.vb">
       <DependentUpon>AboutBox1.vb</DependentUpon>
     </Compile>

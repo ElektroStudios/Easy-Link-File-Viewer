@@ -43,6 +43,7 @@ Partial Friend Class Form1
         Me.DarkToolStripMenuItem = New System.Windows.Forms.ToolStripMenuItem()
         Me.ShowToolbarToolStripMenuItem = New System.Windows.Forms.ToolStripMenuItem()
         Me.RememberWindowSizeAndPosToolStripMenuItem = New System.Windows.Forms.ToolStripMenuItem()
+        Me.AddProgramShortcutToExplorersContextmenuToolStripMenuItem = New System.Windows.Forms.ToolStripMenuItem()
         Me.AboutToolStripMenuItem = New System.Windows.Forms.ToolStripMenuItem()
         Me.ContextMenuStrip1 = New System.Windows.Forms.ContextMenuStrip(Me.components)
         Me.OpenShortcutMenuItem = New System.Windows.Forms.ToolStripMenuItem()
@@ -160,7 +161,7 @@ Partial Friend Class Form1
         '
         'SettingsToolStripMenuItem
         '
-        Me.SettingsToolStripMenuItem.DropDownItems.AddRange(New System.Windows.Forms.ToolStripItem() {Me.FontSizeToolStripMenuItem, Me.VisualThemeToolStripMenuItem, Me.ShowToolbarToolStripMenuItem, Me.RememberWindowSizeAndPosToolStripMenuItem})
+        Me.SettingsToolStripMenuItem.DropDownItems.AddRange(New System.Windows.Forms.ToolStripItem() {Me.FontSizeToolStripMenuItem, Me.VisualThemeToolStripMenuItem, Me.ShowToolbarToolStripMenuItem, Me.RememberWindowSizeAndPosToolStripMenuItem, Me.AddProgramShortcutToExplorersContextmenuToolStripMenuItem})
         Me.SettingsToolStripMenuItem.Image = Global.My.Resources.Resources.Settings_16x
         Me.SettingsToolStripMenuItem.Name = "SettingsToolStripMenuItem"
         Me.SettingsToolStripMenuItem.Size = New System.Drawing.Size(86, 23)
@@ -171,7 +172,7 @@ Partial Friend Class Form1
         Me.FontSizeToolStripMenuItem.DropDownItems.AddRange(New System.Windows.Forms.ToolStripItem() {Me.ToolStripComboBoxFontSize})
         Me.FontSizeToolStripMenuItem.Image = Global.My.Resources.Resources.FontSize_16x
         Me.FontSizeToolStripMenuItem.Name = "FontSizeToolStripMenuItem"
-        Me.FontSizeToolStripMenuItem.Size = New System.Drawing.Size(304, 24)
+        Me.FontSizeToolStripMenuItem.Size = New System.Drawing.Size(343, 24)
         Me.FontSizeToolStripMenuItem.Text = "&Font Size"
         '
         'ToolStripComboBoxFontSize
@@ -186,7 +187,7 @@ Partial Friend Class Form1
         Me.VisualThemeToolStripMenuItem.DropDownItems.AddRange(New System.Windows.Forms.ToolStripItem() {Me.DefaultToolStripMenuItem, Me.DarkToolStripMenuItem})
         Me.VisualThemeToolStripMenuItem.Image = Global.My.Resources.Resources.ColorPalette_16x
         Me.VisualThemeToolStripMenuItem.Name = "VisualThemeToolStripMenuItem"
-        Me.VisualThemeToolStripMenuItem.Size = New System.Drawing.Size(304, 24)
+        Me.VisualThemeToolStripMenuItem.Size = New System.Drawing.Size(343, 24)
         Me.VisualThemeToolStripMenuItem.Text = "&Visual Theme"
         '
         'DefaultToolStripMenuItem
@@ -212,7 +213,7 @@ Partial Friend Class Form1
         Me.ShowToolbarToolStripMenuItem.CheckOnClick = True
         Me.ShowToolbarToolStripMenuItem.Image = Global.My.Resources.Resources.ToolBar_16x
         Me.ShowToolbarToolStripMenuItem.Name = "ShowToolbarToolStripMenuItem"
-        Me.ShowToolbarToolStripMenuItem.Size = New System.Drawing.Size(304, 24)
+        Me.ShowToolbarToolStripMenuItem.Size = New System.Drawing.Size(343, 24)
         Me.ShowToolbarToolStripMenuItem.Text = "Show Toolbar"
         '
         'RememberWindowSizeAndPosToolStripMenuItem
@@ -220,8 +221,15 @@ Partial Friend Class Form1
         Me.RememberWindowSizeAndPosToolStripMenuItem.CheckOnClick = True
         Me.RememberWindowSizeAndPosToolStripMenuItem.Image = Global.My.Resources.Resources.AutosizeOptimize_16x
         Me.RememberWindowSizeAndPosToolStripMenuItem.Name = "RememberWindowSizeAndPosToolStripMenuItem"
-        Me.RememberWindowSizeAndPosToolStripMenuItem.Size = New System.Drawing.Size(304, 24)
+        Me.RememberWindowSizeAndPosToolStripMenuItem.Size = New System.Drawing.Size(343, 24)
         Me.RememberWindowSizeAndPosToolStripMenuItem.Text = "Remember Window Size and Position"
+        '
+        'AddProgramShortcutToExplorersContextmenuToolStripMenuItem
+        '
+        Me.AddProgramShortcutToExplorersContextmenuToolStripMenuItem.CheckOnClick = True
+        Me.AddProgramShortcutToExplorersContextmenuToolStripMenuItem.Name = "AddProgramShortcutToExplorersContextmenuToolStripMenuItem"
+        Me.AddProgramShortcutToExplorersContextmenuToolStripMenuItem.Size = New System.Drawing.Size(343, 24)
+        Me.AddProgramShortcutToExplorersContextmenuToolStripMenuItem.Text = "Add Explorer's context-menu entry for *.lnk"
         '
         'AboutToolStripMenuItem
         '
@@ -325,7 +333,7 @@ Partial Friend Class Form1
         Me.TabControl1.Dock = System.Windows.Forms.DockStyle.Fill
         Me.TabControl1.Location = New System.Drawing.Point(3, 33)
         Me.TabControl1.Name = "TabControl1"
-        Me.TabControl1.SelectedIndex = 1
+        Me.TabControl1.SelectedIndex = 0
         Me.TabControl1.Size = New System.Drawing.Size(741, 387)
         Me.TabControl1.TabIndex = 6
         Me.TabControl1.Tabs.Add(Me.Tab_PropertyEditor)
@@ -337,9 +345,9 @@ Partial Friend Class Form1
         '
         Me.Tab_PropertyEditor.Controls.Add(Me.PropertyGrid1)
         Me.Tab_PropertyEditor.Icon = Global.My.Resources.Resources.EditPage_16x
-        Me.Tab_PropertyEditor.Location = New System.Drawing.Point(0, 0)
+        Me.Tab_PropertyEditor.Location = New System.Drawing.Point(1, 25)
         Me.Tab_PropertyEditor.Name = "Tab_PropertyEditor"
-        Me.Tab_PropertyEditor.Size = New System.Drawing.Size(0, 0)
+        Me.Tab_PropertyEditor.Size = New System.Drawing.Size(739, 361)
         Me.Tab_PropertyEditor.Text = "Editor"
         '
         'PropertyGrid1
@@ -349,7 +357,7 @@ Partial Friend Class Form1
         Me.PropertyGrid1.Font = New System.Drawing.Font("Microsoft Sans Serif", 10.0!)
         Me.PropertyGrid1.Location = New System.Drawing.Point(0, 0)
         Me.PropertyGrid1.Name = "PropertyGrid1"
-        Me.PropertyGrid1.Size = New System.Drawing.Size(0, 0)
+        Me.PropertyGrid1.Size = New System.Drawing.Size(739, 361)
         Me.PropertyGrid1.TabIndex = 1
         '
         'Tab_HexViewer
@@ -515,4 +523,5 @@ Partial Friend Class Form1
     Friend WithEvents SaveAsToolBarMenuItem As ToolStripMenuItem
     Friend WithEvents CloseToolBarMenuItem As ToolStripMenuItem
     Friend WithEvents TableLayoutPanel1 As TableLayoutPanel
+    Friend WithEvents AddProgramShortcutToExplorersContextmenuToolStripMenuItem As ToolStripMenuItem
 End Class

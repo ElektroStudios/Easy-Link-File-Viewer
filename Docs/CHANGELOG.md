@@ -3,7 +3,9 @@
 ## v1.5 *(currently in development)* 🆕
 
 #### 🚀 New Features:
- - Added a new option "Settings -> Remember Window Size and Position". 
+ - Added support for opening \*.lnk files from command-line. 
+ - Added a new option: "Settings -> Remember Window Size and Position". 
+ - Added a new option: "Settings -> Add Explorer's context-menu entry for *.lnk". Solves Issue [#2](https://github.com/ElektroStudios/Easy-Link-File-Viewer/issues/2)
  - Added an icons toolbar below the top menu strip to have faster access to the "File" menu commands. Solves Issue [#8](https://github.com/ElektroStudios/Easy-Link-File-Viewer/issues/8)
 
 #### 🛠️ Fixes:

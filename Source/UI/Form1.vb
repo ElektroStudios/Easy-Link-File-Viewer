@@ -25,6 +25,7 @@ Imports DevCase.Core.IO
 Imports DevCase.Core.IO.Tools
 Imports DevCase.Core.Imaging.Tools
 Imports Manina.Windows.Forms
+Imports Microsoft.Win32
 
 #End Region
 
@@ -98,7 +99,7 @@ Friend NotInheritable Class Form1 : Inherits Form
         Me.ToolStripStatusLabelFileName.Text = ""
         Me.AdjustCorrectTableLayoutPanelRowSizes()
         'Me.ToolStripComboBoxFontSize.SelectedItem = CStr(My.Settings.FontSize)
-        '  Me.LoadVisualTheme()
+        'Me.LoadVisualTheme()
 
         ' Load file from command-line arguments.
         If My.Application.CommandLineArgs.Any() Then
@@ -628,6 +629,39 @@ Friend NotInheritable Class Form1 : Inherits Form
 
     End Sub
 
+    ''' ----------------------------------------------------------------------------------------------------
+    ''' <summary>
+    ''' Handles the <see cref="ToolStripMenuItem.CheckedChanged"/> event of the <see cref="Form1.AddProgramShortcutToExplorersContextmenuToolStripMenuItem"/> control.
+    ''' </summary>
+    ''' ----------------------------------------------------------------------------------------------------
+    ''' <param name="sender">
+    ''' The source of the event.
+    ''' </param>
+    ''' 
+    ''' <param name="e">
+    ''' The <see cref="EventArgs"/> instance containing the event data.
+    ''' </param>
+    ''' ----------------------------------------------------------------------------------------------------
+    Private Sub AddProgramShortcutToExplorersContextmenuToolStripMenuItem_CheckedChanged(sender As Object, e As EventArgs) _
+        Handles AddProgramShortcutToExplorersContextmenuToolStripMenuItem.CheckedChanged
+
+        Dim executablePath As String = Application.ExecutablePath()
+        Dim fileType As String = "lnkfile"
+        Dim keyName As String = "OpenInEasyLinkFileViewer"
+        Dim text As String = $"Open in Easy Link File Viewer"
+        Dim position As String = "middle"
+        Dim icon As String = $"{executablePath},0"
+        Dim command As String = $"""{executablePath}"" ""%1"""
+
+        Dim item As ToolStripMenuItem = DirectCast(sender, ToolStripMenuItem)
+        If item.Checked Then
+            RegistryUtil.CreateFileTypeRegistryMenuEntry(fileType, keyName, text, position, icon, command)
+        Else
+            RegistryUtil.DeleteFileTypeRegistryMenuEntry(fileType, keyName, throwOnMissingsubKey:=False)
+        End If
+
+    End Sub
+
 #End Region
 
 #Region " About Menu "
@@ -996,14 +1030,14 @@ Friend NotInheritable Class Form1 : Inherits Form
     ''' ----------------------------------------------------------------------------------------------------
     Private Sub LoadShortcutInPropertyGrid(filePath As String)
 
-        Me.CurrentShortcut = New ShortcutFileInfo(filePath) With {.ViewMode = True}
-        If Not Me.CurrentShortcut.Exists Then
-            MessageBox.Show(Me, $"The lnk file does not exist: {Me.CurrentShortcut.FullName}", Me.Name, MessageBoxButtons.OK, MessageBoxIcon.Error)
+        Me.currentShortcut = New ShortcutFileInfo(filePath) With {.ViewMode = True}
+        If Not Me.currentShortcut.Exists Then
+            MessageBox.Show(Me, $"The lnk file does not exist: {Me.currentShortcut.FullName}", Me.Name, MessageBoxButtons.OK, MessageBoxIcon.Error)
             Exit Sub
         End If
 
         Me.AdjustPropertyGridSplitter()
-        Me.PropertyGrid1.SelectedObject = Me.CurrentShortcut
+        Me.PropertyGrid1.SelectedObject = Me.currentShortcut
         Me.ToolStripStatusLabelFileName.Text = filePath
 
         Me.RecentToolStripMenuItem.Enabled = True
@@ -1015,16 +1049,16 @@ Friend NotInheritable Class Form1 : Inherits Form
         Me.SaveAsToolBarMenuItem.Enabled = True
         Me.CloseToolBarMenuItem.Enabled = True
 
-        Me.UpdateMruItems(Me.CurrentShortcut)
+        Me.UpdateMruItems(Me.currentShortcut)
         Me.ToolStripStatusLabelIcon.Image = Me.RecentToolStripMenuItem.DropDown.Items(0).Image
 
         Me.PropertyGrid1.ContextMenuStrip = Me.ContextMenuStrip1
         Me.StatusStrip1.ContextMenuStrip = Me.ContextMenuStrip1
 
-        Me.LoadShortcutInHexBox(Me.CurrentShortcut.FullName)
+        Me.LoadShortcutInHexBox(Me.currentShortcut.FullName)
     End Sub
 
-    
+
     ''' ----------------------------------------------------------------------------------------------------
     ''' <summary>
     ''' Loads a shortcut file into the <see cref="Form1.HexBox1"/> control.
@@ -1035,20 +1069,20 @@ Friend NotInheritable Class Form1 : Inherits Form
     ''' </param>
     ''' ----------------------------------------------------------------------------------------------------
     Private Sub LoadShortcutInHexBox(filePath As String)
-        
-        If Me.currentFileByteProvider IsNot Nothing
+
+        If Me.currentFileByteProvider IsNot Nothing Then
             Me.currentFileByteProvider.Dispose()
             Me.currentFileByteProvider = Nothing
         End If
 
-        Me.currentFileByteProvider = new Be.Windows.Forms.DynamicFileByteProvider(filePath, True)
+        Me.currentFileByteProvider = New Be.Windows.Forms.DynamicFileByteProvider(filePath, True)
         Me.HexBox1.ByteProvider = Nothing
         Me.HexBox1.ByteProvider = Me.currentFileByteProvider
 
     End Sub
 
     Private Sub AdjustPropertyGridSplitter()
-        If Me.TabControl1.SelectedTab is Me.Tab_PropertyEditor 
+        If Me.TabControl1.SelectedTab Is Me.Tab_PropertyEditor Then
             Try
                 Me.PropertyGrid1.MoveSplitterTo(180)
             Catch
