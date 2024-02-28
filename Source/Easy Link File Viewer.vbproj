@@ -12,9 +12,10 @@
     <AssemblyName>Easy Link File Viewer</AssemblyName>
     <FileAlignment>512</FileAlignment>
     <MyType>WindowsForms</MyType>
-    <TargetFrameworkVersion>v4.7</TargetFrameworkVersion>
+    <TargetFrameworkVersion>v4.8</TargetFrameworkVersion>
     <AutoGenerateBindingRedirects>true</AutoGenerateBindingRedirects>
     <Deterministic>true</Deterministic>
+    <TargetFrameworkProfile />
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|AnyCPU' ">
     <PlatformTarget>AnyCPU</PlatformTarget>
@@ -60,8 +61,17 @@
       <HintPath>packages\Be.Windows.Forms.HexBox.1.6.1\lib\net40\Be.Windows.Forms.HexBox.dll</HintPath>
       <SpecificVersion>False</SpecificVersion>
     </Reference>
+    <Reference Include="Jot, Version=2.1.17.0, Culture=neutral, PublicKeyToken=6b498f69c5f88322, processorArchitecture=MSIL">
+      <HintPath>packages\Jot.2.1.17\lib\netstandard2.0\Jot.dll</HintPath>
+      <SpecificVersion>False</SpecificVersion>
+    </Reference>
+    <Reference Include="Newtonsoft.Json, Version=13.0.0.0, Culture=neutral, PublicKeyToken=30ad4fe6b2a6aeed, processorArchitecture=MSIL">
+      <HintPath>packages\Newtonsoft.Json.13.0.3\lib\net45\Newtonsoft.Json.dll</HintPath>
+      <SpecificVersion>False</SpecificVersion>
+    </Reference>
     <Reference Include="PagedControl, Version=2.2.0.0, Culture=neutral, processorArchitecture=MSIL">
       <HintPath>packages\PagedControl.2.2.0\lib\net35\PagedControl.dll</HintPath>
+      <SpecificVersion>False</SpecificVersion>
     </Reference>
     <Reference Include="System" />
     <Reference Include="System.Design" />
@@ -71,8 +81,9 @@
     <Reference Include="System.Core" />
     <Reference Include="System.Xml" />
     <Reference Include="System.Xml.Linq" />
-    <Reference Include="TabControl, Version=2.0.1.0, Culture=neutral, processorArchitecture=MSIL">
-      <HintPath>packages\TabControl.2.0.1\lib\net35\TabControl.dll</HintPath>
+    <Reference Include="TabControl, Version=2.1.2.0, Culture=neutral, processorArchitecture=MSIL">
+      <HintPath>packages\TabControl.2.1.2\lib\net35\TabControl.dll</HintPath>
+      <SpecificVersion>False</SpecificVersion>
     </Reference>
   </ItemGroup>
   <ItemGroup>
@@ -89,6 +100,7 @@
     <Import Include="System.Threading.Tasks" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="ApplicationEvents.vb" />
     <Compile Include="DevCase\CultureUtil.vb" />
     <Compile Include="DevCase\FileUtil.vb" />
     <Compile Include="DevCase\ShortcutFileInfoIconIndexEditor.vb" />
@@ -102,6 +114,7 @@
     </Compile>
     <Compile Include="DevCase\FileOrFolderNameEditor.vb" />
     <Compile Include="DevCase\IconFileNameEditor.vb" />
+    <Compile Include="JotUtil.vb" />
     <Compile Include="UI\AboutBox1.Designer.vb">
       <DependentUpon>AboutBox1.vb</DependentUpon>
     </Compile>
@@ -137,6 +150,7 @@
     <Compile Include="My Project\Application.Designer.vb">
       <AutoGen>True</AutoGen>
       <DependentUpon>Application.myapp</DependentUpon>
+      <DesignTime>True</DesignTime>
     </Compile>
     <Compile Include="My Project\Resources.Designer.vb">
       <AutoGen>True</AutoGen>
@@ -178,9 +192,13 @@
   </ItemGroup>
   <ItemGroup>
     <Content Include="App.ico" />
+    <None Include="Resources\ToolBar_16x.png" />
+    <None Include="Resources\SaveFileDialogControl_16x.png" />
+    <None Include="Resources\SaveFileDialogControl_32x.png" />
+    <None Include="Resources\AutosizeOptimize_16x.png" />
+    <None Include="packages.config" />
     <None Include="Resources\Registry_16x.png" />
     <None Include="Resources\EditPage_16x.png" />
-    <None Include="packages.config" />
     <None Include="Resources\NewFile_16x.png" />
     <None Include="Resources\FontSize_16x.png" />
     <None Include="Resources\FolderOpen_16x.png" />

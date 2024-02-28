@@ -10,10 +10,10 @@ Imports System.Runtime.InteropServices
 ' Review the values of the assembly attributes
 
 <Assembly: AssemblyTitle("Easy Link File Viewer")>
-<Assembly: AssemblyDescription("A program to read and edit shortcut (.lnk) files.")>
+<Assembly: AssemblyDescription("A desktop application to read, modify and write shortcut files (.lnk) with ease.")>
 <Assembly: AssemblyCompany("ElektroStudios")>
 <Assembly: AssemblyProduct("Easy Link File Viewer")>
-<Assembly: AssemblyCopyright("Copyright © ElektroStudios 2019")>
+<Assembly: AssemblyCopyright("Copyright © ElektroStudios 2018-2024")>
 <Assembly: AssemblyTrademark("")>
 
 <Assembly: ComVisible(False)>
@@ -32,6 +32,6 @@ Imports System.Runtime.InteropServices
 ' by using the '*' as shown below:
 ' <Assembly: AssemblyVersion("1.0.*")>
 
-<Assembly: AssemblyVersion("1.4.0.0")>
-<Assembly: AssemblyFileVersion("1.4.0.0")>
+<Assembly: AssemblyVersion("1.5.0.0")>
+<Assembly: AssemblyFileVersion("1.5.0.0")>
 <Assembly: NeutralResourcesLanguage("en")>

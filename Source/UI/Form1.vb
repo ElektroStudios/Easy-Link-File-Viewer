@@ -24,6 +24,7 @@ Imports DevCase.Core.Extensions
 Imports DevCase.Core.IO
 Imports DevCase.Core.IO.Tools
 Imports DevCase.Core.Imaging.Tools
+Imports Manina.Windows.Forms
 
 #End Region
 
@@ -44,14 +45,14 @@ Friend NotInheritable Class Form1 : Inherits Form
     ''' </summary>
     ''' ----------------------------------------------------------------------------------------------------
     Private currentShortcut As ShortcutFileInfo
-    
+
     ''' ----------------------------------------------------------------------------------------------------
     ''' <summary>
     ''' The current <see cref="Be.Windows.Forms.DynamicFileByteProvider"/> instance that is loaded in the <see cref="Form1.HexBox1"/> control.
     ''' </summary>
     ''' ----------------------------------------------------------------------------------------------------
     Private currentFileByteProvider As Be.Windows.Forms.DynamicFileByteProvider
- 
+
 #End Region
 
 #Region " Constructors "
@@ -91,19 +92,22 @@ Friend NotInheritable Class Form1 : Inherits Form
     ''' </param>
     ''' ----------------------------------------------------------------------------------------------------
     Private Sub Form1_Load(sender As Object, e As EventArgs) Handles MyBase.Load
+        Me.Text = $"{My.Application.Info.Title} v{My.Application.Info.Version.Major}.{My.Application.Info.Version.Minor}"
+
         Me.ToolStripStatusLabelIcon.Text = ""
         Me.ToolStripStatusLabelFileName.Text = ""
-        Me.ToolStripComboBoxFontSize.SelectedItem = CStr(My.Settings.FontSize)
-
-        Me.LoadVisualTheme()
+        Me.AdjustCorrectTableLayoutPanelRowSizes()
+        'Me.ToolStripComboBoxFontSize.SelectedItem = CStr(My.Settings.FontSize)
+        '  Me.LoadVisualTheme()
 
         ' Load file from command-line arguments.
-        If My.Application.CommandLineArgs.Any()
+        If My.Application.CommandLineArgs.Any() Then
             Dim data As New DataObject(DataFormats.FileDrop, My.Application.CommandLineArgs.ToArray())
-            Dim args As new DragEventArgs(data, Nothing, 0, 0, Nothing, DragDropEffects.Copy)
+            Dim args As New DragEventArgs(data, Nothing, 0, 0, Nothing, DragDropEffects.Copy)
             Me.PropertyGrid1_DragDrop(Me, args)
         End If
 
+        JotUtil.StartTrackingMenuItems()
     End Sub
 
     ''' ----------------------------------------------------------------------------------------------------
@@ -120,10 +124,14 @@ Friend NotInheritable Class Form1 : Inherits Form
     ''' </param>
     ''' ----------------------------------------------------------------------------------------------------
     Private Sub Form1_Shown(sender As Object, e As EventArgs) Handles MyBase.Shown
-        Dim minWidth As Integer = (From item As ToolStripMenuItem In Me.MenuStrip1.Items.Cast(Of ToolStripMenuItem)
-                                   Select item.Width + item.Padding.Horizontal).Sum()
+        'Dim minWidth As Integer = (From item As ToolStripMenuItem In Me.MenuStrip1.Items.Cast(Of ToolStripMenuItem)
+        '                           Select item.Width + item.Padding.Horizontal).Sum()
 
-        Me.MinimumSize = New Size(minWidth, Me.Height)
+        'Me.MinimumSize = New Size(minWidth, Me.Height)
+        Me.MinimumSize = New Size(512, 512)
+        If String.IsNullOrEmpty(Me.ToolStripComboBoxFontSize.Text) Then
+            Me.ToolStripComboBoxFontSize.Text = "10"
+        End If
     End Sub
 
     ''' ----------------------------------------------------------------------------------------------------
@@ -148,7 +156,7 @@ Friend NotInheritable Class Form1 : Inherits Form
 #End Region
 
 #Region " Tab Control "
-    
+
     ''' ----------------------------------------------------------------------------------------------------
     ''' <summary>
     ''' Handles the <see cref="Manina.Windows.Forms.PagedControl.PageChanged"/> event of the <see cref="Form1.TabControl1"/> control.
@@ -163,11 +171,11 @@ Friend NotInheritable Class Form1 : Inherits Form
     ''' </param>
     ''' ----------------------------------------------------------------------------------------------------
     Private Sub TabControl1_TabIndexChanged(sender As Object, e As Manina.Windows.Forms.PageChangedEventArgs) Handles TabControl1.PageChanged
-        
+
         Me.AdjustPropertyGridSplitter()
 
     End Sub
-    
+
 #End Region
 
 #Region " PropertyGrid "
@@ -240,7 +248,7 @@ Friend NotInheritable Class Form1 : Inherits Form
     End Sub
 
 #End Region
-    
+
 #Region " Hexadecimal Box (HexBox) "
 
     ''' ----------------------------------------------------------------------------------------------------
@@ -257,7 +265,7 @@ Friend NotInheritable Class Form1 : Inherits Form
     ''' </param>
     ''' ----------------------------------------------------------------------------------------------------
     Private Sub HexBox1_DragDrop(sender As Object, e As DragEventArgs) Handles HexBox1.DragDrop
-        
+
         If (e.Effect = DragDropEffects.Copy) Then
             Dim filePath As String = DirectCast(e.Data.GetData(DataFormats.FileDrop), String()).Single()
             Dim fi As New FileInfo(filePath)
@@ -311,7 +319,8 @@ Friend NotInheritable Class Form1 : Inherits Form
     ''' The <see cref="EventArgs"/> instance containing the event data.
     ''' </param>
     ''' ----------------------------------------------------------------------------------------------------
-    Private Sub NewToolStripMenuItem_Click(sender As Object, e As EventArgs) Handles NewToolStripMenuItem.Click
+    Private Sub NewToolStripMenuItem_Click(sender As Object, e As EventArgs) _
+        Handles NewToolStripMenuItem.Click, NewToolBarMenuItem.Click
 
         Using dlg As New SaveFileDialog()
             dlg.FileName = "New Shortcut.lnk"
@@ -351,7 +360,8 @@ Friend NotInheritable Class Form1 : Inherits Form
     ''' The <see cref="EventArgs"/> instance containing the event data.
     ''' </param>
     ''' ----------------------------------------------------------------------------------------------------
-    Private Sub OpenToolStripMenuItem_Click(sender As Object, e As EventArgs) Handles OpenToolStripMenuItem.Click
+    Private Sub OpenToolStripMenuItem_Click(sender As Object, e As EventArgs) _
+        Handles OpenToolStripMenuItem.Click, OpenToolBarMenuItem.Click
 
         Using dlg As New OpenFileDialog()
             dlg.DefaultExt = "lnk"
@@ -384,10 +394,12 @@ Friend NotInheritable Class Form1 : Inherits Form
     ''' The <see cref="EventArgs"/> instance containing the event data.
     ''' </param>
     ''' ----------------------------------------------------------------------------------------------------
-    Private Sub SaveToolStripMenuItem_Click(sender As Object, e As EventArgs) Handles SaveToolStripMenuItem.Click
-        Me.CurrentShortcut.Create()
+    Private Sub SaveToolStripMenuItem_Click(sender As Object, e As EventArgs) _
+        Handles SaveToolStripMenuItem.Click, SaveToolBarMenuItem.Click
+
+        Me.currentShortcut.Create()
         Me.PropertyGrid1.Refresh()
-        Me.LoadShortcutInHexBox(Me.CurrentShortcut.FullName)
+        Me.LoadShortcutInHexBox(Me.currentShortcut.FullName)
     End Sub
 
     ''' ----------------------------------------------------------------------------------------------------
@@ -403,10 +415,11 @@ Friend NotInheritable Class Form1 : Inherits Form
     ''' The <see cref="EventArgs"/> instance containing the event data.
     ''' </param>
     ''' ----------------------------------------------------------------------------------------------------
-    Private Sub SaveAsToolStripMenuItem_Click(sender As Object, e As EventArgs) Handles SaveAsToolStripMenuItem.Click
+    Private Sub SaveAsToolStripMenuItem_Click(sender As Object, e As EventArgs) _
+        Handles SaveAsToolStripMenuItem.Click, SaveAsToolBarMenuItem.Click
 
         Using dlg As New SaveFileDialog()
-            dlg.FileName = Me.CurrentShortcut.FullName
+            dlg.FileName = Me.currentShortcut.FullName
             dlg.DefaultExt = "lnk"
             dlg.DereferenceLinks = False
             dlg.Filter = "Shortcut files (*.lnk)|*.lnk"
@@ -419,21 +432,21 @@ Friend NotInheritable Class Form1 : Inherits Form
 
                 Dim dstShortcut As New ShortcutFileInfo(dlg.FileName) With {.ViewMode = True}
                 With dstShortcut
-                    .Description = Me.CurrentShortcut.Description
-                    .Hotkey = Me.CurrentShortcut.Hotkey
-                    .Icon = Me.CurrentShortcut.Icon
-                    .IconIndex = Me.CurrentShortcut.IconIndex
-                    .Target = Me.CurrentShortcut.Target
-                    .TargetArguments = Me.CurrentShortcut.TargetArguments
-                    .WindowState = Me.CurrentShortcut.WindowState
-                    .WorkingDirectory = Me.CurrentShortcut.WorkingDirectory
+                    .Description = Me.currentShortcut.Description
+                    .Hotkey = Me.currentShortcut.Hotkey
+                    .Icon = Me.currentShortcut.Icon
+                    .IconIndex = Me.currentShortcut.IconIndex
+                    .Target = Me.currentShortcut.Target
+                    .TargetArguments = Me.currentShortcut.TargetArguments
+                    .WindowState = Me.currentShortcut.WindowState
+                    .WorkingDirectory = Me.currentShortcut.WorkingDirectory
 
                     .Create()
 
-                    .Attributes = Me.CurrentShortcut.Attributes
-                    .CreationTime = Me.CurrentShortcut.CreationTime
-                    .LastAccessTime = Me.CurrentShortcut.LastAccessTime
-                    .LastWriteTime = Me.CurrentShortcut.LastWriteTime
+                    .Attributes = Me.currentShortcut.Attributes
+                    .CreationTime = Me.currentShortcut.CreationTime
+                    .LastAccessTime = Me.currentShortcut.LastAccessTime
+                    .LastWriteTime = Me.currentShortcut.LastWriteTime
                 End With
 
             End If
@@ -454,10 +467,11 @@ Friend NotInheritable Class Form1 : Inherits Form
     ''' The <see cref="EventArgs"/> instance containing the event data.
     ''' </param>
     ''' ----------------------------------------------------------------------------------------------------
-    Private Sub CloseToolStripMenuItem_Click(sender As Object, e As EventArgs) Handles CloseToolStripMenuItem.Click
-        
+    Private Sub CloseToolStripMenuItem_Click(sender As Object, e As EventArgs) _
+        Handles CloseToolStripMenuItem.Click, CloseToolBarMenuItem.Click
+
         Me.HexBox1.ByteProvider = Nothing
-        If Me.currentFileByteProvider IsNot Nothing
+        If Me.currentFileByteProvider IsNot Nothing Then
             Me.currentFileByteProvider.Dispose()
             Me.currentFileByteProvider = Nothing
         End If
@@ -469,6 +483,10 @@ Friend NotInheritable Class Form1 : Inherits Form
         Me.SaveToolStripMenuItem.Enabled = False
         Me.SaveAsToolStripMenuItem.Enabled = False
         Me.CloseToolStripMenuItem.Enabled = False
+
+        Me.SaveToolBarMenuItem.Enabled = False
+        Me.SaveAsToolBarMenuItem.Enabled = False
+        Me.CloseToolBarMenuItem.Enabled = False
 
         Me.PropertyGrid1.ContextMenuStrip = Nothing
         Me.StatusStrip1.ContextMenuStrip = Nothing
@@ -487,7 +505,8 @@ Friend NotInheritable Class Form1 : Inherits Form
     ''' The <see cref="EventArgs"/> instance containing the event data.
     ''' </param>
     ''' ----------------------------------------------------------------------------------------------------
-    Private Sub ExitToolStripMenuItem_Click(sender As Object, e As EventArgs) Handles ExitToolStripMenuItem.Click
+    Private Sub ExitToolStripMenuItem_Click(sender As Object, e As EventArgs) _
+        Handles ExitToolStripMenuItem.Click
         Me.Close()
     End Sub
 
@@ -508,17 +527,18 @@ Friend NotInheritable Class Form1 : Inherits Form
     ''' The <see cref="EventArgs"/> instance containing the event data.
     ''' </param>
     ''' ----------------------------------------------------------------------------------------------------
-    Private Sub ToolStripComboBoxFontSize_SelectedIndexChanged(sender As Object, e As EventArgs) Handles ToolStripComboBoxFontSize.SelectedIndexChanged
+    Private Sub ToolStripComboBoxFontSize_SelectedIndexChanged(sender As Object, e As EventArgs) _
+        Handles ToolStripComboBoxFontSize.SelectedIndexChanged
 
-        Dim sz As Single = CSng(DirectCast(sender, ToolStripComboBox).SelectedItem)
-        My.Settings.FontSize = sz
-        Me.LoadFontSize()
+        Dim fontSize As Single = CSng(DirectCast(sender, ToolStripComboBox).SelectedItem)
+        ' My.Settings.FontSize = sz
+        Me.LoadFontSize(fontSize)
 
     End Sub
 
     ''' ----------------------------------------------------------------------------------------------------
     ''' <summary>
-    ''' Handles the <see cref="ToolStripMenuItem.Click"/> event of the <see cref="Form1.DefaultToolStripMenuItem"/> control.
+    ''' Handles the <see cref="ToolStripMenuItem.CheckedChanged"/> event of the <see cref="Form1.DefaultToolStripMenuItem"/> control.
     ''' </summary>
     ''' ----------------------------------------------------------------------------------------------------
     ''' <param name="sender">
@@ -529,14 +549,19 @@ Friend NotInheritable Class Form1 : Inherits Form
     ''' The <see cref="EventArgs"/> instance containing the event data.
     ''' </param>
     ''' ----------------------------------------------------------------------------------------------------
-    Private Sub DefaultToolStripMenuItem_Click(sender As Object, e As EventArgs) Handles DefaultToolStripMenuItem.Click
-        My.Settings.VisualThemeIndex = 0
-        Me.LoadVisualTheme()
+    Private Sub DefaultToolStripMenuItem_CheckedChanged(sender As Object, e As EventArgs) _
+        Handles DefaultToolStripMenuItem.CheckedChanged
+        ' My.Settings.VisualThemeIndex = 0
+        ' Me.LoadVisualTheme()
+        Dim item As ToolStripMenuItem = DirectCast(sender, ToolStripMenuItem)
+        If item.Checked Then
+            Me.LoadVisualTheme(VisualStyle.Default)
+        End If
     End Sub
 
     ''' ----------------------------------------------------------------------------------------------------
     ''' <summary>
-    ''' Handles the <see cref="ToolStripMenuItem.Click"/> event of the <see cref="Form1.DarkToolStripMenuItem"/> control.
+    ''' Handles the <see cref="ToolStripMenuItem.CheckedChanged"/> event of the <see cref="Form1.DarkToolStripMenuItem"/> control.
     ''' </summary>
     ''' ----------------------------------------------------------------------------------------------------
     ''' <param name="sender">
@@ -547,9 +572,60 @@ Friend NotInheritable Class Form1 : Inherits Form
     ''' The <see cref="EventArgs"/> instance containing the event data.
     ''' </param>
     ''' ----------------------------------------------------------------------------------------------------
-    Private Sub DarkToolStripMenuItem_Click(sender As Object, e As EventArgs) Handles DarkToolStripMenuItem.Click
-        My.Settings.VisualThemeIndex = 1
-        Me.LoadVisualTheme()
+    Private Sub DarkToolStripMenuItem_CheckedChanged(sender As Object, e As EventArgs) _
+        Handles DarkToolStripMenuItem.CheckedChanged
+        ' My.Settings.VisualThemeIndex = 1
+        ' Me.LoadVisualTheme()
+        Dim item As ToolStripMenuItem = DirectCast(sender, ToolStripMenuItem)
+        If item.Checked Then
+            Me.LoadVisualTheme(VisualStyle.VisualStudioDark)
+        End If
+    End Sub
+
+    ''' ----------------------------------------------------------------------------------------------------
+    ''' <summary>
+    ''' Handles the <see cref="ToolStripMenuItem.CheckedChanged"/> event of the <see cref="Form1.ShowToolbarToolStripMenuItem"/> control.
+    ''' </summary>
+    ''' ----------------------------------------------------------------------------------------------------
+    ''' <param name="sender">
+    ''' The source of the event.
+    ''' </param>
+    ''' 
+    ''' <param name="e">
+    ''' The <see cref="EventArgs"/> instance containing the event data.
+    ''' </param>
+    ''' ----------------------------------------------------------------------------------------------------
+    Private Sub ShowToolbarToolStripMenuItem_CheckedChanged(sender As Object, e As EventArgs) _
+        Handles ShowToolbarToolStripMenuItem.CheckedChanged
+
+        Me.AdjustCorrectTableLayoutPanelRowSizes()
+
+    End Sub
+
+    ''' ----------------------------------------------------------------------------------------------------
+    ''' <summary>
+    ''' Handles the <see cref="ToolStripMenuItem.CheckedChanged"/> event of the <see cref="Form1.RememberWindowSizeAndPosToolStripMenuItem"/> control.
+    ''' </summary>
+    ''' ----------------------------------------------------------------------------------------------------
+    ''' <param name="sender">
+    ''' The source of the event.
+    ''' </param>
+    ''' 
+    ''' <param name="e">
+    ''' The <see cref="EventArgs"/> instance containing the event data.
+    ''' </param>
+    ''' ----------------------------------------------------------------------------------------------------
+    Private Sub RememberWindowSizeAndPosToolStripMenuItem_CheckedChanged(sender As Object, e As EventArgs) _
+    Handles RememberWindowSizeAndPosToolStripMenuItem.CheckedChanged
+
+
+        Dim item As ToolStripMenuItem = DirectCast(sender, ToolStripMenuItem)
+        If item.Checked Then
+            JotUtil.StartTrackingForm()
+        Else
+            JotUtil.StopTrackingForm()
+        End If
+
     End Sub
 
 #End Region
@@ -594,15 +670,15 @@ Friend NotInheritable Class Form1 : Inherits Form
     ''' ----------------------------------------------------------------------------------------------------
     Private Sub ContextMenuStrip1_Opening(sender As Object, e As CancelEventArgs) Handles ContextMenuStrip1.Opening
 
-        Me.OpenShortcutMenuItem.Enabled = Me.CurrentShortcut.Exists
+        Me.OpenShortcutMenuItem.Enabled = Me.currentShortcut.Exists
         Me.ViewShortcutMenuItem.Enabled = Me.OpenShortcutMenuItem.Enabled
 
-        Me.OpenTargetMenuItem.Enabled = File.Exists(Me.CurrentShortcut.Target) OrElse Directory.Exists(Me.CurrentShortcut.Target)
-        Me.OpenTargetWithArgsMenuItem.Enabled = File.Exists(Me.CurrentShortcut.Target) AndAlso Not String.IsNullOrWhiteSpace(Me.CurrentShortcut.TargetArguments)
+        Me.OpenTargetMenuItem.Enabled = File.Exists(Me.currentShortcut.Target) OrElse Directory.Exists(Me.currentShortcut.Target)
+        Me.OpenTargetWithArgsMenuItem.Enabled = File.Exists(Me.currentShortcut.Target) AndAlso Not String.IsNullOrWhiteSpace(Me.currentShortcut.TargetArguments)
         Me.ViewTargetMenuItem.Enabled = Me.OpenTargetMenuItem.Enabled
 
-        Me.ViewWorkingDirectoryMenuItem.Enabled = Directory.Exists(Me.CurrentShortcut.WorkingDirectory)
-        Me.ViewIconMenuItem.Enabled = File.Exists(Me.CurrentShortcut.Icon)
+        Me.ViewWorkingDirectoryMenuItem.Enabled = Directory.Exists(Me.currentShortcut.WorkingDirectory)
+        Me.ViewIconMenuItem.Enabled = File.Exists(Me.currentShortcut.Icon)
 
     End Sub
 
@@ -622,7 +698,7 @@ Friend NotInheritable Class Form1 : Inherits Form
     Private Sub OpenShortcutMenuItem_Click(sender As Object, e As EventArgs) Handles OpenShortcutMenuItem.Click
 
         Try
-            Process.Start(Me.CurrentShortcut.FullName)
+            Process.Start(Me.currentShortcut.FullName)
 
         Catch ex As Exception
             MessageBox.Show(Me, ex.Message, Me.Text, MessageBoxButtons.OK, MessageBoxIcon.Error)
@@ -646,7 +722,7 @@ Friend NotInheritable Class Form1 : Inherits Form
     ''' ----------------------------------------------------------------------------------------------------
     Private Sub OpenTargetMenuItem1_Click(sender As Object, e As EventArgs) Handles OpenTargetMenuItem.Click
 
-        Dim target As String = Me.CurrentShortcut.Target
+        Dim target As String = Me.currentShortcut.Target
 
         If File.Exists(target) Then
             Try
@@ -690,7 +766,7 @@ Friend NotInheritable Class Form1 : Inherits Form
     Private Sub OpenTargetWithArgsMenuItem_Click(sender As Object, e As EventArgs) Handles OpenTargetWithArgsMenuItem.Click
 
         Try
-            Process.Start(Me.CurrentShortcut.Target, Me.CurrentShortcut.TargetArguments)
+            Process.Start(Me.currentShortcut.Target, Me.currentShortcut.TargetArguments)
             Exit Sub
 
         Catch ex As Exception
@@ -716,7 +792,7 @@ Friend NotInheritable Class Form1 : Inherits Form
     Private Sub ViewShortcutMenuItem_Click(sender As Object, e As EventArgs) Handles ViewShortcutMenuItem.Click
 
         Try
-            FileUtil.InternalOpenInExplorer(Me.CurrentShortcut.FullName)
+            FileUtil.InternalOpenInExplorer(Me.currentShortcut.FullName)
 
         Catch ex As Exception
             MessageBox.Show(Me, ex.Message, Me.Text, MessageBoxButtons.OK, MessageBoxIcon.Error)
@@ -741,7 +817,7 @@ Friend NotInheritable Class Form1 : Inherits Form
     Private Sub ViewTargetMenuItem_Click(sender As Object, e As EventArgs) Handles ViewTargetMenuItem.Click
 
         Try
-            FileUtil.InternalOpenInExplorer(Me.CurrentShortcut.Target)
+            FileUtil.InternalOpenInExplorer(Me.currentShortcut.Target)
 
         Catch ex As Exception
             MessageBox.Show(Me, ex.Message, Me.Text, MessageBoxButtons.OK, MessageBoxIcon.Error)
@@ -766,7 +842,7 @@ Friend NotInheritable Class Form1 : Inherits Form
     Private Sub ViewWorkingDirectoryMenuItem_Click(sender As Object, e As EventArgs) Handles ViewWorkingDirectoryMenuItem.Click
 
         Try
-            FileUtil.InternalOpenInExplorer(Me.CurrentShortcut.WorkingDirectory)
+            FileUtil.InternalOpenInExplorer(Me.currentShortcut.WorkingDirectory)
 
         Catch ex As Exception
             MessageBox.Show(Me, ex.Message, Me.Text, MessageBoxButtons.OK, MessageBoxIcon.Error)
@@ -791,7 +867,7 @@ Friend NotInheritable Class Form1 : Inherits Form
     Private Sub ViewIconMenuItem_Click(sender As Object, e As EventArgs) Handles ViewIconMenuItem.Click
 
         Try
-            FileUtil.InternalOpenInExplorer(Me.CurrentShortcut.Icon)
+            FileUtil.InternalOpenInExplorer(Me.currentShortcut.Icon)
 
         Catch ex As Exception
             MessageBox.Show(Me, ex.Message, Me.Text, MessageBoxButtons.OK, MessageBoxIcon.Error)
@@ -811,12 +887,24 @@ Friend NotInheritable Class Form1 : Inherits Form
     ''' Loads the saved font size for the user-interface.
     ''' </summary>
     ''' ----------------------------------------------------------------------------------------------------
-    Private Sub LoadFontSize()
-        Me.MenuStrip1.Font = New Font(Me.MenuStrip1.Font.FontFamily, My.Settings.FontSize, Me.MenuStrip1.Font.Style)
-        Me.StatusStrip1.Font = New Font(Me.StatusStrip1.Font.FontFamily, My.Settings.FontSize, Me.StatusStrip1.Font.Style)
-        Me.ToolStripStatusLabelIcon.Font = New Font(Me.ToolStripStatusLabelIcon.Font.FontFamily, My.Settings.FontSize, Me.ToolStripStatusLabelIcon.Font.Style)
-        Me.ToolStripStatusLabelFileName.Font = New Font(Me.ToolStripStatusLabelFileName.Font.FontFamily, My.Settings.FontSize, Me.ToolStripStatusLabelFileName.Font.Style)
-        Me.PropertyGrid1.Font = New Font(Me.PropertyGrid1.Font.FontFamily, My.Settings.FontSize, Me.PropertyGrid1.Font.Style)
+    Private Sub LoadFontSize(fontSize As Single)
+        Me.MenuStrip1.Font = New Font(Me.MenuStrip1.Font.FontFamily, fontSize, Me.MenuStrip1.Font.Style)
+        Me.StatusStrip1.Font = New Font(Me.StatusStrip1.Font.FontFamily, fontSize, Me.StatusStrip1.Font.Style)
+        Me.ToolStripStatusLabelIcon.Font = New Font(Me.ToolStripStatusLabelIcon.Font.FontFamily, fontSize, Me.ToolStripStatusLabelIcon.Font.Style)
+        Me.ToolStripStatusLabelFileName.Font = New Font(Me.ToolStripStatusLabelFileName.Font.FontFamily, fontSize, Me.ToolStripStatusLabelFileName.Font.Style)
+        Me.PropertyGrid1.Font = New Font(Me.PropertyGrid1.Font.FontFamily, fontSize, Me.PropertyGrid1.Font.Style)
+
+        For Each tab As Tab In TabControl1.Tabs
+            tab.Font = New Font(tab.Font.FontFamily, fontSize, tab.Font.Style)
+        Next
+
+        Me.MenuStrip_ToolBar.Font = New Font(Me.MenuStrip_ToolBar.Font.FontFamily, fontSize, Me.MenuStrip_ToolBar.Font.Style)
+        Me.ToolStripComboBoxFontSize.Font = New Font(Me.ToolStripComboBoxFontSize.Font.FontFamily, fontSize, Me.ToolStripComboBoxFontSize.Font.Style)
+        My.Forms.AboutBox1.Font = New Font(My.Forms.AboutBox1.Font.FontFamily, fontSize, My.Forms.AboutBox1.Font.Style)
+        My.Forms.AboutBox1.LinkLabel1.Font = New Font(My.Forms.AboutBox1.LinkLabel1.Font.FontFamily, fontSize, My.Forms.AboutBox1.LinkLabel1.Font.Style)
+
+        Me.HexBox1.Font = New Font(Me.HexBox1.Font.FontFamily, fontSize, Me.HexBox1.Font.Style)
+        Me.AdjustCorrectTableLayoutPanelRowSizes()
     End Sub
 
     ''' ----------------------------------------------------------------------------------------------------
@@ -824,17 +912,17 @@ Friend NotInheritable Class Form1 : Inherits Form
     ''' Loads the saved visual theme for the user-interface.
     ''' </summary>
     ''' ----------------------------------------------------------------------------------------------------
-    Private Sub LoadVisualTheme()
-        Select Case My.Settings.VisualThemeIndex
+    Private Sub LoadVisualTheme(visualStyle As VisualStyle)
+        Select Case visualStyle
 
-            Case 0 ' Default theme
+            Case VisualStyle.Default
                 Me.SetVisualStyle(VisualStyle.Default, True)
                 My.Forms.AboutBox1.SetVisualStyle(VisualStyle.Default, True)
 
                 Me.DefaultToolStripMenuItem.Checked = True
                 Me.DarkToolStripMenuItem.Checked = False
 
-            Case 1 ' Dark theme
+            Case VisualStyle.VisualStudioDark
                 Me.SetVisualStyle(VisualStyle.VisualStudioDark, True)
                 My.Forms.AboutBox1.SetVisualStyle(VisualStyle.VisualStudioDark, True)
 
@@ -923,6 +1011,10 @@ Friend NotInheritable Class Form1 : Inherits Form
         Me.SaveAsToolStripMenuItem.Enabled = True
         Me.CloseToolStripMenuItem.Enabled = True
 
+        Me.SaveToolBarMenuItem.Enabled = True
+        Me.SaveAsToolBarMenuItem.Enabled = True
+        Me.CloseToolBarMenuItem.Enabled = True
+
         Me.UpdateMruItems(Me.CurrentShortcut)
         Me.ToolStripStatusLabelIcon.Image = Me.RecentToolStripMenuItem.DropDown.Items(0).Image
 
@@ -962,6 +1054,30 @@ Friend NotInheritable Class Form1 : Inherits Form
             Catch
             End Try
         End If
+    End Sub
+
+    Private Sub AdjustCorrectTableLayoutPanelRowSizes()
+
+        Dim item As ToolStripMenuItem = ShowToolbarToolStripMenuItem
+        Dim makeToolBarVisible As Boolean = item.Checked
+        Dim table As TableLayoutPanel = Me.TableLayoutPanel1
+        Dim rowIndex As Integer = table.GetRow(Me.MenuStrip_ToolBar)
+        Dim isTableRowsInitialized As Boolean = (rowIndex <> -1)
+
+        If Not makeToolBarVisible Then
+            If isTableRowsInitialized Then
+                table.RowStyles(rowIndex).Height = 0
+            End If
+            Me.MenuStrip_ToolBar.Visible = False
+
+        Else
+            Me.MenuStrip_ToolBar.Visible = True
+            If isTableRowsInitialized Then
+                table.RowStyles(rowIndex).Height = 80
+                table.RowStyles(rowIndex).Height = Me.MenuStrip_ToolBar.Height
+            End If
+        End If
+
     End Sub
 
 #End Region

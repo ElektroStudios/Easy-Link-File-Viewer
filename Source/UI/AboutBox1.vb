@@ -75,6 +75,13 @@ Friend NotInheritable Class AboutBox1 : Inherits Form
         Me.Close()
     End Sub
 
+    Private Sub LinkLabel1_LinkClicked(sender As Object, e As LinkLabelLinkClickedEventArgs) Handles LinkLabel1.LinkClicked
+        Using pr As New Process
+            pr.StartInfo.FileName = "https://github.com/ElektroStudios/Easy-Link-File-Viewer"
+            pr.StartInfo.UseShellExecute = True
+            pr.Start()
+        End Using
+    End Sub
 End Class
 
 #End Region

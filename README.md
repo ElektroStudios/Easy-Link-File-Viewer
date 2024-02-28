@@ -75,7 +75,7 @@ Explore the complete list of changes, bug fixes, and improvements across differe
 
 ## 🏆 Credits
 
-This work relies on the following resources: 
+This Work relies on the following resources: 
 
  - [.NET Framework](https://dotnet.microsoft.com/en-us/download/dotnet-framework)
  - [Be.HexEditor](https://github.com/Pkcs11Admin/Be.HexEditor)
