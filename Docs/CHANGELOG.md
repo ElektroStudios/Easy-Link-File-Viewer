@@ -12,7 +12,8 @@
 #### 🌟 Improvements:
  - Assigned a default accelerator key for all of the menu options.
  - Added an option to show or hide the icons toolbar.
- - Now the user settings are stored within the executable directory in a folder with name "cache". Solves Issue [#10](https://github.com/ElektroStudios/Easy-Link-File-Viewer/issues/10)
+ - Renamed / simplified names for tabs.
+ - Now the user settings are stored within the executable directory in a folder with name "cache". This makes the application 100% portable. Solves Issue [#10](https://github.com/ElektroStudios/Easy-Link-File-Viewer/issues/10)
 
 ## v1.4 🔄
 
