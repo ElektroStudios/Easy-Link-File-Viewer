@@ -4,18 +4,20 @@
 
 #### 🚀 New Features:
  - Added support for opening \*.lnk files from command-line. 
- - Added a new option: "Settings -> Remember Window Size and Position". 
- - Added a new option: "Settings -> Add Explorer's context-menu entry for *.lnk". Solves Issue [#2](https://github.com/ElektroStudios/Easy-Link-File-Viewer/issues/2)
+ - Added a new setting: "Remember Window Size and Position". 
+ - Added a new setting: "Add Explorer's context-menu entry for *.lnk". Solves Issue [#2](https://github.com/ElektroStudios/Easy-Link-File-Viewer/issues/2)
  - Added an icons toolbar below the top menu strip to have faster access to the "File" menu commands. Solves Issue [#8](https://github.com/ElektroStudios/Easy-Link-File-Viewer/issues/8)
 
 #### 🛠️ Fixes:
  - Some elements within the user interface remained unaffected when the user opted for a different font size.
+ - Made capable to save changes in read-only link files. Solves Issue [#9](https://github.com/ElektroStudios/Easy-Link-File-Viewer/issues/9)
 
 #### 🌟 Improvements:
  - Assigned a default accelerator key for all of the menu options.
- - Added an option to show or hide the icons toolbar.
+ - Added a setting to show or hide the icons toolbar.
  - Renamed / simplified names for tabs.
  - Now the user settings are stored within the executable directory in a folder with name "cache". This makes the application 100% portable. Solves Issue [#10](https://github.com/ElektroStudios/Easy-Link-File-Viewer/issues/10)
+ - Added a confirmation message box for successful saves, and another for failed saves.
 
 ## v1.4 🔄
 

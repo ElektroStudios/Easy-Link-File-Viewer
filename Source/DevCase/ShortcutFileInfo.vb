@@ -165,10 +165,10 @@ Namespace DevCase.Core.IO
 
         ''' ----------------------------------------------------------------------------------------------------
         ''' <summary>
-        ''' Gets the file name of the shortcut file.
+        ''' Gets the file name of the link file.
         ''' </summary>
         ''' ----------------------------------------------------------------------------------------------------
-        <Description("The name of the shortcut file.")>
+        <Description("The name of the link file.")>
         <DisplayName("File Name")>
         <Category("File Info")>
         Public Overrides ReadOnly Property Name As String
@@ -179,10 +179,10 @@ Namespace DevCase.Core.IO
 
         ''' ----------------------------------------------------------------------------------------------------
         ''' <summary>
-        ''' Gets the full path of the shortcut file.
+        ''' Gets the full path of the link file.
         ''' </summary>
         ''' ----------------------------------------------------------------------------------------------------
-        <Description("The full path of the shortcut file.")>
+        <Description("The full path of the link file.")>
         <DisplayName("Full Path")>
         <Category("File Info")>
         Public Overrides ReadOnly Property FullName As String
@@ -193,14 +193,14 @@ Namespace DevCase.Core.IO
 
         ''' ----------------------------------------------------------------------------------------------------
         ''' <summary>
-        ''' Gets the file size, in bytes, of the current shortcut file.
+        ''' Gets the file size, in bytes, of the current link file.
         ''' </summary>
         ''' ----------------------------------------------------------------------------------------------------
         ''' <value>
         ''' The file attributes.
         ''' </value>
         ''' ----------------------------------------------------------------------------------------------------
-        <Description("The file size of the shortcut file.")>
+        <Description("The file size of the link file.")>
         <DisplayName("Length")>
         <Category("File Info")>
         <Browsable(True)>
@@ -217,14 +217,14 @@ Namespace DevCase.Core.IO
 
         ''' ----------------------------------------------------------------------------------------------------
         ''' <summary>
-        ''' Gets or sets the file attributes of the shortcut file.
+        ''' Gets or sets the file attributes of the link file.
         ''' </summary>
         ''' ----------------------------------------------------------------------------------------------------
         ''' <value>
         ''' The file attributes.
         ''' </value>
         ''' ----------------------------------------------------------------------------------------------------
-        <Description("The file attributes of the shortcut file.")>
+        <Description("The file attributes of the link file.")>
         <DisplayName("Attributes")>
         <Category("File Info")>
         <Browsable(False)>
@@ -241,14 +241,14 @@ Namespace DevCase.Core.IO
 
         ''' ----------------------------------------------------------------------------------------------------
         ''' <summary>
-        ''' Gets or sets a value that determines if the shortcut file is read-only.
+        ''' Gets or sets a value that determines if the link file is read-only.
         ''' </summary>
         ''' ----------------------------------------------------------------------------------------------------
         ''' <value>
-        ''' <see langword="True"/> if the shortcut file is read-only; otherwise, <see langword="False"/>.
+        ''' <see langword="True"/> if the link file is read-only; otherwise, <see langword="False"/>.
         ''' </value>
         ''' ----------------------------------------------------------------------------------------------------
-        <Description("A value that determines if the shortcut file is read-only.")>
+        <Description("A value that determines if the link file is read-only.")>
         <DisplayName("Is Read-Only")>
         <Category("File Info")>
         <Browsable(False)>
@@ -263,14 +263,14 @@ Namespace DevCase.Core.IO
 
         ''' ----------------------------------------------------------------------------------------------------
         ''' <summary>
-        ''' Gets a value indicating whether the shortcut file exists.
+        ''' Gets a value indicating whether the link file exists.
         ''' </summary>
         ''' ----------------------------------------------------------------------------------------------------
         ''' <value>
-        ''' <see langword="True"/> if the shortcut file exists; otherwise, <see langword="False"/>.
+        ''' <see langword="True"/> if the link file exists; otherwise, <see langword="False"/>.
         ''' </value>
         ''' ----------------------------------------------------------------------------------------------------
-        <Description("A value indicating whether the shortcut file exists.")>
+        <Description("A value indicating whether the link file exists.")>
         <DisplayName("Exists")>
         <Category("File Info")>
         <Browsable(False)>
@@ -282,10 +282,10 @@ Namespace DevCase.Core.IO
 
         ''' ----------------------------------------------------------------------------------------------------
         ''' <summary>
-        ''' Gets an instance of the parent directory of the shortcut file.
+        ''' Gets an instance of the parent directory of the link file.
         ''' </summary>
         ''' ----------------------------------------------------------------------------------------------------
-        <Description("The parent directory of the shortcut file.")>
+        <Description("The parent directory of the link file.")>
         <DisplayName("Directory")>
         <Category("File Info")>
         <Browsable(False)>
@@ -312,14 +312,14 @@ Namespace DevCase.Core.IO
 
         ''' ----------------------------------------------------------------------------------------------------
         ''' <summary>
-        ''' Gets a string representing the extension part of the shortcut file.
+        ''' Gets a string representing the extension part of the link file.
         ''' </summary>
         ''' ----------------------------------------------------------------------------------------------------
         ''' <value>
         ''' The extension.
         ''' </value>
         ''' ----------------------------------------------------------------------------------------------------
-        <Description("A string representing the extension part of the shortcut file.")>
+        <Description("A string representing the extension part of the link file.")>
         <DisplayName("Extension")>
         <Category("File Info")>
         <Browsable(False)>
@@ -331,14 +331,14 @@ Namespace DevCase.Core.IO
 
         ''' ----------------------------------------------------------------------------------------------------
         ''' <summary>
-        ''' Gets or sets the creation time, in coordinated universal time (UTC) of the shortcut file.
+        ''' Gets or sets the creation time, in coordinated universal time (UTC) of the link file.
         ''' </summary>
         ''' ----------------------------------------------------------------------------------------------------
         ''' <value>
         ''' The creation time UTC.
         ''' </value>
         ''' ----------------------------------------------------------------------------------------------------
-        <Description("The creation time, in coordinated universal time (UTC) of the shortcut file.")>
+        <Description("The creation time, in coordinated universal time (UTC) of the link file.")>
         <DisplayName("Creation Time (UTC)")>
         <Category("File Info")>
         <Browsable(False)>
@@ -355,14 +355,14 @@ Namespace DevCase.Core.IO
 
         ''' ----------------------------------------------------------------------------------------------------
         ''' <summary>
-        ''' Gets or sets the time, in coordinated universal time (UTC), the shortcut file was last accessed.
+        ''' Gets or sets the time, in coordinated universal time (UTC), the link file was last accessed.
         ''' </summary>
         ''' ----------------------------------------------------------------------------------------------------
         ''' <value>
         ''' The last access time UTC.
         ''' </value>
         ''' ----------------------------------------------------------------------------------------------------
-        <Description("The time, in coordinated universal time (UTC), the shortcut file was last accessed.")>
+        <Description("The time, in coordinated universal time (UTC), the link file was last accessed.")>
         <DisplayName("Last Access Time (UTC)")>
         <Category("File Info")>
         <Browsable(False)>
@@ -379,14 +379,14 @@ Namespace DevCase.Core.IO
 
         ''' ----------------------------------------------------------------------------------------------------
         ''' <summary>
-        ''' Gets or sets the time, in coordinated universal time (UTC), the shortcut file was last written to.
+        ''' Gets or sets the time, in coordinated universal time (UTC), the link file was last written to.
         ''' </summary>
         ''' ----------------------------------------------------------------------------------------------------
         ''' <value>
         ''' The last write time UTC.
         ''' </value>
         ''' ----------------------------------------------------------------------------------------------------
-        <Description("The time, in coordinated universal time (UTC), the shortcut file was last written to.")>
+        <Description("The time, in coordinated universal time (UTC), the link file was last written to.")>
         <DisplayName("Last Write Time (UTC)")>
         <Category("File Info")>
         <Browsable(False)>
@@ -403,14 +403,14 @@ Namespace DevCase.Core.IO
 
         ''' ----------------------------------------------------------------------------------------------------
         ''' <summary>
-        ''' Gets or sets the creation time of the shortcut file.
+        ''' Gets or sets the creation time of the link file.
         ''' </summary>
         ''' ----------------------------------------------------------------------------------------------------
         ''' <value>
         ''' The creation time.
         ''' </value>
         ''' ----------------------------------------------------------------------------------------------------
-        <Description("The creation time of the shortcut file.")>
+        <Description("The creation time of the link file.")>
         <DisplayName("Creation Time")>
         <Category("File Info")>
         <Browsable(False)>
@@ -427,14 +427,14 @@ Namespace DevCase.Core.IO
 
         ''' ----------------------------------------------------------------------------------------------------
         ''' <summary>
-        ''' Gets or sets the time the shortcut file was last accessed.
+        ''' Gets or sets the time the link file was last accessed.
         ''' </summary>
         ''' ----------------------------------------------------------------------------------------------------
         ''' <value>
         ''' The last access time.
         ''' </value>
         ''' ----------------------------------------------------------------------------------------------------
-        <Description("The time the shortcut file was last accessed.")>
+        <Description("The time the link file was last accessed.")>
         <DisplayName("Last Access Time")>
         <Category("File Info")>
         <Browsable(False)>
@@ -451,14 +451,14 @@ Namespace DevCase.Core.IO
 
         ''' ----------------------------------------------------------------------------------------------------
         ''' <summary>
-        ''' Gets or sets the time the shortcut file was last written to.
+        ''' Gets or sets the time the link file was last written to.
         ''' </summary>
         ''' ----------------------------------------------------------------------------------------------------
         ''' <value>
         ''' The last write time.
         ''' </value>
         ''' ----------------------------------------------------------------------------------------------------
-        <Description("The time the shortcut file was last written to.")>
+        <Description("The time the link file was last written to.")>
         <DisplayName("Last Write Time")>
         <Category("File Info")>
         <Browsable(False)>
@@ -745,7 +745,7 @@ Namespace DevCase.Core.IO
         ''' Gets or sets a value indicating whether this <see cref="ShortcutFileInfo"/> is in 'view mode',
         ''' for example, being displayed in a <see cref="PropertyGrid"/> control.
         ''' <para></para>
-        ''' The shortcut file will not be modified while <see cref="ShortcutFileInfo.ViewMode"/> is <see langword="True"/>. 
+        ''' The link file will not be modified while <see cref="ShortcutFileInfo.ViewMode"/> is <see langword="True"/>. 
         ''' </summary>
         ''' ----------------------------------------------------------------------------------------------------
         ''' <value>
@@ -773,7 +773,7 @@ Namespace DevCase.Core.IO
         ''' A value indicating whether this <see cref="ShortcutFileInfo"/> is in 'view mode',
         ''' for example, being displayed in a <see cref="PropertyGrid"/> control.
         ''' <para></para>
-        ''' The shortcut file will not be modified while <see cref="ShortcutFileInfo.ViewMode"/> is <see langword="True"/>. 
+        ''' The link file will not be modified while <see cref="ShortcutFileInfo.ViewMode"/> is <see langword="True"/>. 
         ''' </summary>
         ''' ----------------------------------------------------------------------------------------------------
         Private viewMode_ As Boolean
@@ -790,7 +790,7 @@ Namespace DevCase.Core.IO
         ''' </summary>
         ''' ----------------------------------------------------------------------------------------------------
         ''' <param name="filepath">
-        ''' The fully qualified path of the new shortcut file, or the relative file name. 
+        ''' The fully qualified path of the new link file, or the relative file name. 
         ''' <para></para>
         ''' Do not end the path with the directory separator character.
         ''' </param>
@@ -811,7 +811,7 @@ Namespace DevCase.Core.IO
         ''' </summary>
         ''' ----------------------------------------------------------------------------------------------------
         ''' <param name="file">
-        ''' The shortcut file. 
+        ''' The link file. 
         ''' </param>
         ''' ----------------------------------------------------------------------------------------------------
         <SecuritySafeCritical>
@@ -838,7 +838,7 @@ Namespace DevCase.Core.IO
 
         ''' ----------------------------------------------------------------------------------------------------
         ''' <summary>
-        ''' Creates the shortcut file. It overwrites any existing file.
+        ''' Creates the link file. It overwrites any existing file.
         ''' </summary>
         ''' ----------------------------------------------------------------------------------------------------
         <DebuggerStepThrough>
@@ -860,7 +860,7 @@ Namespace DevCase.Core.IO
 
         ''' ----------------------------------------------------------------------------------------------------
         ''' <summary>
-        ''' Deletes the shortcut file.
+        ''' Deletes the link file.
         ''' </summary>
         ''' ----------------------------------------------------------------------------------------------------
         <DebuggerStepThrough>
@@ -872,7 +872,7 @@ Namespace DevCase.Core.IO
 
         ''' ----------------------------------------------------------------------------------------------------
         ''' <summary>
-        ''' Encrypts a shortcut file so that only the account used to encrypt the file can decrypt it.
+        ''' Encrypts a link file so that only the account used to encrypt the file can decrypt it.
         ''' </summary>
         ''' ----------------------------------------------------------------------------------------------------
         <ComVisible(False)>
@@ -884,7 +884,7 @@ Namespace DevCase.Core.IO
 
         ''' ----------------------------------------------------------------------------------------------------
         ''' <summary>
-        ''' Decrypts a shortcut file that was encrypted by the current account using the <see cref="ShortcutFileInfo.Encrypt"/> method.
+        ''' Decrypts a link file that was encrypted by the current account using the <see cref="ShortcutFileInfo.Encrypt"/> method.
         ''' </summary>
         ''' ----------------------------------------------------------------------------------------------------
         <ComVisible(False)>
@@ -896,7 +896,7 @@ Namespace DevCase.Core.IO
 
         ''' ----------------------------------------------------------------------------------------------------
         ''' <summary>
-        ''' Copies an existing shortcut file to a new file, allowing the overwriting of an existing file.
+        ''' Copies an existing link file to a new file, allowing the overwriting of an existing file.
         ''' </summary>
         ''' ----------------------------------------------------------------------------------------------------
         ''' <param name="destFileName">
@@ -908,7 +908,7 @@ Namespace DevCase.Core.IO
         ''' </param>
         ''' ----------------------------------------------------------------------------------------------------
         ''' <returns>
-        ''' A new shortcut file, or an overwrite of an existing file if overwrite is true. 
+        ''' A new link file, or an overwrite of an existing file if overwrite is true. 
         ''' <para></para>
         ''' If the file exists and overwrite is false, an <see cref="IOException"/> is thrown.
         ''' </returns>
@@ -920,11 +920,11 @@ Namespace DevCase.Core.IO
 
         ''' ----------------------------------------------------------------------------------------------------
         ''' <summary>
-        ''' Moves the shortcut file to a new location, providing the option to specify a new file name.
+        ''' Moves the link file to a new location, providing the option to specify a new file name.
         ''' </summary>
         ''' ----------------------------------------------------------------------------------------------------
         ''' <param name="destFileName">
-        ''' The path to move the shortcut file to, which can specify a different file name.
+        ''' The path to move the link file to, which can specify a different file name.
         ''' </param>
         ''' ----------------------------------------------------------------------------------------------------
         <DebuggerStepThrough>
@@ -936,15 +936,15 @@ Namespace DevCase.Core.IO
 
         ''' ----------------------------------------------------------------------------------------------------
         ''' <summary>
-        ''' Opens the shortcut file in the specified mode.
+        ''' Opens the link file in the specified mode.
         ''' </summary>
         ''' ----------------------------------------------------------------------------------------------------
         ''' <param name="mode">
-        ''' A <see cref="FileMode"/> constant specifying the mode (for example, Open or Append) in which to open the shortcut file.
+        ''' A <see cref="FileMode"/> constant specifying the mode (for example, Open or Append) in which to open the link file.
         ''' </param>
         ''' ----------------------------------------------------------------------------------------------------
         ''' <returns>
-        ''' The shortcut file opened in the specified mode, with read/write access and unshared.
+        ''' The link file opened in the specified mode, with read/write access and unshared.
         ''' </returns>
         ''' ----------------------------------------------------------------------------------------------------
         <DebuggerStepThrough>
@@ -954,19 +954,19 @@ Namespace DevCase.Core.IO
 
         ''' ----------------------------------------------------------------------------------------------------
         ''' <summary>
-        ''' Opens the shortcut file in the specified mode with read, write, or read/write access.
+        ''' Opens the link file in the specified mode with read, write, or read/write access.
         ''' </summary>
         ''' ----------------------------------------------------------------------------------------------------
         ''' <param name="mode">
-        ''' A <see cref="FileMode"/> constant specifying the mode (for example, Open or Append) in which to open the shortcut file.
+        ''' A <see cref="FileMode"/> constant specifying the mode (for example, Open or Append) in which to open the link file.
         ''' </param>
         ''' 
         ''' <param name="access">
-        ''' A <see cref="FileAccess"/> constant specifying whether to open the shortcut file with Read, Write, or ReadWrite file access.
+        ''' A <see cref="FileAccess"/> constant specifying whether to open the link file with Read, Write, or ReadWrite file access.
         ''' </param>
         ''' ----------------------------------------------------------------------------------------------------
         ''' <returns>
-        ''' The shortcut file opened in the specified mode and access, and unshared.
+        ''' The link file opened in the specified mode and access, and unshared.
         ''' </returns>
         ''' ----------------------------------------------------------------------------------------------------
         <DebuggerStepThrough>
@@ -976,15 +976,15 @@ Namespace DevCase.Core.IO
 
         ''' ----------------------------------------------------------------------------------------------------
         ''' <summary>
-        ''' Opens the shortcut file in the specified mode with read, write, or read/write access and the specified sharing option.
+        ''' Opens the link file in the specified mode with read, write, or read/write access and the specified sharing option.
         ''' </summary>
         ''' ----------------------------------------------------------------------------------------------------
         ''' <param name="mode">
-        ''' A <see cref="FileMode"/> constant specifying the mode (for example, Open or Append) in which to open the shortcut file.
+        ''' A <see cref="FileMode"/> constant specifying the mode (for example, Open or Append) in which to open the link file.
         ''' </param>
         ''' 
         ''' <param name="access">
-        ''' A <see cref="FileAccess"/> constant specifying whether to open the shortcut file with Read, Write, or ReadWrite file access.
+        ''' A <see cref="FileAccess"/> constant specifying whether to open the link file with Read, Write, or ReadWrite file access.
         ''' </param>
         ''' 
         ''' <param name="share">
@@ -992,7 +992,7 @@ Namespace DevCase.Core.IO
         ''' </param>
         ''' ----------------------------------------------------------------------------------------------------
         ''' <returns>
-        ''' The shortcut file opened in the specified mode, access, and sharing options.
+        ''' The link file opened in the specified mode, access, and sharing options.
         ''' </returns>
         ''' ----------------------------------------------------------------------------------------------------
         <DebuggerStepThrough>
@@ -1006,7 +1006,7 @@ Namespace DevCase.Core.IO
         ''' </summary>
         ''' ----------------------------------------------------------------------------------------------------
         ''' <returns>
-        ''' A read-only unshared <see cref="FileStream"/> object for the existing shortcut file.
+        ''' A read-only unshared <see cref="FileStream"/> object for the existing link file.
         ''' </returns>
         ''' ----------------------------------------------------------------------------------------------------
         <DebuggerStepThrough>
@@ -1020,7 +1020,7 @@ Namespace DevCase.Core.IO
         ''' </summary>
         ''' ----------------------------------------------------------------------------------------------------
         ''' <returns>
-        ''' A write-only unshared <see cref="FileStream"/> object for the existing shortcut file.
+        ''' A write-only unshared <see cref="FileStream"/> object for the existing link file.
         ''' </returns>
         ''' ----------------------------------------------------------------------------------------------------
         <DebuggerStepThrough>
@@ -1035,7 +1035,7 @@ Namespace DevCase.Core.IO
         ''' </summary>
         ''' ----------------------------------------------------------------------------------------------------
         ''' <returns>
-        ''' A <see cref="FileSecurity"/> object that encapsulates the access control rules for the current shortcut file.
+        ''' A <see cref="FileSecurity"/> object that encapsulates the access control rules for the current link file.
         ''' </returns>
         ''' ----------------------------------------------------------------------------------------------------
         <DebuggerStepThrough>
@@ -1054,7 +1054,7 @@ Namespace DevCase.Core.IO
         ''' </param>
         ''' ----------------------------------------------------------------------------------------------------
         ''' <returns>
-        ''' A <see cref="FileSecurity"/> object that encapsulates the access control rules for the current shortcut file.
+        ''' A <see cref="FileSecurity"/> object that encapsulates the access control rules for the current link file.
         ''' </returns>
         ''' ----------------------------------------------------------------------------------------------------
         <DebuggerStepThrough>
@@ -1099,7 +1099,7 @@ Namespace DevCase.Core.IO
         ''' <summary>
         ''' Resolves the target of a shortcut.
         ''' <para></para>
-        ''' This is useful when the target of a shortcut file is changed from a drive letter to another, for example.
+        ''' This is useful when the target of a link file is changed from a drive letter to another, for example.
         ''' <para></para>
         ''' If the target can't be resolved, an error message would be displayed.
         ''' </summary>
@@ -1140,7 +1140,7 @@ Namespace DevCase.Core.IO
 
         ''' ----------------------------------------------------------------------------------------------------
         ''' <summary>
-        ''' Reads the information from the shortcut file.
+        ''' Reads the information from the link file.
         ''' </summary>
         ''' ----------------------------------------------------------------------------------------------------
         <DebuggerStepThrough>
@@ -1199,7 +1199,7 @@ Namespace DevCase.Core.IO
 
         ''' ----------------------------------------------------------------------------------------------------
         ''' <summary>
-        ''' Writes the information to the shortcut file.
+        ''' Writes the information to the link file.
         ''' </summary>
         ''' ----------------------------------------------------------------------------------------------------
         <DebuggerStepThrough>
@@ -1209,11 +1209,30 @@ Namespace DevCase.Core.IO
             End If
 
             If Not Me.Exists Then
-                Throw New FileNotFoundException($"The specified shortcut file is not found: {Me.FullName}", Me.FullName)
+                Throw New FileNotFoundException($"The specified link file is not found: {Me.FullName}", Me.FullName)
             End If
 
-            If (Me.IsReadOnly) Then
-                Throw New Exception($"The specified shortcut file is read-only: {Me.FullName}")
+            Dim isReadOnly As Boolean = Me.IsReadOnly
+            If (isReadOnly) Then
+                Dim result As DialogResult =
+                    MessageBox.Show("The target link file is marked with Read-Only attribute." & Environment.NewLine & Environment.NewLine &
+                                    "Press ""Ok"" if you want to continue (Read-Only attribute will be preserved).", My.Application.Info.Title,
+                                    MessageBoxButtons.OKCancel, MessageBoxIcon.Information, MessageBoxDefaultButton.Button1)
+
+                If result = DialogResult.Cancel Then
+                    Exit Sub
+                End If
+                'Throw New Exception($"The specified link file is read-only: {Me.FullName}")
+
+                Try
+                    Me.Attributes = Me.Attributes And Not FileAttributes.ReadOnly
+                Catch ex As Exception
+                    MessageBox.Show("Error. Cannot save link file; cannot remove Read-Only attribute from file." & Environment.NewLine & Environment.NewLine &
+                                    ex.Message, My.Application.Info.Title,
+                                    MessageBoxButtons.OK, MessageBoxIcon.Error)
+                    Exit Sub
+
+                End Try
             End If
 
             Dim cShellLink As New CShellLink()
@@ -1241,10 +1260,32 @@ Namespace DevCase.Core.IO
                 shellLinkPersistFile.SaveCompleted(Me.FullPath)
             End If
 
+            If shellLinkPersistFile.IsDirty = 0 Then
+                MessageBox.Show("Error. Cannot save changes to link file." & Environment.NewLine & Environment.NewLine &
+                                "Ensure that you are using an user account with granted permissions to write on this file.",
+                                My.Application.Info.Title, MessageBoxButtons.OK, MessageBoxIcon.Error)
+            Else
+                MessageBox.Show("Link file saved successfully.",
+                            My.Application.Info.Title, MessageBoxButtons.OK, MessageBoxIcon.Information)
+
+            End If
+
             Marshal.FinalReleaseComObject(shellLinkPersistFile)
             Marshal.FinalReleaseComObject(persistFile)
             Marshal.FinalReleaseComObject(shellLink)
             Marshal.FinalReleaseComObject(cShellLink)
+
+            If isReadOnly Then
+                Try
+                    Me.Attributes = Me.Attributes Or FileAttributes.ReadOnly
+                Catch ex As Exception
+                    MessageBox.Show("Error. Cannot restore Read-Only attribute to link file." & Environment.NewLine & Environment.NewLine &
+                                    ex.Message, My.Application.Info.Title,
+                                    MessageBoxButtons.OK, MessageBoxIcon.Error)
+                    Exit Sub
+
+                End Try
+            End If
         End Sub
 
         ''' ----------------------------------------------------------------------------------------------------
