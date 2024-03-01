@@ -336,7 +336,7 @@ Friend NotInheritable Class Form1 : Inherits Form
                 Try
                     File.Delete(dlg.FileName)
                 Catch ex As Exception
-                    MessageBox.Show(Me, "Can't delete existing link file.", My.Application.Info.Title, MessageBoxButtons.OK, MessageBoxIcon.Error)
+                    MessageBox.Show(Me, "Can't delete existing link file:" & Environment.NewLine & Environment.NewLine & ex.Message, My.Application.Info.Title, MessageBoxButtons.OK, MessageBoxIcon.Error)
                 End Try
 
                 Dim newShortcut As ShortcutFileInfo = Nothing

@@ -1,4 +1,4 @@
-﻿' This source-code is freely distributed as part of "DevCase for .NET Framework".
+﻿' This source-code is freely distributed as part of "DevCase Class Library .NET Developers".
 ' 
 ' Maybe you would like to consider to buy this powerful set of libraries to support me. 
 ' You can do loads of things with my apis for a big amount of diverse thematics.
@@ -492,7 +492,7 @@ Namespace DevCase.Core.IO
         ''' Gets or sets the shortcut description.
         ''' </summary>
         ''' ----------------------------------------------------------------------------------------------------
-        <Description("The shortcut description.")>
+        <Description("The shortcut description. Max Length is 259 characters.")>
         <DisplayName("Description")>
         <Category("Shortcut")>
         <DefaultValue("")>
@@ -554,7 +554,7 @@ Namespace DevCase.Core.IO
         ''' Gets or sets the full path of the icon file.
         ''' </summary>
         ''' ----------------------------------------------------------------------------------------------------
-        <Description("The full path of the icon file.")>
+        <Description("The full path of the icon file. Max Length is 259 characters.")>
         <DisplayName("Icon")>
         <Category("Shortcut")>
         <DefaultValue("")>
@@ -646,7 +646,7 @@ Namespace DevCase.Core.IO
         ''' Gets or sets the full path of the target file or directory.
         ''' </summary>
         ''' ----------------------------------------------------------------------------------------------------
-        <Description("The full path of the target file or directory.")>
+        <Description("The full path of the target file or directory. Max Length is 259 characters.")>
         <DisplayName("Target")>
         <Category("Shortcut")>
         <DefaultValue("")>
@@ -680,7 +680,7 @@ Namespace DevCase.Core.IO
         ''' Gets or sets the command-line arguments of the target.
         ''' </summary>
         ''' ----------------------------------------------------------------------------------------------------
-        <Description("The command-line arguments for the target.")>
+        <Description("The command-line arguments for the target. Max Length is 1023 characters.")>
         <DisplayName("Target Arguments")>
         <Category("Shortcut")>
         <DefaultValue("")>
@@ -734,7 +734,7 @@ Namespace DevCase.Core.IO
         ''' Gets or sets the working directory of the target file or directory.
         ''' </summary>
         ''' ----------------------------------------------------------------------------------------------------
-        <Description("The working directory of the target file or directory.")>
+        <Description("The working directory of the target file or directory. Max Length is 259 characters.")>
         <DisplayName("Working Directory")>
         <Category("Shortcut")>
         <DefaultValue("")>

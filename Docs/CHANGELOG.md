@@ -19,6 +19,7 @@
  - Renamed / simplified names for tabs.
  - Now the user settings are stored within the executable directory in a folder with name "cache". This makes the application 100% portable. Solves Issue [#10](https://github.com/ElektroStudios/Easy-Link-File-Viewer/issues/10)
  - Added a confirmation message box for successful saves, and another for failed saves.
+ - Incremented selectable font sizes up to 16pt.
 
 ## v1.4 🔄
 
