@@ -25,12 +25,10 @@ Imports DevCase.Core.IO
 Imports DevCase.Core.IO.Tools
 Imports DevCase.Core.Imaging.Tools
 Imports Manina.Windows.Forms
-Imports Microsoft.Win32
 
 #End Region
 
 #Region " Form1 "
-
 ''' ----------------------------------------------------------------------------------------------------
 ''' <summary>
 ''' The main application Form.
@@ -133,6 +131,7 @@ Friend NotInheritable Class Form1 : Inherits Form
         If String.IsNullOrEmpty(Me.ToolStripComboBoxFontSize.Text) Then
             Me.ToolStripComboBoxFontSize.Text = "10"
         End If
+        AddHandler Me.SettingsToolStripMenuItem.DropDown.Closing, AddressOf Me.SettingsToolStripDropDown_Closing
     End Sub
 
     ''' ----------------------------------------------------------------------------------------------------
@@ -337,10 +336,18 @@ Friend NotInheritable Class Form1 : Inherits Form
                 Try
                     File.Delete(dlg.FileName)
                 Catch ex As Exception
-                    MessageBox.Show(Me, "Can't overwrite file.", Me.Text, MessageBoxButtons.OK, MessageBoxIcon.Error)
+                    MessageBox.Show(Me, "Can't delete existing link file.", My.Application.Info.Title, MessageBoxButtons.OK, MessageBoxIcon.Error)
                 End Try
-                Dim newShortcut As New ShortcutFileInfo(dlg.FileName) With {.ViewMode = True}
-                newShortcut.Create()
+
+                Dim newShortcut As ShortcutFileInfo = Nothing
+                Try
+                    newShortcut = New ShortcutFileInfo(dlg.FileName) With {.ViewMode = True}
+                    newShortcut.Create()
+
+                Catch ex As Exception
+                    MessageBox.Show(Me, "Error creating link file:" & Environment.NewLine & Environment.NewLine & ex.Message,
+                                    My.Application.Info.Title, MessageBoxButtons.OK, MessageBoxIcon.Error)
+                End Try
 
                 Me.LoadShortcutInPropertyGrid(newShortcut.FullName)
             End If
@@ -377,7 +384,6 @@ Friend NotInheritable Class Form1 : Inherits Form
             If dlg.ShowDialog = DialogResult.OK Then
                 Me.LoadShortcutInPropertyGrid(dlg.FileName)
             End If
-
         End Using
 
     End Sub
@@ -398,7 +404,15 @@ Friend NotInheritable Class Form1 : Inherits Form
     Private Sub SaveToolStripMenuItem_Click(sender As Object, e As EventArgs) _
         Handles SaveToolStripMenuItem.Click, SaveToolBarMenuItem.Click
 
-        Me.currentShortcut.Create()
+        Try
+            Me.currentShortcut.Create()
+            MessageBox.Show("Link file saved successfully.", My.Application.Info.Title, MessageBoxButtons.OK, MessageBoxIcon.Information)
+
+        Catch ex As Exception
+            MessageBox.Show(Me, "Error creating link file:" & Environment.NewLine & Environment.NewLine & ex.Message,
+                                    My.Application.Info.Title, MessageBoxButtons.OK, MessageBoxIcon.Error)
+        End Try
+
         Me.PropertyGrid1.Refresh()
         Me.LoadShortcutInHexBox(Me.currentShortcut.FullName)
     End Sub
@@ -442,7 +456,15 @@ Friend NotInheritable Class Form1 : Inherits Form
                     .WindowState = Me.currentShortcut.WindowState
                     .WorkingDirectory = Me.currentShortcut.WorkingDirectory
 
-                    .Create()
+                    Try
+                        .Create()
+                        MessageBox.Show("Link file saved successfully.", My.Application.Info.Title, MessageBoxButtons.OK, MessageBoxIcon.Information)
+
+                    Catch ex As Exception
+                        MessageBox.Show(Me, "Error creating link file:" & Environment.NewLine & Environment.NewLine & ex.Message,
+                                    My.Application.Info.Title, MessageBoxButtons.OK, MessageBoxIcon.Error)
+                    End Try
+
 
                     .Attributes = Me.currentShortcut.Attributes
                     .CreationTime = Me.currentShortcut.CreationTime
@@ -514,6 +536,23 @@ Friend NotInheritable Class Form1 : Inherits Form
 #End Region
 
 #Region " Settings Menu "
+
+    ''' ----------------------------------------------------------------------------------------------------
+    ''' <summary>
+    ''' Handles the <see cref="ToolStripDropDown.Closing"/> event of the <see cref="Form1.SettingsToolStripMenuItem"/> control.
+    ''' </summary>
+    ''' ----------------------------------------------------------------------------------------------------
+    ''' <param name="sender">
+    ''' The source of the event.
+    ''' </param>
+    ''' 
+    ''' <param name="e">
+    ''' The <see cref="EventArgs"/> instance containing the event data.
+    ''' </param>
+    ''' ----------------------------------------------------------------------------------------------------
+    Private Sub SettingsToolStripDropDown_Closing(sender As Object, e As ToolStripDropDownClosingEventArgs)
+        e.Cancel = (e.CloseReason = ToolStripDropDownCloseReason.ItemClicked)
+    End Sub
 
     ''' ----------------------------------------------------------------------------------------------------
     ''' <summary>
@@ -655,9 +694,20 @@ Friend NotInheritable Class Form1 : Inherits Form
 
         Dim item As ToolStripMenuItem = DirectCast(sender, ToolStripMenuItem)
         If item.Checked Then
-            RegistryUtil.CreateFileTypeRegistryMenuEntry(fileType, keyName, text, position, icon, command)
+            Try
+                RegistryUtil.CreateFileTypeRegistryMenuEntry(fileType, keyName, text, position, icon, command)
+            Catch ex As Exception
+                MessageBox.Show(Me, "Error trying to create file type registry menu entry:" & Environment.NewLine & Environment.NewLine & ex.Message,
+                                My.Application.Info.Title, MessageBoxButtons.OK, MessageBoxIcon.Error)
+            End Try
         Else
-            RegistryUtil.DeleteFileTypeRegistryMenuEntry(fileType, keyName, throwOnMissingsubKey:=False)
+            Try
+                RegistryUtil.DeleteFileTypeRegistryMenuEntry(fileType, keyName, throwOnMissingsubKey:=False)
+            Catch ex As Exception
+                MessageBox.Show(Me, "Error trying to delete file type registry menu entry:" & Environment.NewLine & Environment.NewLine & ex.Message,
+                                My.Application.Info.Title, MessageBoxButtons.OK, MessageBoxIcon.Error)
+
+            End Try
         End If
 
     End Sub
@@ -735,7 +785,7 @@ Friend NotInheritable Class Form1 : Inherits Form
             Process.Start(Me.currentShortcut.FullName)
 
         Catch ex As Exception
-            MessageBox.Show(Me, ex.Message, Me.Text, MessageBoxButtons.OK, MessageBoxIcon.Error)
+            MessageBox.Show(Me, ex.Message, My.Application.Info.Title, MessageBoxButtons.OK, MessageBoxIcon.Error)
 
         End Try
 
@@ -764,7 +814,7 @@ Friend NotInheritable Class Form1 : Inherits Form
                 Exit Sub
 
             Catch ex As Exception
-                MessageBox.Show(Me, ex.Message, Me.Text, MessageBoxButtons.OK, MessageBoxIcon.Error)
+                MessageBox.Show(Me, ex.Message, My.Application.Info.Title, MessageBoxButtons.OK, MessageBoxIcon.Error)
 
             End Try
         End If
@@ -775,12 +825,12 @@ Friend NotInheritable Class Form1 : Inherits Form
                 Exit Sub
 
             Catch ex As Exception
-                MessageBox.Show(Me, ex.Message, Me.Text, MessageBoxButtons.OK, MessageBoxIcon.Error)
+                MessageBox.Show(Me, ex.Message, My.Application.Info.Title, MessageBoxButtons.OK, MessageBoxIcon.Error)
 
             End Try
         End If
 
-        MessageBox.Show(Me, "Can't find the shortcut target.", Me.Text, MessageBoxButtons.OK, MessageBoxIcon.Error)
+        MessageBox.Show(Me, "Can't find the shortcut target.", My.Application.Info.Title, MessageBoxButtons.OK, MessageBoxIcon.Error)
 
     End Sub
 
@@ -804,7 +854,7 @@ Friend NotInheritable Class Form1 : Inherits Form
             Exit Sub
 
         Catch ex As Exception
-            MessageBox.Show(Me, ex.Message, Me.Text, MessageBoxButtons.OK, MessageBoxIcon.Error)
+            MessageBox.Show(Me, ex.Message, My.Application.Info.Title, MessageBoxButtons.OK, MessageBoxIcon.Error)
 
         End Try
 
@@ -829,7 +879,7 @@ Friend NotInheritable Class Form1 : Inherits Form
             FileUtil.InternalOpenInExplorer(Me.currentShortcut.FullName)
 
         Catch ex As Exception
-            MessageBox.Show(Me, ex.Message, Me.Text, MessageBoxButtons.OK, MessageBoxIcon.Error)
+            MessageBox.Show(Me, ex.Message, My.Application.Info.Title, MessageBoxButtons.OK, MessageBoxIcon.Error)
 
         End Try
 
@@ -854,7 +904,7 @@ Friend NotInheritable Class Form1 : Inherits Form
             FileUtil.InternalOpenInExplorer(Me.currentShortcut.Target)
 
         Catch ex As Exception
-            MessageBox.Show(Me, ex.Message, Me.Text, MessageBoxButtons.OK, MessageBoxIcon.Error)
+            MessageBox.Show(Me, ex.Message, My.Application.Info.Title, MessageBoxButtons.OK, MessageBoxIcon.Error)
 
         End Try
 
@@ -879,7 +929,7 @@ Friend NotInheritable Class Form1 : Inherits Form
             FileUtil.InternalOpenInExplorer(Me.currentShortcut.WorkingDirectory)
 
         Catch ex As Exception
-            MessageBox.Show(Me, ex.Message, Me.Text, MessageBoxButtons.OK, MessageBoxIcon.Error)
+            MessageBox.Show(Me, ex.Message, My.Application.Info.Title, MessageBoxButtons.OK, MessageBoxIcon.Error)
 
         End Try
 
@@ -904,7 +954,7 @@ Friend NotInheritable Class Form1 : Inherits Form
             FileUtil.InternalOpenInExplorer(Me.currentShortcut.Icon)
 
         Catch ex As Exception
-            MessageBox.Show(Me, ex.Message, Me.Text, MessageBoxButtons.OK, MessageBoxIcon.Error)
+            MessageBox.Show(Me, ex.Message, My.Application.Info.Title, MessageBoxButtons.OK, MessageBoxIcon.Error)
 
         End Try
 

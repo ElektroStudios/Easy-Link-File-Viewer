@@ -10,7 +10,7 @@ Imports System.Runtime.InteropServices
 ' Review the values of the assembly attributes
 
 <Assembly: AssemblyTitle("Easy Link File Viewer")>
-<Assembly: AssemblyDescription("A desktop application to read, modify and write shortcut files (.lnk) with ease.")>
+<Assembly: AssemblyDescription("A desktop application to read, modify and write link files (*.lnk) with ease.")>
 <Assembly: AssemblyCompany("ElektroStudios")>
 <Assembly: AssemblyProduct("Easy Link File Viewer")>
 <Assembly: AssemblyCopyright("Copyright © ElektroStudios 2018-2024")>

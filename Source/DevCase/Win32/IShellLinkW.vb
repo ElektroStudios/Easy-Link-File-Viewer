@@ -110,8 +110,7 @@ Namespace DevCase.Interop.Unmanaged.Win32.Interfaces
         ''' The maximum number of characters to copy to the buffer pointed to by the pszName parameter.
         ''' </param>
         ''' ----------------------------------------------------------------------------------------------------
-        Sub GetDescription(<Out(), MarshalAs(UnmanagedType.LPWStr)> name As StringBuilder,
-                                                                    maxName As Integer)
+        Sub GetDescription(<Out(), MarshalAs(UnmanagedType.LPWStr)> name As StringBuilder, maxName As Integer)
 
         ''' ----------------------------------------------------------------------------------------------------
         ''' <summary>

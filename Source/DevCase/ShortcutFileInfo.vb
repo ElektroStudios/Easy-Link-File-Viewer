@@ -159,6 +159,16 @@ Namespace DevCase.Core.IO
     <DefaultProperty(NameOf(ShortcutFileInfo.Target))>
     Friend NotInheritable Class ShortcutFileInfo : Inherits FileSystemInfo
 
+#Region " Private Fields "
+
+        Private Const maxArgumentsLength As Integer = 1023
+        Private Const maxDescriptionLength As Integer = 259
+        Private Const maxIconLength As Integer = 259
+        Private Const maxTargetLength As Integer = 259
+        Private Const maxWorkingDirLength As Integer = 259
+
+#End Region
+
 #Region " Properties "
 
 #Region " File Info "
@@ -492,6 +502,9 @@ Namespace DevCase.Core.IO
             End Get
             Set(value As String)
                 If (value <> Me.description_) Then
+                    If value.Length > maxDescriptionLength Then
+                        value = value.Substring(0, maxDescriptionLength)
+                    End If
                     Me.description_ = value
                     Me.WriteLink()
                 End If
@@ -552,6 +565,9 @@ Namespace DevCase.Core.IO
             End Get
             Set(value As String)
                 If (value <> Me.icon_) Then
+                    If value.Length > maxIconLength Then
+                        value = value.Substring(0, maxIconLength)
+                    End If
                     Me.icon_ = value
                     Me.WriteLink()
                 End If
@@ -641,9 +657,13 @@ Namespace DevCase.Core.IO
             End Get
             Set(value As String)
                 If (value <> Me.target_) Then
+                    If value.Length > maxTargetLength Then
+                        value = value.Substring(0, maxTargetLength)
+                    End If
+
                     Me.target_ = value
-                    Me.WriteLink()
-                End If
+                        Me.WriteLink()
+                    End If
             End Set
         End Property
         ''' ----------------------------------------------------------------------------------------------------
@@ -670,6 +690,9 @@ Namespace DevCase.Core.IO
             End Get
             Set(value As String)
                 If (value <> Me.targetArguments_) Then
+                    If value.Length > maxArgumentsLength Then
+                        value = value.Substring(0, maxArgumentsLength)
+                    End If
                     Me.targetArguments_ = value
                     Me.WriteLink()
                 End If
@@ -722,6 +745,9 @@ Namespace DevCase.Core.IO
             End Get
             Set(value As String)
                 If (value <> Me.workingDirectory_) Then
+                    If value.Length > maxWorkingDirLength Then
+                        value = value.Substring(0, maxWorkingDirLength)
+                    End If
                     Me.workingDirectory_ = value
                     Me.WriteLink()
                 End If
@@ -1145,15 +1171,15 @@ Namespace DevCase.Core.IO
         ''' ----------------------------------------------------------------------------------------------------
         <DebuggerStepThrough>
         Private Sub ReadLink()
-            Dim arguments As New StringBuilder(260)
-            Dim description As New StringBuilder(260)
+            Dim arguments As New StringBuilder(capacity:=maxArgumentsLength, maxCapacity:=maxArgumentsLength)
+            Dim description As New StringBuilder(capacity:=maxDescriptionLength, maxCapacity:=maxDescriptionLength)
             Dim hotkey As UShort
-            Dim icon As New StringBuilder(260)
+            Dim icon As New StringBuilder(capacity:=maxIconLength, maxCapacity:=maxIconLength)
             Dim iconIndex As Integer
             Dim pidl As IntPtr
-            Dim target As New StringBuilder(260)
+            Dim target As New StringBuilder(capacity:=maxTargetLength, maxCapacity:=maxTargetLength)
             Dim windowstate As ShortcutWindowState = ShortcutWindowState.Normal
-            Dim workingDir As New StringBuilder(260)
+            Dim workingDir As New StringBuilder(capacity:=maxWorkingDirLength, maxCapacity:=maxWorkingDirLength)
 
             Dim cShellLink As New CShellLink()
             Dim persistFile As IPersistFile = DirectCast(cShellLink, IPersistFile)
@@ -1161,13 +1187,13 @@ Namespace DevCase.Core.IO
 
             Dim shellLink As IShellLinkW = DirectCast(cShellLink, IShellLinkW)
             With shellLink
-                .GetArguments(arguments, arguments.Capacity)
-                .GetDescription(description, description.Capacity)
+                .GetArguments(arguments, arguments.MaxCapacity)
+                .GetDescription(description, description.MaxCapacity)
                 .GetHotkey(hotkey)
                 .GetIDList(pidl)
-                .GetIconLocation(icon, icon.Capacity, iconIndex)
+                .GetIconLocation(icon, icon.MaxCapacity, iconIndex)
                 .GetShowCmd(DirectCast(windowstate, NativeWindowState))
-                .GetWorkingDirectory(workingDir, workingDir.Capacity)
+                .GetWorkingDirectory(workingDir, workingDir.MaxCapacity)
 
                 ' SHGetNameFromIDList() can retrieve common file system paths, and CLSIDs/virtual folders.
                 If (pidl = IntPtr.Zero) OrElse NativeMethods.SHGetNameFromIDList(pidl, ShellItemGetDisplayName.DesktopAbsoluteParsing, target) <> HResult.S_OK Then
@@ -1214,25 +1240,7 @@ Namespace DevCase.Core.IO
 
             Dim isReadOnly As Boolean = Me.IsReadOnly
             If (isReadOnly) Then
-                Dim result As DialogResult =
-                    MessageBox.Show("The target link file is marked with Read-Only attribute." & Environment.NewLine & Environment.NewLine &
-                                    "Press ""Ok"" if you want to continue (Read-Only attribute will be preserved).", My.Application.Info.Title,
-                                    MessageBoxButtons.OKCancel, MessageBoxIcon.Information, MessageBoxDefaultButton.Button1)
-
-                If result = DialogResult.Cancel Then
-                    Exit Sub
-                End If
-                'Throw New Exception($"The specified link file is read-only: {Me.FullName}")
-
-                Try
-                    Me.Attributes = Me.Attributes And Not FileAttributes.ReadOnly
-                Catch ex As Exception
-                    MessageBox.Show("Error. Cannot save link file; cannot remove Read-Only attribute from file." & Environment.NewLine & Environment.NewLine &
-                                    ex.Message, My.Application.Info.Title,
-                                    MessageBoxButtons.OK, MessageBoxIcon.Error)
-                    Exit Sub
-
-                End Try
+                Me.Attributes = Me.Attributes And Not FileAttributes.ReadOnly
             End If
 
             Dim cShellLink As New CShellLink()
@@ -1261,13 +1269,7 @@ Namespace DevCase.Core.IO
             End If
 
             If shellLinkPersistFile.IsDirty = 0 Then
-                MessageBox.Show("Error. Cannot save changes to link file." & Environment.NewLine & Environment.NewLine &
-                                "Ensure that you are using an user account with granted permissions to write on this file.",
-                                My.Application.Info.Title, MessageBoxButtons.OK, MessageBoxIcon.Error)
-            Else
-                MessageBox.Show("Link file saved successfully.",
-                            My.Application.Info.Title, MessageBoxButtons.OK, MessageBoxIcon.Information)
-
+                Throw New Exception(message:="Cannot save changes to link file, ensure that you are using an user account with granted permissions to write on this file.")
             End If
 
             Marshal.FinalReleaseComObject(shellLinkPersistFile)
@@ -1276,15 +1278,7 @@ Namespace DevCase.Core.IO
             Marshal.FinalReleaseComObject(cShellLink)
 
             If isReadOnly Then
-                Try
-                    Me.Attributes = Me.Attributes Or FileAttributes.ReadOnly
-                Catch ex As Exception
-                    MessageBox.Show("Error. Cannot restore Read-Only attribute to link file." & Environment.NewLine & Environment.NewLine &
-                                    ex.Message, My.Application.Info.Title,
-                                    MessageBoxButtons.OK, MessageBoxIcon.Error)
-                    Exit Sub
-
-                End Try
+                Me.Attributes = Me.Attributes Or FileAttributes.ReadOnly
             End If
         End Sub
 
