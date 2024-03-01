@@ -1,6 +1,6 @@
 # Easy Link File Viewer Change Log 📋
 
-## v1.5 *(currently in development)* 🆕
+## v1.5 (current) 🆕
 
 #### 🚀 New Features:
  - Added support for opening \*.lnk files from command-line. 
@@ -11,7 +11,7 @@
 #### 🛠️ Fixes:
  - Some elements within the user interface remained unaffected when the user opted for a different font size.
  - Made capable to save changes in read-only link files. Solves Issue [#9](https://github.com/ElektroStudios/Easy-Link-File-Viewer/issues/9)
- - Fixed buffer sizes to read/write link propties that prevents exceeding the maximum allowed length. Solves Issue [#7](https://github.com/ElektroStudios/Easy-Link-File-Viewer/issues/7)
+ - Fixed buffer sizes to read/write link properties that prevents exceeding the maximum allowed length. Solves Issue [#7](https://github.com/ElektroStudios/Easy-Link-File-Viewer/issues/7)
 
 #### 🌟 Improvements:
  - Assigned a default accelerator key for all of the menu options.
