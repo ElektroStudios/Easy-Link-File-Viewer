@@ -3,7 +3,7 @@
 ## v1.6.1 (current) 🆕
 
 #### 🛠️ Fixes:
- - A user settings conflict that caused an unhandled exception when trying to persist the property grid view mode.
+ - An user settings conflict that caused an unhandled exception when trying to persist the property grid view mode.
 
 ## v1.6 🔄
 
