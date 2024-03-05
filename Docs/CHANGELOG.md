@@ -5,7 +5,7 @@
 #### 🛠️ Fixes:
  - A user settings conflict that caused an unhandled exception when trying to persist the property grid view mode.
 
-## v1.6 (current) 🆕
+## v1.6 🔄
 
 #### 🚀 New Features:
  - Added experimental support to read/write Windows Installer link files. Solves Issue [#5](https://github.com/ElektroStudios/Easy-Link-File-Viewer/issues/5)
