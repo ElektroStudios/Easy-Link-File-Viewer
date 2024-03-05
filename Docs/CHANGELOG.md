@@ -1,11 +1,28 @@
 # Easy Link File Viewer Change Log 📋
 
-## v1.5 (current) 🆕
+## v1.6 (current) 🆕
+
+#### 🚀 New Features:
+ - Added experimental support to read/write Windows Installer link files. Solves Issue [#5](https://github.com/ElektroStudios/Easy-Link-File-Viewer/issues/5)
+ - Added a new menu option: "Show Link Editor Toolbar". Solves Issue [#11](https://github.com/ElektroStudios/Easy-Link-File-Viewer/issues/11)
+ - Added a new menu option: "Show 'Raw' tab". Solves Issue [#11](https://github.com/ElektroStudios/Easy-Link-File-Viewer/issues/11)
+ - Added a new menu option: "Hide 'Recent...' files list". Solves Issue [#11](https://github.com/ElektroStudios/Easy-Link-File-Viewer/issues/11)
+
+#### 🛠️ Fixes:
+ - The program can crash when it is unable to retrieve the description field for some kind of link files.
+ - The menu options "Default" and "Dark" in "Settings > Visual Style" allowed them to be unchecked individually.
+
+#### 🌟 Improvements:
+ - "About" menu button is now aligned to the top right corner of the window bounds. Solves Issue [#11](https://github.com/ElektroStudios/Easy-Link-File-Viewer/issues/11)
+ - Now a message box will display to inform about errors if the data of a link file can't be read.
+ - Menu item "Show toolbar" has been renamed to "Show File Menu Toolbar".
+
+## v1.5 🔄
 
 #### 🚀 New Features:
  - Added support for opening \*.lnk files from command-line. 
- - Added a new setting: "Remember Window Size and Position". 
- - Added a new setting: "Add Explorer's context-menu entry for *.lnk". Solves Issue [#2](https://github.com/ElektroStudios/Easy-Link-File-Viewer/issues/2)
+ - Added a new menu option: "Remember Window Size and Position". 
+ - Added a new menu option: "Add Explorer's context-menu entry for *.lnk". Solves Issue [#2](https://github.com/ElektroStudios/Easy-Link-File-Viewer/issues/2)
  - Added an icons toolbar below the top menu strip to have faster access to the "File" menu commands. Solves Issue [#8](https://github.com/ElektroStudios/Easy-Link-File-Viewer/issues/8)
 
 #### 🛠️ Fixes:
@@ -15,7 +32,7 @@
 
 #### 🌟 Improvements:
  - Assigned a default accelerator key for all of the menu options.
- - Added a setting to show or hide the icons toolbar.
+ - Added a menu option to show or hide the icons toolbar.
  - Renamed / simplified names for tabs.
  - Now the user settings are stored within the executable directory in a folder with name "cache". This makes the application 100% portable. Solves Issue [#10](https://github.com/ElektroStudios/Easy-Link-File-Viewer/issues/10)
  - Added a confirmation message box for successful saves, and another for failed saves.
@@ -47,10 +64,10 @@
 ## v1.1 🔄
 
 #### 🚀 New Features:
- - Added a UI editor for 'Icon' property to select a icon file through a dialog window.
- - Added a UI editor for 'Icon Index' property to preview the current icon.
- - Added a UI editor for 'Target' property to select a file or folder through a dialog window.
- - Added a UI editor for 'Working Directory' property to select a folder through a dialog window.
+ - Added an UI editor for 'Icon' property to select a icon file through a dialog window.
+ - Added an UI editor for 'Icon Index' property to preview the current icon.
+ - Added an UI editor for 'Target' property to select a file or folder through a dialog window.
+ - Added an UI editor for 'Working Directory' property to select a folder through a dialog window.
  - Added icon preview for the current shortcut file on the status bar.
  - Added a property 'Target Display Name' which will display a friendly name for special targets. 
       (eg. '::{20D04FE0-3AEA-1069-A2D8-08002B30309D}' CLSID is translated as 'My PC').

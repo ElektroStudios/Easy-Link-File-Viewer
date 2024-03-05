@@ -70,10 +70,10 @@ Namespace DevCase.Interop.Unmanaged.Win32.Interfaces
         ''' Flags that specify the type of path information to retrieve.
         ''' </param>
         ''' ----------------------------------------------------------------------------------------------------
-        Sub GetPath(<Out(), MarshalAs(UnmanagedType.LPWStr)> file As StringBuilder,
-                                                             maxPath As Integer,
-                                                             ByRef refWin32FindData As Win32FindDataW,
-                                                             flags As IShellLinkGetPathFlags)
+        Sub GetPath(<Out, MarshalAs(UnmanagedType.LPWStr)> file As StringBuilder,
+                                                           maxPath As Integer,
+                                                     ByRef refWin32FindData As Win32FindDataW,
+                                                           flags As IShellLinkGetPathFlags)
 
         ''' ----------------------------------------------------------------------------------------------------
         ''' <summary>
@@ -110,7 +110,7 @@ Namespace DevCase.Interop.Unmanaged.Win32.Interfaces
         ''' The maximum number of characters to copy to the buffer pointed to by the pszName parameter.
         ''' </param>
         ''' ----------------------------------------------------------------------------------------------------
-        Sub GetDescription(<Out(), MarshalAs(UnmanagedType.LPWStr)> name As StringBuilder, maxName As Integer)
+        Sub GetDescription(<Out, MarshalAs(UnmanagedType.LPWStr)> name As StringBuilder, maxName As Integer)
 
         ''' ----------------------------------------------------------------------------------------------------
         ''' <summary>
@@ -139,8 +139,8 @@ Namespace DevCase.Interop.Unmanaged.Win32.Interfaces
         ''' The name of the working directory is truncated if it is longer than the maximum specified by this parameter.
         ''' </param>
         ''' ----------------------------------------------------------------------------------------------------
-        Sub GetWorkingDirectory(<Out(), MarshalAs(UnmanagedType.LPWStr)> dir As StringBuilder,
-                                                                         maxPath As Integer)
+        Sub GetWorkingDirectory(<Out, MarshalAs(UnmanagedType.LPWStr)> dir As StringBuilder,
+                                                                       maxPath As Integer)
 
         ''' ----------------------------------------------------------------------------------------------------
         ''' <summary>
@@ -171,8 +171,8 @@ Namespace DevCase.Interop.Unmanaged.Win32.Interfaces
         ''' version of Windows.
         ''' </param>
         ''' ----------------------------------------------------------------------------------------------------
-        Sub GetArguments(<Out(), MarshalAs(UnmanagedType.LPWStr)> args As StringBuilder,
-                                                                  maxPath As Integer)
+        Sub GetArguments(<Out, MarshalAs(UnmanagedType.LPWStr)> args As StringBuilder,
+                                                                maxPath As Integer)
 
         ''' ----------------------------------------------------------------------------------------------------
         ''' <summary>
@@ -257,9 +257,9 @@ Namespace DevCase.Interop.Unmanaged.Win32.Interfaces
         ''' The address of a value that receives the index of the icon.
         ''' </param>
         ''' ----------------------------------------------------------------------------------------------------
-        Sub GetIconLocation(<Out(), MarshalAs(UnmanagedType.LPWStr)> iconPath As StringBuilder,
-                                                                     iconPathSize As Integer,
-                                                                     ByRef refIconIndex As Integer)
+        Sub GetIconLocation(<Out, MarshalAs(UnmanagedType.LPWStr)> iconPath As StringBuilder,
+                                                                   iconPathSize As Integer,
+                                                             ByRef refIconIndex As Integer)
 
         ''' ----------------------------------------------------------------------------------------------------
         ''' <summary>

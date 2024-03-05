@@ -91,6 +91,13 @@ Friend Module JotUtil
             .CanPersist(Function(f As Form1) f.RememberWindowSizeAndPosToolStripMenuItem.Checked)
         End With
 
+        With JotUtil.formTrackingConfig
+            .Id(Function(f As Form1) f.PropertyGrid1.Name)
+            .Properties(Function(f As Form1) New With {f.PropertyGrid1.PropertySort})
+            .PersistOn(NameOf(Form1.PropertyGrid1.PropertySortChanged))
+            .StopTrackingOn(NameOf(Form1.FormClosing))
+        End With
+
         JotUtil.menuItemTrackingConfig = JotUtil.jotTracker.Configure(Of ToolStripMenuItem)
         With JotUtil.menuItemTrackingConfig
             .Id(Function(i As ToolStripMenuItem) i.Name)
@@ -144,7 +151,10 @@ Friend Module JotUtil
 
         JotUtil.menuItemTrackingConfig.Track(My.Forms.Form1.DefaultToolStripMenuItem)
         JotUtil.menuItemTrackingConfig.Track(My.Forms.Form1.DarkToolStripMenuItem)
-        JotUtil.menuItemTrackingConfig.Track(My.Forms.Form1.ShowToolbarToolStripMenuItem)
+        JotUtil.menuItemTrackingConfig.Track(My.Forms.Form1.ShowFileMenuToolbarToolStripMenuItem)
+        JotUtil.menuItemTrackingConfig.Track(My.Forms.Form1.ShowLinkEditorToolbarToolStripMenuItem)
+        JotUtil.menuItemTrackingConfig.Track(My.Forms.Form1.ShowRawTabToolStripMenuItem)
+        JotUtil.menuItemTrackingConfig.Track(My.Forms.Form1.HideRecentFilesListToolStripMenuItem)
         JotUtil.menuItemTrackingConfig.Track(My.Forms.Form1.AddProgramShortcutToExplorersContextmenuToolStripMenuItem)
         JotUtil.toolStripComboBoxTrackingConfig.Track(My.Forms.Form1.ToolStripComboBoxFontSize)
     End Sub

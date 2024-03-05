@@ -91,13 +91,11 @@ Friend NotInheritable Class Form1 : Inherits Form
     ''' </param>
     ''' ----------------------------------------------------------------------------------------------------
     Private Sub Form1_Load(sender As Object, e As EventArgs) Handles MyBase.Load
-        Me.Text = $"{My.Application.Info.Title} v{My.Application.Info.Version.Major}.{My.Application.Info.Version.Minor}"
+        Me.Text = $"{My.Application.Info.Title} {My.Application.Info.Version.Major}.{My.Application.Info.Version.Minor}"
 
         Me.ToolStripStatusLabelIcon.Text = ""
         Me.ToolStripStatusLabelFileName.Text = ""
         Me.AdjustCorrectTableLayoutPanelRowSizes()
-        'Me.ToolStripComboBoxFontSize.SelectedItem = CStr(My.Settings.FontSize)
-        'Me.LoadVisualTheme()
 
         ' Load file from command-line arguments.
         If My.Application.CommandLineArgs.Any() Then
@@ -106,6 +104,8 @@ Friend NotInheritable Class Form1 : Inherits Form
             Me.PropertyGrid1_DragDrop(Me, args)
         End If
 
+        Me.AboutToolStripMenuItem.Alignment = ToolStripItemAlignment.Right
+        Me.TabControl1.Pages.Remove(Me.Tab_HexViewer)
         JotUtil.StartTrackingMenuItems()
     End Sub
 
@@ -406,11 +406,12 @@ Friend NotInheritable Class Form1 : Inherits Form
 
         Try
             Me.currentShortcut.Create()
-            MessageBox.Show("Link file saved successfully.", My.Application.Info.Title, MessageBoxButtons.OK, MessageBoxIcon.Information)
+            MessageBox.Show("Link file saved successfully.", My.Application.Info.Title,
+                            MessageBoxButtons.OK, MessageBoxIcon.Information)
 
         Catch ex As Exception
             MessageBox.Show(Me, "Error creating link file:" & Environment.NewLine & Environment.NewLine & ex.Message,
-                                    My.Application.Info.Title, MessageBoxButtons.OK, MessageBoxIcon.Error)
+                             My.Application.Info.Title, MessageBoxButtons.OK, MessageBoxIcon.Error)
         End Try
 
         Me.PropertyGrid1.Refresh()
@@ -571,7 +572,6 @@ Friend NotInheritable Class Form1 : Inherits Form
         Handles ToolStripComboBoxFontSize.SelectedIndexChanged
 
         Dim fontSize As Single = CSng(DirectCast(sender, ToolStripComboBox).SelectedItem)
-        ' My.Settings.FontSize = sz
         Me.LoadFontSize(fontSize)
 
     End Sub
@@ -591,8 +591,7 @@ Friend NotInheritable Class Form1 : Inherits Form
     ''' ----------------------------------------------------------------------------------------------------
     Private Sub DefaultToolStripMenuItem_CheckedChanged(sender As Object, e As EventArgs) _
         Handles DefaultToolStripMenuItem.CheckedChanged
-        ' My.Settings.VisualThemeIndex = 0
-        ' Me.LoadVisualTheme()
+
         Dim item As ToolStripMenuItem = DirectCast(sender, ToolStripMenuItem)
         If item.Checked Then
             Me.LoadVisualTheme(VisualStyle.Default)
@@ -614,8 +613,7 @@ Friend NotInheritable Class Form1 : Inherits Form
     ''' ----------------------------------------------------------------------------------------------------
     Private Sub DarkToolStripMenuItem_CheckedChanged(sender As Object, e As EventArgs) _
         Handles DarkToolStripMenuItem.CheckedChanged
-        ' My.Settings.VisualThemeIndex = 1
-        ' Me.LoadVisualTheme()
+
         Dim item As ToolStripMenuItem = DirectCast(sender, ToolStripMenuItem)
         If item.Checked Then
             Me.LoadVisualTheme(VisualStyle.VisualStudioDark)
@@ -624,7 +622,8 @@ Friend NotInheritable Class Form1 : Inherits Form
 
     ''' ----------------------------------------------------------------------------------------------------
     ''' <summary>
-    ''' Handles the <see cref="ToolStripMenuItem.CheckedChanged"/> event of the <see cref="Form1.ShowToolbarToolStripMenuItem"/> control.
+    ''' Handles the <see cref="ToolStripMenuItem.Click"/> event of the
+    ''' <see cref="Form1.DefaultToolStripMenuItem"/> and <see cref="Form1.DarkToolStripMenuItem"/> controls.
     ''' </summary>
     ''' ----------------------------------------------------------------------------------------------------
     ''' <param name="sender">
@@ -635,10 +634,84 @@ Friend NotInheritable Class Form1 : Inherits Form
     ''' The <see cref="EventArgs"/> instance containing the event data.
     ''' </param>
     ''' ----------------------------------------------------------------------------------------------------
-    Private Sub ShowToolbarToolStripMenuItem_CheckedChanged(sender As Object, e As EventArgs) _
-        Handles ShowToolbarToolStripMenuItem.CheckedChanged
+    Private Sub VisualStyles_ToolStripMenuItems_Click(sender As Object, e As EventArgs) _
+        Handles DefaultToolStripMenuItem.Click, DarkToolStripMenuItem.Click
+
+        ' Prevents from unchecking the checkbox when the item is checked.
+        Dim item As ToolStripMenuItem = DirectCast(sender, ToolStripMenuItem)
+        If Not item.Checked Then
+            item.Checked = True
+        End If
+    End Sub
+
+    ''' ----------------------------------------------------------------------------------------------------
+    ''' <summary>
+    ''' Handles the <see cref="ToolStripMenuItem.CheckedChanged"/> event of the <see cref="Form1.ShowFileMenuToolbarToolStripMenuItem"/> control.
+    ''' </summary>
+    ''' ----------------------------------------------------------------------------------------------------
+    ''' <param name="sender">
+    ''' The source of the event.
+    ''' </param>
+    ''' 
+    ''' <param name="e">
+    ''' The <see cref="EventArgs"/> instance containing the event data.
+    ''' </param>
+    ''' ----------------------------------------------------------------------------------------------------
+    Private Sub ShowFileMenuToolbarToolStripMenuItem_CheckedChanged(sender As Object, e As EventArgs) _
+        Handles ShowFileMenuToolbarToolStripMenuItem.CheckedChanged
 
         Me.AdjustCorrectTableLayoutPanelRowSizes()
+
+    End Sub
+
+    ''' ----------------------------------------------------------------------------------------------------
+    ''' <summary>
+    ''' Handles the <see cref="ToolStripMenuItem.CheckedChanged"/> event of the <see cref="Form1.ShowLinkEditorToolbarToolStripMenuItem"/> control.
+    ''' </summary>
+    ''' ----------------------------------------------------------------------------------------------------
+    ''' <param name="sender">
+    ''' The source of the event.
+    ''' </param>
+    ''' 
+    ''' <param name="e">
+    ''' The <see cref="EventArgs"/> instance containing the event data.
+    ''' </param>
+    ''' ----------------------------------------------------------------------------------------------------
+    Private Sub ShowEditorToolbarToolStripMenuItem_CheckedChanged(sender As Object, e As EventArgs) _
+        Handles ShowLinkEditorToolbarToolStripMenuItem.CheckedChanged
+
+        Dim item As ToolStripMenuItem = DirectCast(sender, ToolStripMenuItem)
+        Me.PropertyGrid1.ToolbarVisible = item.Checked
+    End Sub
+
+    ''' ----------------------------------------------------------------------------------------------------
+    ''' <summary>
+    ''' Handles the <see cref="ToolStripMenuItem.CheckedChanged"/> event of the <see cref="Form1.ShowRawTabToolStripMenuItem"/> control.
+    ''' </summary>
+    ''' ----------------------------------------------------------------------------------------------------
+    ''' <param name="sender">
+    ''' The source of the event.
+    ''' </param>
+    ''' 
+    ''' <param name="e">
+    ''' The <see cref="EventArgs"/> instance containing the event data.
+    ''' </param>
+    ''' ----------------------------------------------------------------------------------------------------
+    Private Sub ShowRawTabToolStripMenuItem_CheckedChanged(sender As Object, e As EventArgs) _
+        Handles ShowRawTabToolStripMenuItem.CheckedChanged
+
+        Dim item As ToolStripMenuItem = DirectCast(sender, ToolStripMenuItem)
+        If Not item.Checked Then
+            Me.TabControl1.SelectedTab = Me.Tab_PropertyEditor
+            Me.TabControl1.Pages.Remove(Me.Tab_HexViewer)
+        Else
+            Me.TabControl1.Pages.Add(Me.Tab_HexViewer)
+            Me.Tab_HexViewer.SetVisualStyle(If(Me.DefaultToolStripMenuItem.Checked, VisualStyle.Default, VisualStyle.VisualStudioDark))
+            Me.HexBox1.SetVisualStyle(If(Me.DefaultToolStripMenuItem.Checked, VisualStyle.Default, VisualStyle.VisualStudioDark))
+            If Me.currentShortcut IsNot Nothing Then
+                Me.LoadShortcutInHexBox(Me.currentShortcut.FullName)
+            End If
+        End If
 
     End Sub
 
@@ -657,7 +730,6 @@ Friend NotInheritable Class Form1 : Inherits Form
     ''' ----------------------------------------------------------------------------------------------------
     Private Sub RememberWindowSizeAndPosToolStripMenuItem_CheckedChanged(sender As Object, e As EventArgs) _
     Handles RememberWindowSizeAndPosToolStripMenuItem.CheckedChanged
-
 
         Dim item As ToolStripMenuItem = DirectCast(sender, ToolStripMenuItem)
         If item.Checked Then
@@ -708,6 +780,34 @@ Friend NotInheritable Class Form1 : Inherits Form
                                 My.Application.Info.Title, MessageBoxButtons.OK, MessageBoxIcon.Error)
 
             End Try
+        End If
+
+    End Sub
+
+    ''' ----------------------------------------------------------------------------------------------------
+    ''' <summary>
+    ''' Handles the <see cref="ToolStripMenuItem.CheckedChanged"/> event of the <see cref="Form1.DefaultToolStripMenuItem"/> control.
+    ''' </summary>
+    ''' ----------------------------------------------------------------------------------------------------
+    ''' <param name="sender">
+    ''' The source of the event.
+    ''' </param>
+    ''' 
+    ''' <param name="e">
+    ''' The <see cref="EventArgs"/> instance containing the event data.
+    ''' </param>
+    ''' ----------------------------------------------------------------------------------------------------
+    Private Sub DisableRecentFilesListToolStripMenuItem_CheckedChanged(sender As Object, e As EventArgs) _
+        Handles HideRecentFilesListToolStripMenuItem.CheckedChanged
+        ' MsgBox(1)
+        Dim item As ToolStripMenuItem = DirectCast(sender, ToolStripMenuItem)
+
+        If item.Checked Then
+            Me.FileToolStripMenuItem.DropDownItems.Remove(Me.RecentToolStripMenuItem)
+            Me.FileToolStripMenuItem.DropDownItems.Remove(Me.ToolStripSeparator1)
+        Else
+            Me.FileToolStripMenuItem.DropDownItems.Insert(5, Me.RecentToolStripMenuItem)
+            Me.FileToolStripMenuItem.DropDownItems.Insert(5, Me.ToolStripSeparator1)
         End If
 
     End Sub
@@ -978,7 +1078,7 @@ Friend NotInheritable Class Form1 : Inherits Form
         Me.ToolStripStatusLabelFileName.Font = New Font(Me.ToolStripStatusLabelFileName.Font.FontFamily, fontSize, Me.ToolStripStatusLabelFileName.Font.Style)
         Me.PropertyGrid1.Font = New Font(Me.PropertyGrid1.Font.FontFamily, fontSize, Me.PropertyGrid1.Font.Style)
 
-        For Each tab As Tab In TabControl1.Tabs
+        For Each tab As Tab In Me.TabControl1.Tabs
             tab.Font = New Font(tab.Font.FontFamily, fontSize, tab.Font.Style)
         Next
 
@@ -1079,11 +1179,22 @@ Friend NotInheritable Class Form1 : Inherits Form
     ''' </param>
     ''' ----------------------------------------------------------------------------------------------------
     Private Sub LoadShortcutInPropertyGrid(filePath As String)
-
-        Me.currentShortcut = New ShortcutFileInfo(filePath) With {.ViewMode = True}
-        If Not Me.currentShortcut.Exists Then
-            MessageBox.Show(Me, $"The lnk file does not exist: {Me.currentShortcut.FullName}", Me.Name, MessageBoxButtons.OK, MessageBoxIcon.Error)
+        Try
+            Me.currentShortcut = New ShortcutFileInfo(filePath) With {.ViewMode = True}
+        Catch ex As Exception
+            MessageBox.Show(Me, "Error trying to read link data:" & Environment.NewLine & Environment.NewLine & ex.Message,
+                            My.Application.Info.Title, MessageBoxButtons.OK, MessageBoxIcon.Error)
             Exit Sub
+        End Try
+        If Not Me.currentShortcut.Exists Then
+            MessageBox.Show(Me, $"The lnk file does not exist: {Me.currentShortcut.FullName}", My.Application.Info.Title, MessageBoxButtons.OK, MessageBoxIcon.Error)
+            Exit Sub
+        End If
+
+        If Me.currentShortcut.IsWindowsInstallerShortcut Then
+            MessageBox.Show(Me, "This link points to a Windows Installer product." & Environment.NewLine & Environment.NewLine &
+                                "Support to read/write this link is experimental and saving changes to this file could corrupt the link. Please save any changes to a new link file.",
+                            My.Application.Info.Title, MessageBoxButtons.OK, MessageBoxIcon.Exclamation)
         End If
 
         Me.AdjustPropertyGridSplitter()
@@ -1108,7 +1219,6 @@ Friend NotInheritable Class Form1 : Inherits Form
         Me.LoadShortcutInHexBox(Me.currentShortcut.FullName)
     End Sub
 
-
     ''' ----------------------------------------------------------------------------------------------------
     ''' <summary>
     ''' Loads a shortcut file into the <see cref="Form1.HexBox1"/> control.
@@ -1120,14 +1230,23 @@ Friend NotInheritable Class Form1 : Inherits Form
     ''' ----------------------------------------------------------------------------------------------------
     Private Sub LoadShortcutInHexBox(filePath As String)
 
+        If Not Me.TabControl1.Pages.Contains(Me.Tab_HexViewer) Then
+            Exit Sub
+        End If
+
         If Me.currentFileByteProvider IsNot Nothing Then
             Me.currentFileByteProvider.Dispose()
             Me.currentFileByteProvider = Nothing
         End If
 
-        Me.currentFileByteProvider = New Be.Windows.Forms.DynamicFileByteProvider(filePath, True)
-        Me.HexBox1.ByteProvider = Nothing
-        Me.HexBox1.ByteProvider = Me.currentFileByteProvider
+        Try
+            Me.currentFileByteProvider = New Be.Windows.Forms.DynamicFileByteProvider(filePath, True)
+            Me.HexBox1.ByteProvider = Nothing
+            Me.HexBox1.ByteProvider = Me.currentFileByteProvider
+        Catch ex As Exception
+            MessageBox.Show(Me, "Error trying to read link RAW data:" & Environment.NewLine & Environment.NewLine & ex.Message,
+                            My.Application.Info.Title, MessageBoxButtons.OK, MessageBoxIcon.Error)
+        End Try
 
     End Sub
 
@@ -1142,7 +1261,7 @@ Friend NotInheritable Class Form1 : Inherits Form
 
     Private Sub AdjustCorrectTableLayoutPanelRowSizes()
 
-        Dim item As ToolStripMenuItem = ShowToolbarToolStripMenuItem
+        Dim item As ToolStripMenuItem = Me.ShowFileMenuToolbarToolStripMenuItem
         Dim makeToolBarVisible As Boolean = item.Checked
         Dim table As TableLayoutPanel = Me.TableLayoutPanel1
         Dim rowIndex As Integer = table.GetRow(Me.MenuStrip_ToolBar)

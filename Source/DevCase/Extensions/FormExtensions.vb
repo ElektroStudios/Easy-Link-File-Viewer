@@ -77,12 +77,11 @@ Namespace DevCase.Core.Extensions
             End Select
 
             If (childControls) Then
-                f.ForEachControl(True,
-                                              Sub(ctrl As Control)
-                                                  If (ctrl.GetType().IsPublic) Then
-                                                      ctrl.SetVisualStyle(style)
-                                                  End If
-                                              End Sub)
+                f.ForEachControl(True, Sub(ctrl As Control)
+                                           If (ctrl.GetType().IsPublic) Then
+                                               ctrl.SetVisualStyle(style)
+                                           End If
+                                       End Sub)
             End If
         End Sub
 

@@ -103,6 +103,7 @@ Option Infer Off
 
 #Region " Imports "
 
+Imports System.CodeDom
 Imports System.ComponentModel
 Imports System.Drawing.Design
 Imports System.IO
@@ -662,8 +663,8 @@ Namespace DevCase.Core.IO
                     End If
 
                     Me.target_ = value
-                        Me.WriteLink()
-                    End If
+                    Me.WriteLink()
+                End If
             End Set
         End Property
         ''' ----------------------------------------------------------------------------------------------------
@@ -761,6 +762,22 @@ Namespace DevCase.Core.IO
         ''' </summary>
         ''' ----------------------------------------------------------------------------------------------------
         Private workingDirectory_ As String
+
+        ''' ----------------------------------------------------------------------------------------------------
+        ''' <summary>
+        ''' Gets a value that determine whether the shortcut has an ITEM ID LIST pointing to a Windows Installer product.
+        ''' </summary>
+        ''' ----------------------------------------------------------------------------------------------------
+        <Description("Determine whether the shortcut has an ITEM ID LIST pointing to a Windows Installer product.")>
+        <DisplayName("Is Windows Installer Shortcut")>
+        <Category("Shortcut")>
+        <Browsable(False)>
+        Public ReadOnly Property IsWindowsInstallerShortcut As Boolean
+            Get
+                Return Me.isWindowsInstallerShortcut_
+            End Get
+        End Property
+        Private isWindowsInstallerShortcut_ As Boolean
 
 #End Region
 
@@ -1169,14 +1186,14 @@ Namespace DevCase.Core.IO
         ''' Reads the information from the link file.
         ''' </summary>
         ''' ----------------------------------------------------------------------------------------------------
-        <DebuggerStepThrough>
+        <DebuggerStepperBoundary>
         Private Sub ReadLink()
             Dim arguments As New StringBuilder(capacity:=maxArgumentsLength, maxCapacity:=maxArgumentsLength)
             Dim description As New StringBuilder(capacity:=maxDescriptionLength, maxCapacity:=maxDescriptionLength)
             Dim hotkey As UShort
             Dim icon As New StringBuilder(capacity:=maxIconLength, maxCapacity:=maxIconLength)
             Dim iconIndex As Integer
-            Dim pidl As IntPtr
+            Dim idlist As IntPtr
             Dim target As New StringBuilder(capacity:=maxTargetLength, maxCapacity:=maxTargetLength)
             Dim windowstate As ShortcutWindowState = ShortcutWindowState.Normal
             Dim workingDir As New StringBuilder(capacity:=maxWorkingDirLength, maxCapacity:=maxWorkingDirLength)
@@ -1188,22 +1205,59 @@ Namespace DevCase.Core.IO
             Dim shellLink As IShellLinkW = DirectCast(cShellLink, IShellLinkW)
             With shellLink
                 .GetArguments(arguments, arguments.MaxCapacity)
-                .GetDescription(description, description.MaxCapacity)
                 .GetHotkey(hotkey)
-                .GetIDList(pidl)
+                .GetIDList(idlist)
                 .GetIconLocation(icon, icon.MaxCapacity, iconIndex)
                 .GetShowCmd(DirectCast(windowstate, NativeWindowState))
                 .GetWorkingDirectory(workingDir, workingDir.MaxCapacity)
+                Try
+                    .GetDescription(description, description.MaxCapacity)
+                Catch ex As Exception
+                    ' Ignore.
+                End Try
+            End With
 
+            Dim msiProductCode As New StringBuilder(39)
+            Dim msiFeatureId As New StringBuilder(39)
+            Dim msiComponentCode As New StringBuilder(39)
+            Dim isMsiShortcut As Boolean = (NativeMethods.MsiGetShortcutTargetW(Me.FullPath, msiProductCode, msiFeatureId, msiComponentCode) = 0)
+            Me.isWindowsInstallerShortcut_ = isMsiShortcut
+
+            If isMsiShortcut Then
+                Dim path As New StringBuilder(capacity:=1024)
+                Dim size As Integer = path.Capacity
+                Dim result As Integer = NativeMethods.MsiGetComponentPathW(msiProductCode.ToString(), msiComponentCode.ToString(), path, size)
+
+                If result <= 0 Then
+                    ' Values in "msi.h" header file:
+                    '
+                    ' INSTALLSTATE_NOTUSED      = -7,  // component disabled
+                    ' INSTALLSTATE_BADCONFIG    = -6,  // configuration data corrupt
+                    ' INSTALLSTATE_INCOMPLETE   = -5,  // installation suspended or in progress
+                    ' INSTALLSTATE_SOURCEABSENT = -4,  // run from source, source is unavailable
+                    ' INSTALLSTATE_MOREDATA     = -3,  // return buffer overflow
+                    ' INSTALLSTATE_INVALIDARG   = -2,  // invalid function argument
+                    ' INSTALLSTATE_UNKNOWN      = -1,  // unrecognized product or feature
+                    ' INSTALLSTATE_BROKEN       =  0,  // broken
+                    ' INSTALLSTATE_ADVERTISED   =  1,  // advertised feature
+                    ' INSTALLSTATE_REMOVED      =  1,  // component being removed (action state, not settable)
+                    ' INSTALLSTATE_ABSENT       =  2,  // uninstalled (or action state absent but clients remain)
+                    ' INSTALLSTATE_LOCAL        =  3,  // installed on local drive
+                    ' INSTALLSTATE_SOURCE       =  4,  // run from source, CD or net
+                    ' INSTALLSTATE_DEFAULT      =  5,  // use default, local or source
+                    Throw New Exception($"Cannot parse target of Windows Installer link. MSI Error Code: {result}")
+                End If
+                target = path
+
+            Else
                 ' SHGetNameFromIDList() can retrieve common file system paths, and CLSIDs/virtual folders.
-                If (pidl = IntPtr.Zero) OrElse NativeMethods.SHGetNameFromIDList(pidl, ShellItemGetDisplayName.DesktopAbsoluteParsing, target) <> HResult.S_OK Then
-                    target.Clear()
+                If (idlist = IntPtr.Zero) OrElse NativeMethods.SHGetNameFromIDList(idlist, ShellItemGetDisplayName.DesktopAbsoluteParsing, target) <> HResult.S_OK Then
+                    target?.Clear()
 
                     ' IShellLinkW.GetPath() only can retrieve common file system paths.
-                    .GetPath(target, target.Capacity, Nothing, IShellLinkGetPathFlags.RawPath)
+                    shellLink.GetPath(target, target.Capacity, Nothing, IShellLinkGetPathFlags.RawPath)
                 End If
-
-            End With
+            End If
 
             Marshal.FinalReleaseComObject(persistFile)
             Marshal.FinalReleaseComObject(shellLink)

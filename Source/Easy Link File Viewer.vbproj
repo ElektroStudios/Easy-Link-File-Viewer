@@ -109,6 +109,8 @@
     <Compile Include="DevCase\Win32\HResult.vb" />
     <Compile Include="DevCase\Win32\IShellItem.vb" />
     <Compile Include="DevCase\Win32\MuiLanguageMode.vb" />
+    <Compile Include="DevCase\Win32\PIDL.vb" />
+    <Compile Include="DevCase\Win32\MsiGetComponentPathContext.vb" />
     <Compile Include="DevCase\Win32\ShellItemGetDisplayName.vb" />
     <Compile Include="DevCase\FileSizeConverter.vb" />
     <Compile Include="DevCase\OpenFileOrFolderDialog.vb">
@@ -196,8 +198,8 @@
   </ItemGroup>
   <ItemGroup>
     <Content Include="App.ico" />
+    <None Include="Resources\SaveAs_16x.png" />
     <None Include="Resources\ContextMenu_16x.png" />
-    <None Include="Resources\ToolBar_16x.png" />
     <None Include="Resources\SaveFileDialogControl_16x.png" />
     <None Include="Resources\AutosizeOptimize_16x.png" />
     <None Include="packages.config" />
