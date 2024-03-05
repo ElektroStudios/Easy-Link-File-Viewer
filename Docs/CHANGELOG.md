@@ -1,5 +1,10 @@
 # Easy Link File Viewer Change Log 📋
 
+## v1.6.1 (current) 🆕
+
+#### 🛠️ Fixes:
+ - A user settings conflict that caused an unhandled exception when trying to persist the property grid view mode.
+
 ## v1.6 (current) 🆕
 
 #### 🚀 New Features:

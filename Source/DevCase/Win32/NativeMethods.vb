@@ -26,6 +26,7 @@ Imports System.Text
 Imports DevCase.Interop.Unmanaged.Win32.Enums
 Imports DevCase.Interop.Unmanaged.Win32.Interfaces
 Imports DevCase.Interop.Unmanaged.Win32.Structures
+Imports DevCase.Win32.Common
 
 #End Region
 
@@ -601,7 +602,7 @@ Namespace DevCase.Interop.Unmanaged.Win32
 
         ' Unused functions. They may be helpful in the future.
 #If DEBUG Then
-        
+
         ''' ----------------------------------------------------------------------------------------------------
         ''' <summary>
         ''' Clones the first SHITEMID structure in an ITEMIDLIST structure.

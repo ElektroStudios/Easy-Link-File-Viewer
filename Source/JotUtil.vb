@@ -44,6 +44,13 @@ Friend Module JotUtil
     Private formTrackingConfig As TrackingConfiguration(Of Form1)
 
     ''' <summary>
+    ''' The object that determines how a target <see cref="PropertyGrid"/> will be tracked. 
+    ''' <para></para>
+    ''' This includes list of properties to track, persist triggers and id getter.
+    ''' </summary>
+    Private propertyGridTrackingConfig As TrackingConfiguration(Of PropertyGrid)
+
+    ''' <summary>
     ''' The object that determines how a target <see cref="ToolStripMenuItem"/> will be tracked. 
     ''' <para></para>
     ''' This includes list of properties to track, persist triggers and id getter.
@@ -91,11 +98,12 @@ Friend Module JotUtil
             .CanPersist(Function(f As Form1) f.RememberWindowSizeAndPosToolStripMenuItem.Checked)
         End With
 
-        With JotUtil.formTrackingConfig
-            .Id(Function(f As Form1) f.PropertyGrid1.Name)
-            .Properties(Function(f As Form1) New With {f.PropertyGrid1.PropertySort})
-            .PersistOn(NameOf(Form1.PropertyGrid1.PropertySortChanged))
-            .StopTrackingOn(NameOf(Form1.FormClosing))
+        JotUtil.propertyGridTrackingConfig = JotUtil.jotTracker.Configure(Of PropertyGrid)
+        With JotUtil.propertyGridTrackingConfig
+            .Id(Function(pg As PropertyGrid) pg.Name)
+            .Properties(Function(pg As PropertyGrid) New With {pg.PropertySort})
+            .PersistOn(NameOf(PropertyGrid.PropertySortChanged))
+            .StopTrackingOn(NameOf(PropertyGrid.Disposed))
         End With
 
         JotUtil.menuItemTrackingConfig = JotUtil.jotTracker.Configure(Of ToolStripMenuItem)
@@ -124,6 +132,7 @@ Friend Module JotUtil
     <DebuggerStepThrough>
     Friend Sub StartTrackingForm()
         JotUtil.formTrackingConfig.Track(My.Forms.Form1)
+        JotUtil.propertyGridTrackingConfig.Track(My.Forms.Form1.PropertyGrid1)
     End Sub
 
     ''' <summary>
