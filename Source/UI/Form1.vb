@@ -107,6 +107,7 @@ Friend NotInheritable Class Form1 : Inherits Form
         Me.AboutToolStripMenuItem.Alignment = ToolStripItemAlignment.Right
         Me.TabControl1.Pages.Remove(Me.Tab_HexViewer)
         JotUtil.StartTrackingMenuItems()
+        JotUtil.StartTrackingPropertyGrid()
     End Sub
 
     ''' ----------------------------------------------------------------------------------------------------

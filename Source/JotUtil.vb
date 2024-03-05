@@ -132,13 +132,20 @@ Friend Module JotUtil
     <DebuggerStepThrough>
     Friend Sub StartTrackingForm()
         JotUtil.formTrackingConfig.Track(My.Forms.Form1)
+    End Sub
+
+    ''' <summary>
+    ''' Starts tracking the <see cref="PropertyGrid"/> sort.
+    ''' <para></para>
+    ''' This method should be called in <see cref="Form1.Load"/> event handler.
+    ''' </summary>
+    <DebuggerStepThrough>
+    Friend Sub StartTrackingPropertyGrid()
         JotUtil.propertyGridTrackingConfig.Track(My.Forms.Form1.PropertyGrid1)
     End Sub
 
     ''' <summary>
-    ''' Starts tracking the size and location of the <see cref="MainForm"/> form.
-    ''' <para></para>
-    ''' This method should be called in <see cref="Form1.Load"/> event handler.
+    ''' Stops tracking the size and location of the <see cref="MainForm"/> form.
     ''' </summary>
     <DebuggerStepThrough>
     Friend Sub StopTrackingForm()
