@@ -1,6 +1,11 @@
 # Easy Link File Viewer Change Log 📋
 
-## v1.6.1 (current) 🆕
+## v1.6.2 **(current)** 🆕
+
+#### 🛠️ Fixes:
+ - The shortcut's window state attribute (normal, maximized, minimized) was not being properly recognized. Solves Issue [#14](https://github.com/ElektroStudios/Easy-Link-File-Viewer/issues/14)
+
+## v1.6.1 🔄
 
 #### 🛠️ Fixes:
  - An user settings conflict that caused an unhandled exception when trying to persist the property grid view mode.
