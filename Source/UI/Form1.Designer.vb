@@ -104,6 +104,7 @@ Partial Friend Class Form1
         '
         Me.NewToolStripMenuItem.Image = Global.My.Resources.Resources.NewFile_16x
         Me.NewToolStripMenuItem.Name = "NewToolStripMenuItem"
+        Me.NewToolStripMenuItem.ShortcutKeys = CType((System.Windows.Forms.Keys.Control Or System.Windows.Forms.Keys.N), System.Windows.Forms.Keys)
         Me.NewToolStripMenuItem.Size = New System.Drawing.Size(180, 24)
         Me.NewToolStripMenuItem.Text = "&New"
         '
@@ -111,6 +112,7 @@ Partial Friend Class Form1
         '
         Me.OpenToolStripMenuItem.Image = Global.My.Resources.Resources.OpenFile_16x
         Me.OpenToolStripMenuItem.Name = "OpenToolStripMenuItem"
+        Me.OpenToolStripMenuItem.ShortcutKeys = CType((System.Windows.Forms.Keys.Control Or System.Windows.Forms.Keys.O), System.Windows.Forms.Keys)
         Me.OpenToolStripMenuItem.Size = New System.Drawing.Size(180, 24)
         Me.OpenToolStripMenuItem.Text = "&Open"
         '
@@ -119,6 +121,7 @@ Partial Friend Class Form1
         Me.SaveToolStripMenuItem.Enabled = False
         Me.SaveToolStripMenuItem.Image = Global.My.Resources.Resources.Save_16x
         Me.SaveToolStripMenuItem.Name = "SaveToolStripMenuItem"
+        Me.SaveToolStripMenuItem.ShortcutKeys = CType((System.Windows.Forms.Keys.Control Or System.Windows.Forms.Keys.S), System.Windows.Forms.Keys)
         Me.SaveToolStripMenuItem.Size = New System.Drawing.Size(180, 24)
         Me.SaveToolStripMenuItem.Text = "&Save"
         '
@@ -127,6 +130,8 @@ Partial Friend Class Form1
         Me.SaveAsToolStripMenuItem.Enabled = False
         Me.SaveAsToolStripMenuItem.Image = Global.My.Resources.Resources.SaveAs_16x
         Me.SaveAsToolStripMenuItem.Name = "SaveAsToolStripMenuItem"
+        Me.SaveAsToolStripMenuItem.ShortcutKeys = CType(((System.Windows.Forms.Keys.Control Or System.Windows.Forms.Keys.Alt) _
+            Or System.Windows.Forms.Keys.S), System.Windows.Forms.Keys)
         Me.SaveAsToolStripMenuItem.Size = New System.Drawing.Size(180, 24)
         Me.SaveAsToolStripMenuItem.Text = "Save &As..."
         '
@@ -135,6 +140,7 @@ Partial Friend Class Form1
         Me.CloseToolStripMenuItem.Enabled = False
         Me.CloseToolStripMenuItem.Image = Global.My.Resources.Resources.FileExclude_16x
         Me.CloseToolStripMenuItem.Name = "CloseToolStripMenuItem"
+        Me.CloseToolStripMenuItem.ShortcutKeys = CType((System.Windows.Forms.Keys.Control Or System.Windows.Forms.Keys.W), System.Windows.Forms.Keys)
         Me.CloseToolStripMenuItem.Size = New System.Drawing.Size(180, 24)
         Me.CloseToolStripMenuItem.Text = "&Close"
         '
@@ -160,6 +166,7 @@ Partial Friend Class Form1
         '
         Me.ExitToolStripMenuItem.Image = Global.My.Resources.Resources.Close_red_16x
         Me.ExitToolStripMenuItem.Name = "ExitToolStripMenuItem"
+        Me.ExitToolStripMenuItem.ShortcutKeys = CType((System.Windows.Forms.Keys.Alt Or System.Windows.Forms.Keys.F4), System.Windows.Forms.Keys)
         Me.ExitToolStripMenuItem.Size = New System.Drawing.Size(180, 24)
         Me.ExitToolStripMenuItem.Text = "&Exit"
         '
@@ -271,6 +278,7 @@ Partial Friend Class Form1
         Me.AboutToolStripMenuItem.Image = Global.My.Resources.Resources.Question_16x
         Me.AboutToolStripMenuItem.Name = "AboutToolStripMenuItem"
         Me.AboutToolStripMenuItem.RightToLeft = System.Windows.Forms.RightToLeft.No
+        Me.AboutToolStripMenuItem.ShortcutKeys = System.Windows.Forms.Keys.F1
         Me.AboutToolStripMenuItem.Size = New System.Drawing.Size(84, 23)
         Me.AboutToolStripMenuItem.Text = "&About..."
         '
