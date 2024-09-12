@@ -5,6 +5,9 @@
 #### 🛠️ Fixes:
  - The shortcut's window state attribute (normal, maximized, minimized) was not being properly recognized. Solves Issue [#14](https://github.com/ElektroStudios/Easy-Link-File-Viewer/issues/14)
 
+#### 🌟 Improvements:
+ - Added keyboard shortcuts to toolbar items, thanks to @[BenVlodgi](https://github.com/ElektroStudios/Easy-Link-File-Viewer/pull/12)'s contribution.
+
 ## v1.6.1 🔄
 
 #### 🛠️ Fixes:
