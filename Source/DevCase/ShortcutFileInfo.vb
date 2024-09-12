@@ -1195,6 +1195,7 @@ Namespace DevCase.Core.IO
             Dim iconIndex As Integer
             Dim idlist As IntPtr
             Dim target As New StringBuilder(capacity:=maxTargetLength, maxCapacity:=maxTargetLength)
+            Dim windowstateNative As NativeWindowState = NativeWindowState.Normal
             Dim windowstate As ShortcutWindowState = ShortcutWindowState.Normal
             Dim workingDir As New StringBuilder(capacity:=maxWorkingDirLength, maxCapacity:=maxWorkingDirLength)
 
@@ -1208,7 +1209,8 @@ Namespace DevCase.Core.IO
                 .GetHotkey(hotkey)
                 .GetIDList(idlist)
                 .GetIconLocation(icon, icon.MaxCapacity, iconIndex)
-                .GetShowCmd(DirectCast(windowstate, NativeWindowState))
+                .GetShowCmd(windowstateNative)
+                windowstate = CType([Enum].ToObject(GetType(ShortcutWindowState), windowstateNative), ShortcutWindowState)
                 .GetWorkingDirectory(workingDir, workingDir.MaxCapacity)
                 Try
                     .GetDescription(description, description.MaxCapacity)
