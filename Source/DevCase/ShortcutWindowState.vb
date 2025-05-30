@@ -29,7 +29,7 @@ Namespace DevCase.Core.IO
     ''' <see href="https://msdn.microsoft.com/es-es/library/windows/desktop/bb761056%28v=vs.85%29.aspx"/>
     ''' </remarks>
     ''' ----------------------------------------------------------------------------------------------------
-    Friend Enum ShortcutWindowState As Integer
+    Public Enum ShortcutWindowState As Integer
 
         ''' <summary>
         ''' Shortcut Window is at normal state.

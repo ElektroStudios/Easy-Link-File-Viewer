@@ -30,7 +30,7 @@ Namespace DevCase.Interop.Unmanaged.Win32.Enums
     ''' </remarks>
     ''' ----------------------------------------------------------------------------------------------------
     <Flags>
-    Friend Enum IShellLinkResolveFlags
+    Public Enum IShellLinkResolveFlags
 
         ''' <summary>
         ''' Do not display a dialog box if the link cannot be resolved. When SLR_NO_UI is set,

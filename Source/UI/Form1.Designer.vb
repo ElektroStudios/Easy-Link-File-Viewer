@@ -41,11 +41,13 @@ Partial Friend Class Form1
         Me.VisualThemeToolStripMenuItem = New System.Windows.Forms.ToolStripMenuItem()
         Me.DefaultToolStripMenuItem = New System.Windows.Forms.ToolStripMenuItem()
         Me.DarkToolStripMenuItem = New System.Windows.Forms.ToolStripMenuItem()
+        Me.RecentFileListToolStripMenuItem = New System.Windows.Forms.ToolStripMenuItem()
+        Me.ClearRecentFilesListToolStripMenuItem = New System.Windows.Forms.ToolStripMenuItem()
+        Me.HideRecentFilesListToolStripMenuItem = New System.Windows.Forms.ToolStripMenuItem()
         Me.ToolStripSeparator3 = New System.Windows.Forms.ToolStripSeparator()
         Me.ShowFileMenuToolbarToolStripMenuItem = New System.Windows.Forms.ToolStripMenuItem()
         Me.ShowLinkEditorToolbarToolStripMenuItem = New System.Windows.Forms.ToolStripMenuItem()
         Me.ShowRawTabToolStripMenuItem = New System.Windows.Forms.ToolStripMenuItem()
-        Me.HideRecentFilesListToolStripMenuItem = New System.Windows.Forms.ToolStripMenuItem()
         Me.RememberWindowSizeAndPosToolStripMenuItem = New System.Windows.Forms.ToolStripMenuItem()
         Me.AddProgramShortcutToExplorersContextmenuToolStripMenuItem = New System.Windows.Forms.ToolStripMenuItem()
         Me.AboutToolStripMenuItem = New System.Windows.Forms.ToolStripMenuItem()
@@ -105,7 +107,7 @@ Partial Friend Class Form1
         Me.NewToolStripMenuItem.Image = Global.My.Resources.Resources.NewFile_16x
         Me.NewToolStripMenuItem.Name = "NewToolStripMenuItem"
         Me.NewToolStripMenuItem.ShortcutKeys = CType((System.Windows.Forms.Keys.Control Or System.Windows.Forms.Keys.N), System.Windows.Forms.Keys)
-        Me.NewToolStripMenuItem.Size = New System.Drawing.Size(180, 24)
+        Me.NewToolStripMenuItem.Size = New System.Drawing.Size(209, 24)
         Me.NewToolStripMenuItem.Text = "&New"
         '
         'OpenToolStripMenuItem
@@ -113,7 +115,7 @@ Partial Friend Class Form1
         Me.OpenToolStripMenuItem.Image = Global.My.Resources.Resources.OpenFile_16x
         Me.OpenToolStripMenuItem.Name = "OpenToolStripMenuItem"
         Me.OpenToolStripMenuItem.ShortcutKeys = CType((System.Windows.Forms.Keys.Control Or System.Windows.Forms.Keys.O), System.Windows.Forms.Keys)
-        Me.OpenToolStripMenuItem.Size = New System.Drawing.Size(180, 24)
+        Me.OpenToolStripMenuItem.Size = New System.Drawing.Size(209, 24)
         Me.OpenToolStripMenuItem.Text = "&Open"
         '
         'SaveToolStripMenuItem
@@ -122,7 +124,7 @@ Partial Friend Class Form1
         Me.SaveToolStripMenuItem.Image = Global.My.Resources.Resources.Save_16x
         Me.SaveToolStripMenuItem.Name = "SaveToolStripMenuItem"
         Me.SaveToolStripMenuItem.ShortcutKeys = CType((System.Windows.Forms.Keys.Control Or System.Windows.Forms.Keys.S), System.Windows.Forms.Keys)
-        Me.SaveToolStripMenuItem.Size = New System.Drawing.Size(180, 24)
+        Me.SaveToolStripMenuItem.Size = New System.Drawing.Size(209, 24)
         Me.SaveToolStripMenuItem.Text = "&Save"
         '
         'SaveAsToolStripMenuItem
@@ -132,7 +134,7 @@ Partial Friend Class Form1
         Me.SaveAsToolStripMenuItem.Name = "SaveAsToolStripMenuItem"
         Me.SaveAsToolStripMenuItem.ShortcutKeys = CType(((System.Windows.Forms.Keys.Control Or System.Windows.Forms.Keys.Alt) _
             Or System.Windows.Forms.Keys.S), System.Windows.Forms.Keys)
-        Me.SaveAsToolStripMenuItem.Size = New System.Drawing.Size(180, 24)
+        Me.SaveAsToolStripMenuItem.Size = New System.Drawing.Size(209, 24)
         Me.SaveAsToolStripMenuItem.Text = "Save &As..."
         '
         'CloseToolStripMenuItem
@@ -141,38 +143,38 @@ Partial Friend Class Form1
         Me.CloseToolStripMenuItem.Image = Global.My.Resources.Resources.FileExclude_16x
         Me.CloseToolStripMenuItem.Name = "CloseToolStripMenuItem"
         Me.CloseToolStripMenuItem.ShortcutKeys = CType((System.Windows.Forms.Keys.Control Or System.Windows.Forms.Keys.W), System.Windows.Forms.Keys)
-        Me.CloseToolStripMenuItem.Size = New System.Drawing.Size(180, 24)
+        Me.CloseToolStripMenuItem.Size = New System.Drawing.Size(209, 24)
         Me.CloseToolStripMenuItem.Text = "&Close"
         '
         'ToolStripSeparator1
         '
         Me.ToolStripSeparator1.Name = "ToolStripSeparator1"
-        Me.ToolStripSeparator1.Size = New System.Drawing.Size(177, 6)
+        Me.ToolStripSeparator1.Size = New System.Drawing.Size(206, 6)
         '
         'RecentToolStripMenuItem
         '
         Me.RecentToolStripMenuItem.Enabled = False
         Me.RecentToolStripMenuItem.Image = Global.My.Resources.Resources.FileGroup_16x
         Me.RecentToolStripMenuItem.Name = "RecentToolStripMenuItem"
-        Me.RecentToolStripMenuItem.Size = New System.Drawing.Size(180, 24)
+        Me.RecentToolStripMenuItem.Size = New System.Drawing.Size(209, 24)
         Me.RecentToolStripMenuItem.Text = "&Recent... »"
         '
         'ToolStripSeparator2
         '
         Me.ToolStripSeparator2.Name = "ToolStripSeparator2"
-        Me.ToolStripSeparator2.Size = New System.Drawing.Size(177, 6)
+        Me.ToolStripSeparator2.Size = New System.Drawing.Size(206, 6)
         '
         'ExitToolStripMenuItem
         '
         Me.ExitToolStripMenuItem.Image = Global.My.Resources.Resources.Close_red_16x
         Me.ExitToolStripMenuItem.Name = "ExitToolStripMenuItem"
         Me.ExitToolStripMenuItem.ShortcutKeys = CType((System.Windows.Forms.Keys.Alt Or System.Windows.Forms.Keys.F4), System.Windows.Forms.Keys)
-        Me.ExitToolStripMenuItem.Size = New System.Drawing.Size(180, 24)
+        Me.ExitToolStripMenuItem.Size = New System.Drawing.Size(209, 24)
         Me.ExitToolStripMenuItem.Text = "&Exit"
         '
         'SettingsToolStripMenuItem
         '
-        Me.SettingsToolStripMenuItem.DropDownItems.AddRange(New System.Windows.Forms.ToolStripItem() {Me.FontSizeToolStripMenuItem, Me.VisualThemeToolStripMenuItem, Me.ToolStripSeparator3, Me.ShowFileMenuToolbarToolStripMenuItem, Me.ShowLinkEditorToolbarToolStripMenuItem, Me.ShowRawTabToolStripMenuItem, Me.HideRecentFilesListToolStripMenuItem, Me.RememberWindowSizeAndPosToolStripMenuItem, Me.AddProgramShortcutToExplorersContextmenuToolStripMenuItem})
+        Me.SettingsToolStripMenuItem.DropDownItems.AddRange(New System.Windows.Forms.ToolStripItem() {Me.FontSizeToolStripMenuItem, Me.VisualThemeToolStripMenuItem, Me.RecentFileListToolStripMenuItem, Me.ToolStripSeparator3, Me.ShowFileMenuToolbarToolStripMenuItem, Me.ShowLinkEditorToolbarToolStripMenuItem, Me.ShowRawTabToolStripMenuItem, Me.RememberWindowSizeAndPosToolStripMenuItem, Me.AddProgramShortcutToExplorersContextmenuToolStripMenuItem})
         Me.SettingsToolStripMenuItem.Image = Global.My.Resources.Resources.Settings_16x
         Me.SettingsToolStripMenuItem.Name = "SettingsToolStripMenuItem"
         Me.SettingsToolStripMenuItem.Size = New System.Drawing.Size(86, 23)
@@ -184,7 +186,7 @@ Partial Friend Class Form1
         Me.FontSizeToolStripMenuItem.Image = Global.My.Resources.Resources.FontSize_16x
         Me.FontSizeToolStripMenuItem.Name = "FontSizeToolStripMenuItem"
         Me.FontSizeToolStripMenuItem.ShortcutKeyDisplayString = ""
-        Me.FontSizeToolStripMenuItem.Size = New System.Drawing.Size(341, 24)
+        Me.FontSizeToolStripMenuItem.Size = New System.Drawing.Size(353, 24)
         Me.FontSizeToolStripMenuItem.Text = "&Font Size »"
         '
         'ToolStripComboBoxFontSize
@@ -199,7 +201,7 @@ Partial Friend Class Form1
         Me.VisualThemeToolStripMenuItem.DropDownItems.AddRange(New System.Windows.Forms.ToolStripItem() {Me.DefaultToolStripMenuItem, Me.DarkToolStripMenuItem})
         Me.VisualThemeToolStripMenuItem.Image = Global.My.Resources.Resources.ColorPalette_16x
         Me.VisualThemeToolStripMenuItem.Name = "VisualThemeToolStripMenuItem"
-        Me.VisualThemeToolStripMenuItem.Size = New System.Drawing.Size(341, 24)
+        Me.VisualThemeToolStripMenuItem.Size = New System.Drawing.Size(353, 24)
         Me.VisualThemeToolStripMenuItem.Text = "&Visual Theme »"
         '
         'DefaultToolStripMenuItem
@@ -209,7 +211,7 @@ Partial Friend Class Form1
         Me.DefaultToolStripMenuItem.CheckState = System.Windows.Forms.CheckState.Checked
         Me.DefaultToolStripMenuItem.Image = Global.My.Resources.Resources.ColorWheel_16x
         Me.DefaultToolStripMenuItem.Name = "DefaultToolStripMenuItem"
-        Me.DefaultToolStripMenuItem.Size = New System.Drawing.Size(122, 24)
+        Me.DefaultToolStripMenuItem.Size = New System.Drawing.Size(180, 24)
         Me.DefaultToolStripMenuItem.Text = "Default"
         '
         'DarkToolStripMenuItem
@@ -217,61 +219,76 @@ Partial Friend Class Form1
         Me.DarkToolStripMenuItem.CheckOnClick = True
         Me.DarkToolStripMenuItem.Image = Global.My.Resources.Resources.DarkTheme_16x
         Me.DarkToolStripMenuItem.Name = "DarkToolStripMenuItem"
-        Me.DarkToolStripMenuItem.Size = New System.Drawing.Size(122, 24)
+        Me.DarkToolStripMenuItem.Size = New System.Drawing.Size(180, 24)
         Me.DarkToolStripMenuItem.Text = "Dark"
         '
-        'ToolStripSeparator3
+        'RecentFileListToolStripMenuItem
         '
-        Me.ToolStripSeparator3.Name = "ToolStripSeparator3"
-        Me.ToolStripSeparator3.Size = New System.Drawing.Size(338, 6)
+        Me.RecentFileListToolStripMenuItem.DropDownItems.AddRange(New System.Windows.Forms.ToolStripItem() {Me.ClearRecentFilesListToolStripMenuItem, Me.HideRecentFilesListToolStripMenuItem})
+        Me.RecentFileListToolStripMenuItem.Image = Global.My.Resources.Resources.FolderOpen_16x
+        Me.RecentFileListToolStripMenuItem.Name = "RecentFileListToolStripMenuItem"
+        Me.RecentFileListToolStripMenuItem.Size = New System.Drawing.Size(353, 24)
+        Me.RecentFileListToolStripMenuItem.Text = "Recent Files"
         '
-        'ShowFileMenuToolbarToolStripMenuItem
+        'ClearRecentFilesListToolStripMenuItem
         '
-        Me.ShowFileMenuToolbarToolStripMenuItem.CheckOnClick = True
-        Me.ShowFileMenuToolbarToolStripMenuItem.Image = Global.My.Resources.Resources.FSFile_16x
-        Me.ShowFileMenuToolbarToolStripMenuItem.Name = "ShowFileMenuToolbarToolStripMenuItem"
-        Me.ShowFileMenuToolbarToolStripMenuItem.Size = New System.Drawing.Size(341, 24)
-        Me.ShowFileMenuToolbarToolStripMenuItem.Text = "Show File Menu Toolbar"
-        '
-        'ShowLinkEditorToolbarToolStripMenuItem
-        '
-        Me.ShowLinkEditorToolbarToolStripMenuItem.CheckOnClick = True
-        Me.ShowLinkEditorToolbarToolStripMenuItem.Image = Global.My.Resources.Resources.EditPage_16x
-        Me.ShowLinkEditorToolbarToolStripMenuItem.Name = "ShowLinkEditorToolbarToolStripMenuItem"
-        Me.ShowLinkEditorToolbarToolStripMenuItem.Size = New System.Drawing.Size(341, 24)
-        Me.ShowLinkEditorToolbarToolStripMenuItem.Text = "Show Link Editor Toolbar"
-        '
-        'ShowRawTabToolStripMenuItem
-        '
-        Me.ShowRawTabToolStripMenuItem.CheckOnClick = True
-        Me.ShowRawTabToolStripMenuItem.Image = Global.My.Resources.Resources.Registry_16x
-        Me.ShowRawTabToolStripMenuItem.Name = "ShowRawTabToolStripMenuItem"
-        Me.ShowRawTabToolStripMenuItem.Size = New System.Drawing.Size(341, 24)
-        Me.ShowRawTabToolStripMenuItem.Text = "Show 'Raw' Tab"
+        Me.ClearRecentFilesListToolStripMenuItem.Image = Global.My.Resources.Resources.Close_red_16x
+        Me.ClearRecentFilesListToolStripMenuItem.Name = "ClearRecentFilesListToolStripMenuItem"
+        Me.ClearRecentFilesListToolStripMenuItem.Size = New System.Drawing.Size(180, 24)
+        Me.ClearRecentFilesListToolStripMenuItem.Text = "Clear List"
         '
         'HideRecentFilesListToolStripMenuItem
         '
         Me.HideRecentFilesListToolStripMenuItem.CheckOnClick = True
         Me.HideRecentFilesListToolStripMenuItem.Image = Global.My.Resources.Resources.FileGroup_16x
         Me.HideRecentFilesListToolStripMenuItem.Name = "HideRecentFilesListToolStripMenuItem"
-        Me.HideRecentFilesListToolStripMenuItem.Size = New System.Drawing.Size(341, 24)
-        Me.HideRecentFilesListToolStripMenuItem.Text = "Hide 'Recent..' files list"
+        Me.HideRecentFilesListToolStripMenuItem.Size = New System.Drawing.Size(180, 24)
+        Me.HideRecentFilesListToolStripMenuItem.Text = "Hide List"
+        '
+        'ToolStripSeparator3
+        '
+        Me.ToolStripSeparator3.Name = "ToolStripSeparator3"
+        Me.ToolStripSeparator3.Size = New System.Drawing.Size(350, 6)
+        '
+        'ShowFileMenuToolbarToolStripMenuItem
+        '
+        Me.ShowFileMenuToolbarToolStripMenuItem.CheckOnClick = True
+        Me.ShowFileMenuToolbarToolStripMenuItem.Image = Global.My.Resources.Resources.FSFile_16x
+        Me.ShowFileMenuToolbarToolStripMenuItem.Name = "ShowFileMenuToolbarToolStripMenuItem"
+        Me.ShowFileMenuToolbarToolStripMenuItem.Size = New System.Drawing.Size(353, 24)
+        Me.ShowFileMenuToolbarToolStripMenuItem.Text = "Show File Menu toolbar"
+        '
+        'ShowLinkEditorToolbarToolStripMenuItem
+        '
+        Me.ShowLinkEditorToolbarToolStripMenuItem.CheckOnClick = True
+        Me.ShowLinkEditorToolbarToolStripMenuItem.Image = Global.My.Resources.Resources.EditPage_16x
+        Me.ShowLinkEditorToolbarToolStripMenuItem.Name = "ShowLinkEditorToolbarToolStripMenuItem"
+        Me.ShowLinkEditorToolbarToolStripMenuItem.Size = New System.Drawing.Size(353, 24)
+        Me.ShowLinkEditorToolbarToolStripMenuItem.Text = "Show Link Editor toolbar"
+        '
+        'ShowRawTabToolStripMenuItem
+        '
+        Me.ShowRawTabToolStripMenuItem.CheckOnClick = True
+        Me.ShowRawTabToolStripMenuItem.Image = Global.My.Resources.Resources.Registry_16x
+        Me.ShowRawTabToolStripMenuItem.Name = "ShowRawTabToolStripMenuItem"
+        Me.ShowRawTabToolStripMenuItem.Size = New System.Drawing.Size(353, 24)
+        Me.ShowRawTabToolStripMenuItem.Text = "Show Hex. View tab"
         '
         'RememberWindowSizeAndPosToolStripMenuItem
         '
         Me.RememberWindowSizeAndPosToolStripMenuItem.CheckOnClick = True
         Me.RememberWindowSizeAndPosToolStripMenuItem.Image = Global.My.Resources.Resources.AutosizeOptimize_16x
         Me.RememberWindowSizeAndPosToolStripMenuItem.Name = "RememberWindowSizeAndPosToolStripMenuItem"
-        Me.RememberWindowSizeAndPosToolStripMenuItem.Size = New System.Drawing.Size(341, 24)
-        Me.RememberWindowSizeAndPosToolStripMenuItem.Text = "Remember Window Size and Position"
+        Me.RememberWindowSizeAndPosToolStripMenuItem.Size = New System.Drawing.Size(353, 24)
+        Me.RememberWindowSizeAndPosToolStripMenuItem.Text = "Remember last window size and position"
         '
         'AddProgramShortcutToExplorersContextmenuToolStripMenuItem
         '
         Me.AddProgramShortcutToExplorersContextmenuToolStripMenuItem.CheckOnClick = True
         Me.AddProgramShortcutToExplorersContextmenuToolStripMenuItem.Image = Global.My.Resources.Resources.ContextMenu_16x
         Me.AddProgramShortcutToExplorersContextmenuToolStripMenuItem.Name = "AddProgramShortcutToExplorersContextmenuToolStripMenuItem"
-        Me.AddProgramShortcutToExplorersContextmenuToolStripMenuItem.Size = New System.Drawing.Size(341, 24)
-        Me.AddProgramShortcutToExplorersContextmenuToolStripMenuItem.Text = "Add Explorer's context menu entry for links"
+        Me.AddProgramShortcutToExplorersContextmenuToolStripMenuItem.Size = New System.Drawing.Size(353, 24)
+        Me.AddProgramShortcutToExplorersContextmenuToolStripMenuItem.Text = "Add Explorer context menu entry for link files"
         '
         'AboutToolStripMenuItem
         '
@@ -412,7 +429,7 @@ Partial Friend Class Form1
         Me.Tab_HexViewer.Location = New System.Drawing.Point(0, 0)
         Me.Tab_HexViewer.Name = "Tab_HexViewer"
         Me.Tab_HexViewer.Size = New System.Drawing.Size(0, 0)
-        Me.Tab_HexViewer.Text = "Raw"
+        Me.Tab_HexViewer.Text = "Hex. View"
         '
         'HexBox1
         '
@@ -572,5 +589,7 @@ Partial Friend Class Form1
     Friend WithEvents ToolStripSeparator3 As ToolStripSeparator
     Friend WithEvents ShowLinkEditorToolbarToolStripMenuItem As ToolStripMenuItem
     Friend WithEvents ShowRawTabToolStripMenuItem As ToolStripMenuItem
+    Friend WithEvents RecentFileListToolStripMenuItem As ToolStripMenuItem
+    Friend WithEvents ClearRecentFilesListToolStripMenuItem As ToolStripMenuItem
     Friend WithEvents HideRecentFilesListToolStripMenuItem As ToolStripMenuItem
 End Class

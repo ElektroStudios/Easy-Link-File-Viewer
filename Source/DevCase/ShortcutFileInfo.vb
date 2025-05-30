@@ -110,6 +110,7 @@ Imports System.IO
 Imports System.Runtime.InteropServices
 Imports System.Security
 Imports System.Security.AccessControl
+Imports System.Security.Policy
 Imports System.Text
 Imports System.Windows.Forms.Design
 Imports System.Xml.Serialization
@@ -119,8 +120,11 @@ Imports DevCase.Interop.Unmanaged.Win32
 Imports DevCase.Interop.Unmanaged.Win32.Enums
 Imports DevCase.Interop.Unmanaged.Win32.Interfaces
 
-#End Region
+Imports Newtonsoft.Json.Linq
 
+
+
+#End Region
 #Region " ShortcutFileInfo "
 
 Namespace DevCase.Core.IO
@@ -158,7 +162,7 @@ Namespace DevCase.Core.IO
     <Category(NameOf(ShortcutFileInfo))>
     <Description("Provides information about a shortcut (.lnk) file.")>
     <DefaultProperty(NameOf(ShortcutFileInfo.Target))>
-    Friend NotInheritable Class ShortcutFileInfo : Inherits FileSystemInfo
+    Public NotInheritable Class ShortcutFileInfo : Inherits FileSystemInfo
 
 #Region " Private Fields "
 
@@ -862,6 +866,14 @@ Namespace DevCase.Core.IO
             Me.New(file.FullName)
         End Sub
 
+        ''' ----------------------------------------------------------------------------------------------------
+        ''' <summary>
+        ''' Prevents a default instance of the <see cref="ShortcutFileInfo"/> class from being created.
+        ''' </summary>
+        ''' ----------------------------------------------------------------------------------------------------
+        Private Sub New()
+        End Sub
+
 #End Region
 
 #Region " Public Methods "
@@ -1176,6 +1188,23 @@ Namespace DevCase.Core.IO
             Marshal.FinalReleaseComObject(lnk)
 
         End Sub
+
+        Public Overrides Function GetHashCode() As Integer
+
+            ' https://stackoverflow.com/a/4656890
+            Return CInt(New With {
+                Key .A = MyBase.FullName,
+                Key .B = Me.description_,
+                Key .C = Me.hotkey_,
+                Key .D = Me.icon_,
+                Key .E = Me.iconIndex_,
+                Key .F = Me.target_,
+                Key .G = Me.targetArguments_,
+                Key .H = Me.windowState_,
+                Key .I = Me.workingDirectory_
+            }.GetHashCode() And &H7FFFFFFFL)
+
+        End Function
 
 #End Region
 

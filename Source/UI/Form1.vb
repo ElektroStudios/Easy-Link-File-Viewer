@@ -25,6 +25,7 @@ Imports DevCase.Core.IO
 Imports DevCase.Core.IO.Tools
 Imports DevCase.Core.Imaging.Tools
 Imports Manina.Windows.Forms
+Imports System.Xml.Serialization
 
 #End Region
 
@@ -51,6 +52,15 @@ Friend NotInheritable Class Form1 : Inherits Form
     ''' </summary>
     ''' ----------------------------------------------------------------------------------------------------
     Private currentFileByteProvider As Be.Windows.Forms.DynamicFileByteProvider
+
+    ''' ----------------------------------------------------------------------------------------------------
+    ''' <summary>
+    ''' Keeps track of the opened shortcut files to restore an orphan shortcut in the editor from the MRU list, if requested by the end-user.
+    ''' <para></para>
+    ''' Fixes: https://github.com/ElektroStudios/Easy-Link-File-Viewer/issues/15
+    ''' </summary>
+    ''' ----------------------------------------------------------------------------------------------------
+    Private ShortcutFileInfoSet As New Dictionary(Of String, ShortcutFileInfo)(StringComparison.OrdinalIgnoreCase)
 
 #End Region
 
@@ -337,7 +347,7 @@ Friend NotInheritable Class Form1 : Inherits Form
                 Try
                     File.Delete(dlg.FileName)
                 Catch ex As Exception
-                    MessageBox.Show(Me, "Can't delete existing link file:" & Environment.NewLine & Environment.NewLine & ex.Message, My.Application.Info.Title, MessageBoxButtons.OK, MessageBoxIcon.Error)
+                    MessageBox.Show(Me, "Can't delete existing shortcut file:" & Environment.NewLine & Environment.NewLine & ex.Message, My.Application.Info.Title, MessageBoxButtons.OK, MessageBoxIcon.Error)
                 End Try
 
                 Dim newShortcut As ShortcutFileInfo = Nothing
@@ -346,7 +356,7 @@ Friend NotInheritable Class Form1 : Inherits Form
                     newShortcut.Create()
 
                 Catch ex As Exception
-                    MessageBox.Show(Me, "Error creating link file:" & Environment.NewLine & Environment.NewLine & ex.Message,
+                    MessageBox.Show(Me, "Error creating shortcut file:" & Environment.NewLine & Environment.NewLine & ex.Message,
                                     My.Application.Info.Title, MessageBoxButtons.OK, MessageBoxIcon.Error)
                 End Try
 
@@ -407,11 +417,11 @@ Friend NotInheritable Class Form1 : Inherits Form
 
         Try
             Me.currentShortcut.Create()
-            MessageBox.Show("Link file saved successfully.", My.Application.Info.Title,
+            MessageBox.Show("Shortcut file saved successfully.", My.Application.Info.Title,
                             MessageBoxButtons.OK, MessageBoxIcon.Information)
 
         Catch ex As Exception
-            MessageBox.Show(Me, "Error creating link file:" & Environment.NewLine & Environment.NewLine & ex.Message,
+            MessageBox.Show(Me, "Error creating shortcut file:" & Environment.NewLine & Environment.NewLine & ex.Message,
                              My.Application.Info.Title, MessageBoxButtons.OK, MessageBoxIcon.Error)
         End Try
 
@@ -460,10 +470,10 @@ Friend NotInheritable Class Form1 : Inherits Form
 
                     Try
                         .Create()
-                        MessageBox.Show("Link file saved successfully.", My.Application.Info.Title, MessageBoxButtons.OK, MessageBoxIcon.Information)
+                        MessageBox.Show("Shortcut file saved successfully.", My.Application.Info.Title, MessageBoxButtons.OK, MessageBoxIcon.Information)
 
                     Catch ex As Exception
-                        MessageBox.Show(Me, "Error creating link file:" & Environment.NewLine & Environment.NewLine & ex.Message,
+                        MessageBox.Show(Me, "Error creating shortcut file:" & Environment.NewLine & Environment.NewLine & ex.Message,
                                     My.Application.Info.Title, MessageBoxButtons.OK, MessageBoxIcon.Error)
                     End Try
 
@@ -515,6 +525,13 @@ Friend NotInheritable Class Form1 : Inherits Form
 
         Me.PropertyGrid1.ContextMenuStrip = Nothing
         Me.StatusStrip1.ContextMenuStrip = Nothing
+
+        If Me.ShortcutFileInfoSet.ContainsKey(Me.currentShortcut.FullName) Then
+            Me.ShortcutFileInfoSet(Me.currentShortcut.FullName) = Me.currentShortcut
+        Else
+            Me.ShortcutFileInfoSet.Add(Me.currentShortcut.FullName, Me.currentShortcut)
+        End If
+
     End Sub
 
     ''' ----------------------------------------------------------------------------------------------------
@@ -798,9 +815,9 @@ Friend NotInheritable Class Form1 : Inherits Form
     ''' The <see cref="EventArgs"/> instance containing the event data.
     ''' </param>
     ''' ----------------------------------------------------------------------------------------------------
-    Private Sub DisableRecentFilesListToolStripMenuItem_CheckedChanged(sender As Object, e As EventArgs) _
+    Private Sub HideRecentFilesListToolStripMenuItem_CheckedChanged(sender As Object, e As EventArgs) _
         Handles HideRecentFilesListToolStripMenuItem.CheckedChanged
-        ' MsgBox(1)
+
         Dim item As ToolStripMenuItem = DirectCast(sender, ToolStripMenuItem)
 
         If item.Checked Then
@@ -811,6 +828,25 @@ Friend NotInheritable Class Form1 : Inherits Form
             Me.FileToolStripMenuItem.DropDownItems.Insert(5, Me.ToolStripSeparator1)
         End If
 
+    End Sub
+
+    ''' ----------------------------------------------------------------------------------------------------
+    ''' <summary>
+    ''' Handles the <see cref="ToolStripMenuItem.CheckedChanged"/> event of the <see cref="Form1.DefaultToolStripMenuItem"/> control.
+    ''' </summary>
+    ''' ----------------------------------------------------------------------------------------------------
+    ''' <param name="sender">
+    ''' The source of the event.
+    ''' </param>
+    ''' 
+    ''' <param name="e">
+    ''' The <see cref="EventArgs"/> instance containing the event data.
+    ''' </param>
+    ''' ----------------------------------------------------------------------------------------------------
+    Private Sub ClearRecentFilesListToolStripMenuItem_Click(sender As Object, e As EventArgs) _
+        Handles ClearRecentFilesListToolStripMenuItem.Click
+
+        Me.ClearMruItems()
     End Sub
 
 #End Region
@@ -1122,56 +1158,6 @@ Friend NotInheritable Class Form1 : Inherits Form
 
     ''' ----------------------------------------------------------------------------------------------------
     ''' <summary>
-    ''' Updates the MRU menu items.
-    ''' </summary>
-    ''' ----------------------------------------------------------------------------------------------------
-    ''' <param name="shortcut">
-    ''' The source <see cref="ShortcutFileInfo"/> to add at the top of the MRU items.
-    ''' </param>
-    ''' ----------------------------------------------------------------------------------------------------
-    Private Sub UpdateMruItems(shortcut As ShortcutFileInfo)
-
-        ' Search and remove existing MRU item.
-        For Each item As ToolStripMenuItem In Me.RecentToolStripMenuItem.DropDown.Items
-            If CStr(item.Tag).Equals(shortcut.FullName, StringComparison.OrdinalIgnoreCase) Then
-                item.Image?.Dispose()
-                item.Dispose()
-                Exit For
-            End If
-        Next
-
-        ' Keep maximum capacity.
-        Const maxMruCapacity As Integer = 10
-        If (Me.RecentToolStripMenuItem.DropDown.Items.Count = maxMruCapacity) Then
-            Me.RecentToolStripMenuItem.DropDown.Items(maxMruCapacity - 1).Dispose()
-        End If
-
-        ' Retrieve shortcut's file icon.
-        Dim ico As Icon = Nothing
-        Try
-            ico = ImageUtil.ExtractIconFromFile(shortcut.FullName)
-        Catch
-        End Try
-
-        ' Add new MRU item.
-        Dim newItem As New ToolStripMenuItem With {
-            .Text = shortcut.Name,
-            .Image = ico?.ToBitmap(),
-            .Tag = shortcut.FullName
-        }
-        Me.RecentToolStripMenuItem.DropDown.Items.Insert(0, newItem)
-
-        AddHandler newItem.Click, Sub(sender As Object, e As EventArgs)
-                                      Dim fullPath As String = CStr(DirectCast(sender, ToolStripMenuItem).Tag)
-                                      Me.LoadShortcutInPropertyGrid(fullPath)
-                                  End Sub
-
-        ico?.Dispose()
-
-    End Sub
-
-    ''' ----------------------------------------------------------------------------------------------------
-    ''' <summary>
     ''' Loads a shortcut file into the <see cref="Form1.PropertyGrid1"/> control.
     ''' </summary>
     ''' ----------------------------------------------------------------------------------------------------
@@ -1183,18 +1169,32 @@ Friend NotInheritable Class Form1 : Inherits Form
         Try
             Me.currentShortcut = New ShortcutFileInfo(filePath) With {.ViewMode = True}
         Catch ex As Exception
-            MessageBox.Show(Me, "Error trying to read link data:" & Environment.NewLine & Environment.NewLine & ex.Message,
+            MessageBox.Show(Me, "Error trying to read shortcut data:" & Environment.NewLine & Environment.NewLine & ex.Message,
                             My.Application.Info.Title, MessageBoxButtons.OK, MessageBoxIcon.Error)
             Exit Sub
         End Try
         If Not Me.currentShortcut.Exists Then
-            MessageBox.Show(Me, $"The lnk file does not exist: {Me.currentShortcut.FullName}", My.Application.Info.Title, MessageBoxButtons.OK, MessageBoxIcon.Error)
-            Exit Sub
+            Dim dlgResult As DialogResult = MessageBox.Show(Me, $"The shortcut file does not exist: {Me.currentShortcut.FullName}" & Environment.NewLine & Environment.NewLine &
+                                                                "Do you want to create it with the last known saved data?.", My.Application.Info.Title, MessageBoxButtons.YesNoCancel, MessageBoxIcon.Question)
+            If dlgResult = DialogResult.Yes Then
+                Me.currentShortcut = Me.ShortcutFileInfoSet(filePath)
+                Try
+                    Me.currentShortcut.Create()
+
+                Catch ex As Exception
+                    MessageBox.Show(Me, "Error creating shortcut file:" & Environment.NewLine & Environment.NewLine & ex.Message,
+                                    My.Application.Info.Title, MessageBoxButtons.OK, MessageBoxIcon.Error)
+                    Exit Sub
+                End Try
+            Else
+
+                Exit Sub
+            End If
         End If
 
         If Me.currentShortcut.IsWindowsInstallerShortcut Then
-            MessageBox.Show(Me, "This link points to a Windows Installer product." & Environment.NewLine & Environment.NewLine &
-                                "Support to read/write this link is experimental and saving changes to this file could corrupt the link. Please save any changes to a new link file.",
+            MessageBox.Show(Me, "This shortcut points to a Windows Installer product." & Environment.NewLine & Environment.NewLine &
+                                "Support to read/write this shortcut is experimental and saving changes to this file may corrupt the file. Please save any changes to a NEW shortcut file.",
                             My.Application.Info.Title, MessageBoxButtons.OK, MessageBoxIcon.Exclamation)
         End If
 
@@ -1211,13 +1211,21 @@ Friend NotInheritable Class Form1 : Inherits Form
         Me.SaveAsToolBarMenuItem.Enabled = True
         Me.CloseToolBarMenuItem.Enabled = True
 
-        Me.UpdateMruItems(Me.currentShortcut)
-        Me.ToolStripStatusLabelIcon.Image = Me.RecentToolStripMenuItem.DropDown.Items(0).Image
+        Try
+            Me.UpdateMruItems(Me.currentShortcut)
+            Me.ToolStripStatusLabelIcon.Image = Me.RecentToolStripMenuItem.DropDown.Items(0).Image
+
+        Catch ex As Exception
+            MessageBox.Show(Me, "Error updating recent file list:" & Environment.NewLine & Environment.NewLine & ex.Message,
+                            My.Application.Info.Title, MessageBoxButtons.OK, MessageBoxIcon.Error)
+
+        End Try
 
         Me.PropertyGrid1.ContextMenuStrip = Me.ContextMenuStrip1
         Me.StatusStrip1.ContextMenuStrip = Me.ContextMenuStrip1
 
         Me.LoadShortcutInHexBox(Me.currentShortcut.FullName)
+
     End Sub
 
     ''' ----------------------------------------------------------------------------------------------------
@@ -1245,7 +1253,7 @@ Friend NotInheritable Class Form1 : Inherits Form
             Me.HexBox1.ByteProvider = Nothing
             Me.HexBox1.ByteProvider = Me.currentFileByteProvider
         Catch ex As Exception
-            MessageBox.Show(Me, "Error trying to read link RAW data:" & Environment.NewLine & Environment.NewLine & ex.Message,
+            MessageBox.Show(Me, "Error trying to read RAW shortcut data:" & Environment.NewLine & Environment.NewLine & ex.Message,
                             My.Application.Info.Title, MessageBoxButtons.OK, MessageBoxIcon.Error)
         End Try
 
@@ -1281,6 +1289,71 @@ Friend NotInheritable Class Form1 : Inherits Form
                 table.RowStyles(rowIndex).Height = Me.MenuStrip_ToolBar.Height
             End If
         End If
+
+    End Sub
+
+    Private Sub ClearMruItems()
+
+        For Each item As ToolStripMenuItem In Me.RecentToolStripMenuItem.DropDown.Items
+            item.Image?.Dispose()
+        Next
+
+        Me.RecentToolStripMenuItem.DropDown.Items.Clear()
+    End Sub
+
+    ''' ----------------------------------------------------------------------------------------------------
+    ''' <summary>
+    ''' Updates the MRU menu items.
+    ''' </summary>
+    ''' ----------------------------------------------------------------------------------------------------
+    ''' <param name="shortcut">
+    ''' The source <see cref="ShortcutFileInfo"/> to add at the top of the MRU items.
+    ''' </param>
+    ''' ----------------------------------------------------------------------------------------------------
+    Private Sub UpdateMruItems(shortcut As ShortcutFileInfo)
+
+        ' Search and remove existing MRU item.
+        For Each item As ToolStripMenuItem In Me.RecentToolStripMenuItem.DropDown.Items
+            Dim tagData As Object = item.Tag
+            Dim fullPath As String = DirectCast(tagData, String)
+
+            If fullPath.Equals(shortcut.FullName, StringComparison.OrdinalIgnoreCase) Then
+
+                item.Image?.Dispose()
+                item.Dispose()
+                Exit For
+            End If
+        Next
+
+        ' Keep maximum capacity.
+        Const maxMruCapacity As Integer = 16
+        If (Me.RecentToolStripMenuItem.DropDown.Items.Count = maxMruCapacity) Then
+            Me.RecentToolStripMenuItem.DropDown.Items(maxMruCapacity - 1).Dispose()
+        End If
+
+        ' Retrieve shortcut's file icon.
+        Dim ico As Icon = Nothing
+        Try
+            ico = ImageUtil.ExtractIconFromFile(shortcut.FullName)
+        Catch
+            ico = SystemIcons.Error
+        End Try
+
+        ' Add new MRU item.
+        Dim newItem As New ToolStripMenuItem With {
+            .Text = shortcut.Name,
+            .Image = ico?.ToBitmap(),
+            .Tag = shortcut.FullName
+        }
+        Me.RecentToolStripMenuItem.DropDown.Items.Insert(0, newItem)
+
+        AddHandler newItem.Click, Sub(sender As Object, e As EventArgs)
+                                      Dim tagData As Object = DirectCast(sender, ToolStripMenuItem).Tag
+                                      Dim fullPath As String = CStr(tagData)
+                                      Me.LoadShortcutInPropertyGrid(fullPath)
+                                  End Sub
+
+        ico?.Dispose()
 
     End Sub
 
