@@ -15,6 +15,7 @@ Imports Jot.Configuration
 Imports Jot.Storage
 
 #End Region
+
 ''' <summary>
 ''' Provides JOT related utilities.
 ''' </summary>

@@ -63,6 +63,18 @@ Namespace DevCase.Interop.Unmanaged.Win32
 
 #End Region
 
+#Region " dwmapi.dll "
+
+        <DllImport("dwmapi.dll", PreserveSig:=True)>
+        Friend Shared Function DwmSetWindowAttribute(hWnd As IntPtr,
+                                                     attribute As Integer,
+                                               ByRef refAttributeValue As Integer,
+                                                     attributeSize As Integer
+        ) As Integer
+        End Function
+
+#End Region
+
 #Region " Kernel32.dll "
 
         ''' ----------------------------------------------------------------------------------------------------

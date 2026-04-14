@@ -103,14 +103,12 @@ Option Infer Off
 
 #Region " Imports "
 
-Imports System.CodeDom
 Imports System.ComponentModel
 Imports System.Drawing.Design
 Imports System.IO
 Imports System.Runtime.InteropServices
 Imports System.Security
 Imports System.Security.AccessControl
-Imports System.Security.Policy
 Imports System.Text
 Imports System.Windows.Forms.Design
 Imports System.Xml.Serialization
@@ -120,11 +118,8 @@ Imports DevCase.Interop.Unmanaged.Win32
 Imports DevCase.Interop.Unmanaged.Win32.Enums
 Imports DevCase.Interop.Unmanaged.Win32.Interfaces
 
-Imports Newtonsoft.Json.Linq
-
-
-
 #End Region
+
 #Region " ShortcutFileInfo "
 
 Namespace DevCase.Core.IO
@@ -783,6 +778,41 @@ Namespace DevCase.Core.IO
         End Property
         Private isWindowsInstallerShortcut_ As Boolean
 
+        ''' ----------------------------------------------------------------------------------------------------
+        ''' <summary>
+        ''' Gets or sets the appliaction model ID of the shortcut file.
+        ''' </summary>
+        ''' ----------------------------------------------------------------------------------------------------
+        <Editor(GetType(ShortcutFileInfoAppIdEditor), GetType(UITypeEditor))>
+        <Description("The appliaction model ID of the shortcut file.")>
+        <DisplayName("Application Model ID")>
+        <Category("Shortcut")>
+        <DefaultValue("")>
+        Public Property AppId As String
+            Get
+                If (Me.appId_ Is Nothing) Then
+                    Me.appId_ = ShortcutAppIdHelper.GetAppUserModelId(Me.FullPath)
+                End If
+                Return Me.appId_
+            End Get
+            Set(value As String)
+                Dim newValue As String = If(value, String.Empty)
+                Dim oldValue As String = If(Me.appId_, String.Empty)
+                If Not String.Equals(newValue, oldValue, StringComparison.Ordinal) Then
+                    Me.appId_ = newValue
+                    Me.WriteLink()
+                End If
+            End Set
+        End Property
+        ''' ----------------------------------------------------------------------------------------------------
+        ''' <summary>
+        ''' ( Backing Field of <see cref="ShortcutFileInfo.AppId"/> property. )
+        ''' <para></para>
+        ''' The image index within the icon file.
+        ''' </summary>
+        ''' ----------------------------------------------------------------------------------------------------
+        Private appId_ As String
+
 #End Region
 
 #Region " Other "
@@ -1306,6 +1336,12 @@ Namespace DevCase.Core.IO
             Dim keyAccesor As Keys = CType(BitConverter.GetBytes(hotkey)(0), Keys)
             Me.hotkey_ = Me.HotkeyToKeys(keyModifier, keyAccesor)
 
+            ' Read the AppUserModelID from the shortcut's PropertyStore.
+            Try
+                Me.appId_ = ShortcutAppIdHelper.GetAppUserModelId(Me.FullPath)
+            Catch
+                Me.appId_ = Nothing
+            End Try
         End Sub
 
         ''' ----------------------------------------------------------------------------------------------------
@@ -1361,6 +1397,32 @@ Namespace DevCase.Core.IO
             Marshal.FinalReleaseComObject(persistFile)
             Marshal.FinalReleaseComObject(shellLink)
             Marshal.FinalReleaseComObject(cShellLink)
+
+            ' Persist the AppUserModelID in the shortcut's PropertyStore. The classic
+            ' IShellLinkW / IPersistFile pipeline does not preserve extended properties
+            ' on Save — the PropertyStore block is wiped every time — so we must re-inject
+            ' the AUMID unconditionally after every Save whenever appId_ has a value.
+            Try
+                If Not String.IsNullOrEmpty(Me.appId_) Then
+                    ShortcutAppIdHelper.SetAppUserModelId(Me.FullPath, Me.appId_)
+                Else
+                    ' Only attempt to clear if the file actually has an AUMID stored,
+                    ' otherwise Clear can fail with STG_E_ACCESSDENIED on shortcuts that
+                    ' never had the property.
+                    Dim existingAppId As String = Nothing
+                    Try
+                        existingAppId = ShortcutAppIdHelper.GetAppUserModelId(Me.FullPath)
+                    Catch
+                        existingAppId = Nothing
+                    End Try
+                    If Not String.IsNullOrEmpty(existingAppId) Then
+                        ShortcutAppIdHelper.ClearAppUserModelId(Me.FullPath)
+                    End If
+                End If
+
+            Catch ex As Exception
+                Throw New InvalidOperationException($"Cannot persist AppUserModelID to link file: {Me.FullPath}", ex)
+            End Try
 
             If isReadOnly Then
                 Me.Attributes = Me.Attributes Or FileAttributes.ReadOnly

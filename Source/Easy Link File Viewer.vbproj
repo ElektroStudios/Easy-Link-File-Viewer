@@ -66,8 +66,7 @@
       <SpecificVersion>False</SpecificVersion>
     </Reference>
     <Reference Include="Newtonsoft.Json, Version=13.0.0.0, Culture=neutral, PublicKeyToken=30ad4fe6b2a6aeed, processorArchitecture=MSIL">
-      <HintPath>packages\Newtonsoft.Json.13.0.3\lib\net45\Newtonsoft.Json.dll</HintPath>
-      <SpecificVersion>False</SpecificVersion>
+      <HintPath>packages\Newtonsoft.Json.13.0.4\lib\net45\Newtonsoft.Json.dll</HintPath>
     </Reference>
     <Reference Include="PagedControl, Version=2.2.0.0, Culture=neutral, processorArchitecture=MSIL">
       <HintPath>packages\PagedControl.2.2.0\lib\net35\PagedControl.dll</HintPath>
@@ -103,9 +102,12 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="ApplicationEvents.vb" />
+    <Compile Include="DevCase\_Experimental AppId Support\ShortcutFileInfoAppIdEditor.vb" />
+    <Compile Include="DevCase\_Experimental AppId Support\ShortcutAppIdHelper.vb" />
     <Compile Include="DevCase\CultureUtil.vb" />
     <Compile Include="DevCase\FileUtil.vb" />
     <Compile Include="DevCase\ShortcutFileInfoIconIndexEditor.vb" />
+    <Compile Include="DevCase\Win32\Constants.vb" />
     <Compile Include="DevCase\Win32\HResult.vb" />
     <Compile Include="DevCase\Win32\IShellItem.vb" />
     <Compile Include="DevCase\Win32\MuiLanguageMode.vb" />

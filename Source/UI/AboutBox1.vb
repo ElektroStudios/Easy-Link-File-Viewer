@@ -41,12 +41,10 @@ Friend NotInheritable Class AboutBox1 : Inherits Form
     ''' ----------------------------------------------------------------------------------------------------
     Private Sub AboutBox1_Load(sender As Object, e As EventArgs) Handles MyBase.Load
         ' Set the title of the form.
-        Dim ApplicationTitle As String
-        If (My.Application.Info.Title <> "") Then
-            ApplicationTitle = My.Application.Info.Title
-        Else
-            ApplicationTitle = Path.GetFileNameWithoutExtension(My.Application.Info.AssemblyName)
-        End If
+        Dim ApplicationTitle As String =
+            If(My.Application.Info.Title <> "",
+                My.Application.Info.Title,
+                Path.GetFileNameWithoutExtension(My.Application.Info.AssemblyName))
         Me.Text = String.Format("About {0}", ApplicationTitle)
         ' Initialize all of the text displayed on the About Box.
         ' TODO: Customize the application's assembly information in the "Application" pane of the project 

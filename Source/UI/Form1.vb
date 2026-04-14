@@ -1,6 +1,6 @@
 ﻿' ***********************************************************************
 ' Author   : ElektroStudios
-' Modified : 29-June-2019
+' Modified : 14-April-2026
 ' ***********************************************************************
 
 #Region " Option Statements "
@@ -16,16 +16,19 @@ Option Infer Off
 Imports System.ComponentModel
 Imports System.Globalization
 Imports System.IO
+Imports System.Linq.Expressions
+Imports System.Runtime.InteropServices
 Imports System.Threading
 
 Imports DevCase.Core.Application.Tools
 Imports DevCase.Core.Application.UserInterface
 Imports DevCase.Core.Extensions
+Imports DevCase.Core.Imaging.Tools
 Imports DevCase.Core.IO
 Imports DevCase.Core.IO.Tools
-Imports DevCase.Core.Imaging.Tools
+Imports DevCase.Interop.Unmanaged.Win32
+
 Imports Manina.Windows.Forms
-Imports System.Xml.Serialization
 
 #End Region
 
@@ -467,6 +470,7 @@ Friend NotInheritable Class Form1 : Inherits Form
                     .TargetArguments = Me.currentShortcut.TargetArguments
                     .WindowState = Me.currentShortcut.WindowState
                     .WorkingDirectory = Me.currentShortcut.WorkingDirectory
+                    .AppId = Me.currentShortcut.AppId
 
                     Try
                         .Create()
@@ -476,7 +480,6 @@ Friend NotInheritable Class Form1 : Inherits Form
                         MessageBox.Show(Me, "Error creating shortcut file:" & Environment.NewLine & Environment.NewLine & ex.Message,
                                     My.Application.Info.Title, MessageBoxButtons.OK, MessageBoxIcon.Error)
                     End Try
-
 
                     .Attributes = Me.currentShortcut.Attributes
                     .CreationTime = Me.currentShortcut.CreationTime
@@ -783,22 +786,48 @@ Friend NotInheritable Class Form1 : Inherits Form
         Dim command As String = $"""{executablePath}"" ""%1"""
 
         Dim item As ToolStripMenuItem = DirectCast(sender, ToolStripMenuItem)
-        If item.Checked Then
-            Try
-                RegistryUtil.CreateFileTypeRegistryMenuEntry(fileType, keyName, text, position, icon, command)
-            Catch ex As Exception
-                MessageBox.Show(Me, "Error trying to create file type registry menu entry:" & Environment.NewLine & Environment.NewLine & ex.Message,
-                                My.Application.Info.Title, MessageBoxButtons.OK, MessageBoxIcon.Error)
-            End Try
-        Else
-            Try
-                RegistryUtil.DeleteFileTypeRegistryMenuEntry(fileType, keyName, throwOnMissingsubKey:=False)
-            Catch ex As Exception
-                MessageBox.Show(Me, "Error trying to delete file type registry menu entry:" & Environment.NewLine & Environment.NewLine & ex.Message,
-                                My.Application.Info.Title, MessageBoxButtons.OK, MessageBoxIcon.Error)
 
-            End Try
-        End If
+        Dim baseKeyPath As String = $"\{fileType}\shell\{keyName}"
+        Dim commandKeyPath As String = $"\{fileType}\shell\{keyName}\command"
+
+        Dim baseKey As Microsoft.Win32.RegistryKey = Nothing
+        Dim commandKey As Microsoft.Win32.RegistryKey = Nothing
+        Try
+            baseKey = Microsoft.Win32.Registry.ClassesRoot.OpenSubKey(baseKeyPath, writable:=False)
+            commandKey = Microsoft.Win32.Registry.ClassesRoot.OpenSubKey(commandKeyPath, writable:=False)
+
+            Dim entryFullyExists As Boolean = baseKey IsNot Nothing AndAlso commandKey IsNot Nothing
+
+            If item.Checked Then
+                If Not entryFullyExists Then
+                    Try
+                        RegistryUtil.CreateFileTypeRegistryMenuEntry(fileType, keyName, text, position, icon, command)
+                    Catch ex As Exception
+                        MessageBox.Show(Me, "Error trying to create file type registry menu entry:" & Environment.NewLine & Environment.NewLine & ex.Message,
+                                        My.Application.Info.Title, MessageBoxButtons.OK, MessageBoxIcon.Error)
+                    End Try
+                End If
+            Else
+                If baseKey IsNot Nothing Then
+                    Try
+                        RegistryUtil.DeleteFileTypeRegistryMenuEntry(fileType, keyName, throwOnMissingsubKey:=False)
+                    Catch ex As Exception
+                        MessageBox.Show(Me, "Error trying to delete file type registry menu entry:" & Environment.NewLine & Environment.NewLine & ex.Message,
+                                        My.Application.Info.Title, MessageBoxButtons.OK, MessageBoxIcon.Error)
+
+                    End Try
+                End If
+            End If
+
+        Catch ex As Exception
+            MessageBox.Show(Me, $"Error updating registry context menu entry:{Environment.NewLine}{Environment.NewLine}{ex.Message}",
+                            My.Application.Info.Title, MessageBoxButtons.OK, MessageBoxIcon.Error)
+
+        Finally
+            baseKey?.Close()
+            commandKey?.Close()
+
+        End Try
 
     End Sub
 
@@ -1134,6 +1163,7 @@ Friend NotInheritable Class Form1 : Inherits Form
     ''' </summary>
     ''' ----------------------------------------------------------------------------------------------------
     Private Sub LoadVisualTheme(visualStyle As VisualStyle)
+
         Select Case visualStyle
 
             Case VisualStyle.Default
@@ -1142,6 +1172,7 @@ Friend NotInheritable Class Form1 : Inherits Form
 
                 Me.DefaultToolStripMenuItem.Checked = True
                 Me.DarkToolStripMenuItem.Checked = False
+                Me.SetDarkTitleBar(enabled:=False)
 
             Case VisualStyle.VisualStudioDark
                 Me.SetVisualStyle(VisualStyle.VisualStudioDark, True)
@@ -1149,12 +1180,43 @@ Friend NotInheritable Class Form1 : Inherits Form
 
                 Me.DefaultToolStripMenuItem.Checked = False
                 Me.DarkToolStripMenuItem.Checked = True
+                Me.SetDarkTitleBar(enabled:=True)
 
             Case Else
                 ' Do nothing.
 
         End Select
     End Sub
+
+    ''' <summary>
+    ''' Enables or disables the dark mode title bar on this form.
+    ''' <para></para>
+    ''' Silently does nothing on unsupported Windows versions.
+    ''' </summary>
+    ''' 
+    ''' <param name="enabled">
+    ''' <c>True</c> to enable dark title bar; <c>False</c> to disable.
+    ''' </param>
+    ''' 
+    ''' <returns>
+    ''' <c>True</c> if the attribute was applied successfully; otherwise, <c>False</c>.
+    ''' </returns>
+    Private Function SetDarkTitleBar(enabled As Boolean) As Boolean
+
+        Dim flagValue As Integer = If(enabled, 1, 0)
+        Dim flagSize As Integer = Marshal.SizeOf(GetType(Integer))
+
+        Dim hResult As Integer =
+            NativeMethods.DwmSetWindowAttribute(Me.Handle, Win32.Constants.DWMWA_USE_IMMERSIVE_DARK_MODE, flagValue, flagSize)
+
+        If Me.WindowState = FormWindowState.Normal Then
+            Dim originalSize As Size = Me.Size
+            Me.Size = New Size(originalSize.Width, originalSize.Height + 1)
+            Me.Size = originalSize
+        End If
+
+        Return hResult = 0
+    End Function
 
     ''' ----------------------------------------------------------------------------------------------------
     ''' <summary>

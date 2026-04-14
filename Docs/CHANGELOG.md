@@ -1,6 +1,16 @@
 # Easy Link File Viewer Change Log 📋
 
-## v1.6.2 **(current)** 🆕
+## v1.8.0 **(current)** 🆕
+
+#### 🛠️ Fixes:
+ - The “Open in Easy Link File Viewer” registry entry is no longer recreated unnecessarily; it is now only created when it does not already exist. Solves Issue [#20](https://github.com/ElektroStudios/Easy-Link-File-Viewer/issues/20)
+
+#### 🌟 Improvements:
+ - Added support for Application Model IDs. A new "Application Model ID" field as been added. Solves Issue [#19](https://github.com/ElektroStudios/Easy-Link-File-Viewer/issues/19)
+ - Added support for modern dark title bar personalization when the visual theme is set to dark. This feature is supported on Windows 10 1809 and newer versions.
+ - Updated Newtonsoft.Json NuGet package.
+
+## v1.6.2 🔄
 
 #### 🛠️ Fixes:
  - The shortcut's window state attribute (normal, maximized, minimized) was not being properly recognized. Solves Issue [#14](https://github.com/ElektroStudios/Easy-Link-File-Viewer/issues/14)
