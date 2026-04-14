@@ -10,6 +10,13 @@
  - Added support for modern dark title bar personalization when the visual theme is set to dark. This feature is supported on Windows 10 1809 and newer versions.
  - Updated Newtonsoft.Json NuGet package.
 
+
+## v1.7.0 🔄
+
+#### 🌟 Improvements:
+ - Allows to recreate a shortcut file when selecting it from the recent file list, when the shortcut file it's no longer found on disk.
+ - Some strings are now more descriptive.
+
 ## v1.6.2 🔄
 
 #### 🛠️ Fixes:
