@@ -104,7 +104,8 @@ Friend NotInheritable Class Form1 : Inherits Form
     ''' </param>
     ''' ----------------------------------------------------------------------------------------------------
     Private Sub Form1_Load(sender As Object, e As EventArgs) Handles MyBase.Load
-        Me.Text = $"{My.Application.Info.Title} {My.Application.Info.Version.Major}.{My.Application.Info.Version.Minor}"
+        Me.Text = $"{My.Application.Info.ProductName} ({My.Application.Info.AssemblyName}) " &
+                  $"v{My.Application.Info.Version.Major}.{My.Application.Info.Version.Minor}.{My.Application.Info.Version.Build}"
 
         Me.ToolStripStatusLabelIcon.Text = ""
         Me.ToolStripStatusLabelFileName.Text = ""
@@ -471,6 +472,7 @@ Friend NotInheritable Class Form1 : Inherits Form
                     .WindowState = Me.currentShortcut.WindowState
                     .WorkingDirectory = Me.currentShortcut.WorkingDirectory
                     .AppId = Me.currentShortcut.AppId
+                    .TargetPidl = Me.currentShortcut.CloneTargetPidl()
 
                     Try
                         .Create()

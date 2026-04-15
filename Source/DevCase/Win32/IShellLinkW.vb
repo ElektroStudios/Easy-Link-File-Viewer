@@ -95,7 +95,8 @@ Namespace DevCase.Interop.Unmanaged.Win32.Interfaces
         ''' The object's fully qualified PIDL.
         ''' </param>
         ''' ----------------------------------------------------------------------------------------------------
-        Sub SetIDList(pidl As IntPtr)
+        <PreserveSig>
+        Function SetIDList(pidl As IntPtr) As Integer
 
         ''' ----------------------------------------------------------------------------------------------------
         ''' <summary>
