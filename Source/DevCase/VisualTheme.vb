@@ -29,7 +29,7 @@ Namespace DevCase.Core.Application.UserInterface
     ''' Specifies a visual style for controls.
     ''' </summary>
     ''' ----------------------------------------------------------------------------------------------------
-    Public Enum VisualStyle As Integer
+    Public Enum VisualTheme As Integer
 
         ''' <summary>
         ''' Default style.

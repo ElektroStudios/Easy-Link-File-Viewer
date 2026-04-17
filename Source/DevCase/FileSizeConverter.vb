@@ -141,12 +141,7 @@ Namespace DevCase.Core.Design
         ''' ----------------------------------------------------------------------------------------------------
         Public Overloads Overrides Function CanConvertTo(context As ITypeDescriptorContext, destinationType As Type) As Boolean
 
-            If (destinationType = GetType(InstanceDescriptor)) Then
-                Return True
-            End If
-
-            Return MyBase.CanConvertTo(context, destinationType)
-
+            Return (destinationType = GetType(InstanceDescriptor)) OrElse MyBase.CanConvertTo(context, destinationType)
         End Function
 
         ''' ----------------------------------------------------------------------------------------------------
@@ -190,11 +185,7 @@ Namespace DevCase.Core.Design
                     Dim result As IntPtr = NativeMethods.StrFormatByteSize64A(longValue, sb, CUInt(sb.Capacity))
                     Dim win32Err As Integer = Marshal.GetLastWin32Error()
 
-                    If (result <> IntPtr.Zero) Then
-                        Return sb.ToString()
-                    Else
-                        Return New Win32Exception(win32Err).Message
-                    End If
+                    Return If((result <> IntPtr.Zero), sb.ToString(), New Win32Exception(win32Err).Message)
                 Else ' Return original value.
                     Return value
                 End If

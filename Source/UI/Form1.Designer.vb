@@ -157,7 +157,7 @@ Partial Friend Class Form1
         Me.RecentToolStripMenuItem.Image = Global.My.Resources.Resources.FileGroup_16x
         Me.RecentToolStripMenuItem.Name = "RecentToolStripMenuItem"
         Me.RecentToolStripMenuItem.Size = New System.Drawing.Size(209, 24)
-        Me.RecentToolStripMenuItem.Text = "&Recent... »"
+        Me.RecentToolStripMenuItem.Text = "&Recent… »"
         '
         'ToolStripSeparator2
         '

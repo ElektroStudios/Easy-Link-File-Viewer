@@ -1,5 +1,6 @@
 ﻿' Unused class. It may be helpful in the future.
-#If debug
+
+#If DEBUG
 
 ' ***********************************************************************
 ' Author   : ElektroStudios

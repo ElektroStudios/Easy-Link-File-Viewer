@@ -20,13 +20,17 @@ Imports System.Linq.Expressions
 Imports System.Runtime.InteropServices
 Imports System.Threading
 
+Imports DevCase.Core.Application.Console
+
 Imports DevCase.Core.Application.Tools
 Imports DevCase.Core.Application.UserInterface
 Imports DevCase.Core.Extensions
 Imports DevCase.Core.Imaging.Tools
 Imports DevCase.Core.IO
 Imports DevCase.Core.IO.Tools
+Imports DevCase.Extensions.ControlExtensions
 Imports DevCase.Interop.Unmanaged.Win32
+Imports DevCase.UI.Dialogs
 
 Imports Manina.Windows.Forms
 
@@ -63,7 +67,7 @@ Friend NotInheritable Class Form1 : Inherits Form
     ''' Fixes: https://github.com/ElektroStudios/Easy-Link-File-Viewer/issues/15
     ''' </summary>
     ''' ----------------------------------------------------------------------------------------------------
-    Private ShortcutFileInfoSet As New Dictionary(Of String, ShortcutFileInfo)(StringComparison.OrdinalIgnoreCase)
+    Private ReadOnly ShortcutFileInfoSet As New Dictionary(Of String, ShortcutFileInfo)(StringComparison.OrdinalIgnoreCase)
 
 #End Region
 
@@ -351,7 +355,9 @@ Friend NotInheritable Class Form1 : Inherits Form
                 Try
                     File.Delete(dlg.FileName)
                 Catch ex As Exception
-                    MessageBox.Show(Me, "Can't delete existing shortcut file:" & Environment.NewLine & Environment.NewLine & ex.Message, My.Application.Info.Title, MessageBoxButtons.OK, MessageBoxIcon.Error)
+                    Me.ShowStyledMessageBox("Can't delete existing shortcut file:" & Environment.NewLine & Environment.NewLine & ex.Message,
+                                            My.Application.Info.Title, MessageBoxButtons.OK, MessageBoxIcon.Error,
+                                            TimeSpan.Zero)
                 End Try
 
                 Dim newShortcut As ShortcutFileInfo = Nothing
@@ -360,8 +366,9 @@ Friend NotInheritable Class Form1 : Inherits Form
                     newShortcut.Create()
 
                 Catch ex As Exception
-                    MessageBox.Show(Me, "Error creating shortcut file:" & Environment.NewLine & Environment.NewLine & ex.Message,
-                                    My.Application.Info.Title, MessageBoxButtons.OK, MessageBoxIcon.Error)
+                    Me.ShowStyledMessageBox("Error creating shortcut file:" & Environment.NewLine & Environment.NewLine & ex.Message,
+                                            My.Application.Info.Title, MessageBoxButtons.OK, MessageBoxIcon.Error,
+                                            TimeSpan.Zero)
                 End Try
 
                 Me.LoadShortcutInPropertyGrid(newShortcut.FullName)
@@ -421,12 +428,20 @@ Friend NotInheritable Class Form1 : Inherits Form
 
         Try
             Me.currentShortcut.Create()
-            MessageBox.Show("Shortcut file saved successfully.", My.Application.Info.Title,
-                            MessageBoxButtons.OK, MessageBoxIcon.Information)
+            Me.ShowStyledMessageBox("Shortcut file saved successfully.", My.Application.Info.Title,
+                                    MessageBoxButtons.OK, MessageBoxIcon.Information,
+                                    TimeSpan.FromSeconds(10))
+
+            If Me.ShortcutFileInfoSet.ContainsKey(Me.currentShortcut.FullName) Then
+                Me.ShortcutFileInfoSet(Me.currentShortcut.FullName) = Me.currentShortcut
+            Else
+                Me.ShortcutFileInfoSet.Add(Me.currentShortcut.FullName, Me.currentShortcut)
+            End If
 
         Catch ex As Exception
-            MessageBox.Show(Me, "Error creating shortcut file:" & Environment.NewLine & Environment.NewLine & ex.Message,
-                             My.Application.Info.Title, MessageBoxButtons.OK, MessageBoxIcon.Error)
+            Me.ShowStyledMessageBox("Error creating shortcut file:" & Environment.NewLine & Environment.NewLine & ex.Message,
+                                    My.Application.Info.Title, MessageBoxButtons.OK, MessageBoxIcon.Error,
+                                    TimeSpan.Zero)
         End Try
 
         Me.PropertyGrid1.Refresh()
@@ -476,11 +491,20 @@ Friend NotInheritable Class Form1 : Inherits Form
 
                     Try
                         .Create()
-                        MessageBox.Show("Shortcut file saved successfully.", My.Application.Info.Title, MessageBoxButtons.OK, MessageBoxIcon.Information)
+                        Me.ShowStyledMessageBox("Shortcut file saved successfully.", My.Application.Info.Title,
+                                                MessageBoxButtons.OK, MessageBoxIcon.Information,
+                                                TimeSpan.FromSeconds(10))
+
+                        If Me.ShortcutFileInfoSet.ContainsKey(Me.currentShortcut.FullName) Then
+                            Me.ShortcutFileInfoSet(Me.currentShortcut.FullName) = Me.currentShortcut
+                        Else
+                            Me.ShortcutFileInfoSet.Add(Me.currentShortcut.FullName, Me.currentShortcut)
+                        End If
 
                     Catch ex As Exception
-                        MessageBox.Show(Me, "Error creating shortcut file:" & Environment.NewLine & Environment.NewLine & ex.Message,
-                                    My.Application.Info.Title, MessageBoxButtons.OK, MessageBoxIcon.Error)
+                        Me.ShowStyledMessageBox("Error creating shortcut file:" & Environment.NewLine & Environment.NewLine & ex.Message,
+                                                My.Application.Info.Title, MessageBoxButtons.OK, MessageBoxIcon.Error,
+                                                TimeSpan.Zero)
                     End Try
 
                     .Attributes = Me.currentShortcut.Attributes
@@ -617,7 +641,7 @@ Friend NotInheritable Class Form1 : Inherits Form
 
         Dim item As ToolStripMenuItem = DirectCast(sender, ToolStripMenuItem)
         If item.Checked Then
-            Me.LoadVisualTheme(VisualStyle.Default)
+            Me.LoadVisualTheme(VisualTheme.Default)
         End If
     End Sub
 
@@ -639,7 +663,7 @@ Friend NotInheritable Class Form1 : Inherits Form
 
         Dim item As ToolStripMenuItem = DirectCast(sender, ToolStripMenuItem)
         If item.Checked Then
-            Me.LoadVisualTheme(VisualStyle.VisualStudioDark)
+            Me.LoadVisualTheme(VisualTheme.VisualStudioDark)
         End If
     End Sub
 
@@ -729,8 +753,8 @@ Friend NotInheritable Class Form1 : Inherits Form
             Me.TabControl1.Pages.Remove(Me.Tab_HexViewer)
         Else
             Me.TabControl1.Pages.Add(Me.Tab_HexViewer)
-            Me.Tab_HexViewer.SetVisualStyle(If(Me.DefaultToolStripMenuItem.Checked, VisualStyle.Default, VisualStyle.VisualStudioDark))
-            Me.HexBox1.SetVisualStyle(If(Me.DefaultToolStripMenuItem.Checked, VisualStyle.Default, VisualStyle.VisualStudioDark))
+            Me.Tab_HexViewer.SetVisualTheme(If(Me.DefaultToolStripMenuItem.Checked, VisualTheme.Default, VisualTheme.VisualStudioDark))
+            Me.HexBox1.SetVisualTheme(If(Me.DefaultToolStripMenuItem.Checked, VisualTheme.Default, VisualTheme.VisualStudioDark))
             If Me.currentShortcut IsNot Nothing Then
                 Me.LoadShortcutInHexBox(Me.currentShortcut.FullName)
             End If
@@ -805,8 +829,9 @@ Friend NotInheritable Class Form1 : Inherits Form
                     Try
                         RegistryUtil.CreateFileTypeRegistryMenuEntry(fileType, keyName, text, position, icon, command)
                     Catch ex As Exception
-                        MessageBox.Show(Me, "Error trying to create file type registry menu entry:" & Environment.NewLine & Environment.NewLine & ex.Message,
-                                        My.Application.Info.Title, MessageBoxButtons.OK, MessageBoxIcon.Error)
+                        Me.ShowStyledMessageBox("Error trying to create file type registry menu entry:" & Environment.NewLine & Environment.NewLine & ex.Message,
+                                                My.Application.Info.Title, MessageBoxButtons.OK, MessageBoxIcon.Error,
+                                                TimeSpan.Zero)
                     End Try
                 End If
             Else
@@ -814,16 +839,17 @@ Friend NotInheritable Class Form1 : Inherits Form
                     Try
                         RegistryUtil.DeleteFileTypeRegistryMenuEntry(fileType, keyName, throwOnMissingsubKey:=False)
                     Catch ex As Exception
-                        MessageBox.Show(Me, "Error trying to delete file type registry menu entry:" & Environment.NewLine & Environment.NewLine & ex.Message,
-                                        My.Application.Info.Title, MessageBoxButtons.OK, MessageBoxIcon.Error)
-
+                        Me.ShowStyledMessageBox("Error trying to delete file type registry menu entry:" & Environment.NewLine & Environment.NewLine & ex.Message,
+                                                My.Application.Info.Title, MessageBoxButtons.OK, MessageBoxIcon.Error,
+                                                TimeSpan.Zero)
                     End Try
                 End If
             End If
 
         Catch ex As Exception
-            MessageBox.Show(Me, $"Error updating registry context menu entry:{Environment.NewLine}{Environment.NewLine}{ex.Message}",
-                            My.Application.Info.Title, MessageBoxButtons.OK, MessageBoxIcon.Error)
+            Me.ShowStyledMessageBox($"Error updating registry context menu entry:{Environment.NewLine}{Environment.NewLine}{ex.Message}",
+                                    My.Application.Info.Title, MessageBoxButtons.OK, MessageBoxIcon.Error,
+                                    TimeSpan.Zero)
 
         Finally
             baseKey?.Close()
@@ -953,8 +979,9 @@ Friend NotInheritable Class Form1 : Inherits Form
             Process.Start(Me.currentShortcut.FullName)
 
         Catch ex As Exception
-            MessageBox.Show(Me, ex.Message, My.Application.Info.Title, MessageBoxButtons.OK, MessageBoxIcon.Error)
-
+            Me.ShowStyledMessageBox(ex.Message, My.Application.Info.Title,
+                                    MessageBoxButtons.OK, MessageBoxIcon.Error,
+                                    TimeSpan.Zero)
         End Try
 
     End Sub
@@ -982,7 +1009,9 @@ Friend NotInheritable Class Form1 : Inherits Form
                 Exit Sub
 
             Catch ex As Exception
-                MessageBox.Show(Me, ex.Message, My.Application.Info.Title, MessageBoxButtons.OK, MessageBoxIcon.Error)
+                Me.ShowStyledMessageBox(ex.Message, My.Application.Info.Title,
+                                        MessageBoxButtons.OK, MessageBoxIcon.Error,
+                                        TimeSpan.Zero)
 
             End Try
         End If
@@ -993,12 +1022,16 @@ Friend NotInheritable Class Form1 : Inherits Form
                 Exit Sub
 
             Catch ex As Exception
-                MessageBox.Show(Me, ex.Message, My.Application.Info.Title, MessageBoxButtons.OK, MessageBoxIcon.Error)
+                Me.ShowStyledMessageBox(ex.Message, My.Application.Info.Title,
+                                        MessageBoxButtons.OK, MessageBoxIcon.Error,
+                                        TimeSpan.Zero)
 
             End Try
         End If
 
-        MessageBox.Show(Me, "Can't find the shortcut target.", My.Application.Info.Title, MessageBoxButtons.OK, MessageBoxIcon.Error)
+        Me.ShowStyledMessageBox("Can't find the shortcut target.", My.Application.Info.Title,
+                                MessageBoxButtons.OK, MessageBoxIcon.Error,
+                                TimeSpan.Zero)
 
     End Sub
 
@@ -1022,7 +1055,9 @@ Friend NotInheritable Class Form1 : Inherits Form
             Exit Sub
 
         Catch ex As Exception
-            MessageBox.Show(Me, ex.Message, My.Application.Info.Title, MessageBoxButtons.OK, MessageBoxIcon.Error)
+            Me.ShowStyledMessageBox(ex.Message, My.Application.Info.Title,
+                                    MessageBoxButtons.OK, MessageBoxIcon.Error,
+                                    TimeSpan.Zero)
 
         End Try
 
@@ -1047,7 +1082,9 @@ Friend NotInheritable Class Form1 : Inherits Form
             FileUtil.InternalOpenInExplorer(Me.currentShortcut.FullName)
 
         Catch ex As Exception
-            MessageBox.Show(Me, ex.Message, My.Application.Info.Title, MessageBoxButtons.OK, MessageBoxIcon.Error)
+            Me.ShowStyledMessageBox(ex.Message, My.Application.Info.Title,
+                                    MessageBoxButtons.OK, MessageBoxIcon.Error,
+                                    TimeSpan.Zero)
 
         End Try
 
@@ -1072,7 +1109,9 @@ Friend NotInheritable Class Form1 : Inherits Form
             FileUtil.InternalOpenInExplorer(Me.currentShortcut.Target)
 
         Catch ex As Exception
-            MessageBox.Show(Me, ex.Message, My.Application.Info.Title, MessageBoxButtons.OK, MessageBoxIcon.Error)
+            Me.ShowStyledMessageBox(ex.Message, My.Application.Info.Title,
+                                    MessageBoxButtons.OK, MessageBoxIcon.Error,
+                                    TimeSpan.Zero)
 
         End Try
 
@@ -1097,7 +1136,9 @@ Friend NotInheritable Class Form1 : Inherits Form
             FileUtil.InternalOpenInExplorer(Me.currentShortcut.WorkingDirectory)
 
         Catch ex As Exception
-            MessageBox.Show(Me, ex.Message, My.Application.Info.Title, MessageBoxButtons.OK, MessageBoxIcon.Error)
+            Me.ShowStyledMessageBox(ex.Message, My.Application.Info.Title,
+                                    MessageBoxButtons.OK, MessageBoxIcon.Error,
+                                    TimeSpan.Zero)
 
         End Try
 
@@ -1122,7 +1163,9 @@ Friend NotInheritable Class Form1 : Inherits Form
             FileUtil.InternalOpenInExplorer(Me.currentShortcut.Icon)
 
         Catch ex As Exception
-            MessageBox.Show(Me, ex.Message, My.Application.Info.Title, MessageBoxButtons.OK, MessageBoxIcon.Error)
+            Me.ShowStyledMessageBox(ex.Message, My.Application.Info.Title,
+                                    MessageBoxButtons.OK, MessageBoxIcon.Error,
+                                    TimeSpan.Zero)
 
         End Try
 
@@ -1164,61 +1207,29 @@ Friend NotInheritable Class Form1 : Inherits Form
     ''' Loads the saved visual theme for the user-interface.
     ''' </summary>
     ''' ----------------------------------------------------------------------------------------------------
-    Private Sub LoadVisualTheme(visualStyle As VisualStyle)
+    Private Sub LoadVisualTheme(visualStyle As VisualTheme)
 
         Select Case visualStyle
 
-            Case VisualStyle.Default
-                Me.SetVisualStyle(VisualStyle.Default, True)
-                My.Forms.AboutBox1.SetVisualStyle(VisualStyle.Default, True)
+            Case VisualTheme.Default
+                Me.SetVisualTheme(VisualTheme.Default, True)
+                My.Forms.AboutBox1.SetVisualTheme(VisualTheme.Default, True)
 
                 Me.DefaultToolStripMenuItem.Checked = True
                 Me.DarkToolStripMenuItem.Checked = False
-                Me.SetDarkTitleBar(enabled:=False)
 
-            Case VisualStyle.VisualStudioDark
-                Me.SetVisualStyle(VisualStyle.VisualStudioDark, True)
-                My.Forms.AboutBox1.SetVisualStyle(VisualStyle.VisualStudioDark, True)
+            Case VisualTheme.VisualStudioDark
+                Me.SetVisualTheme(VisualTheme.VisualStudioDark, True)
+                My.Forms.AboutBox1.SetVisualTheme(VisualTheme.VisualStudioDark, True)
 
                 Me.DefaultToolStripMenuItem.Checked = False
                 Me.DarkToolStripMenuItem.Checked = True
-                Me.SetDarkTitleBar(enabled:=True)
 
             Case Else
                 ' Do nothing.
 
         End Select
     End Sub
-
-    ''' <summary>
-    ''' Enables or disables the dark mode title bar on this form.
-    ''' <para></para>
-    ''' Silently does nothing on unsupported Windows versions.
-    ''' </summary>
-    ''' 
-    ''' <param name="enabled">
-    ''' <c>True</c> to enable dark title bar; <c>False</c> to disable.
-    ''' </param>
-    ''' 
-    ''' <returns>
-    ''' <c>True</c> if the attribute was applied successfully; otherwise, <c>False</c>.
-    ''' </returns>
-    Private Function SetDarkTitleBar(enabled As Boolean) As Boolean
-
-        Dim flagValue As Integer = If(enabled, 1, 0)
-        Dim flagSize As Integer = Marshal.SizeOf(GetType(Integer))
-
-        Dim hResult As Integer =
-            NativeMethods.DwmSetWindowAttribute(Me.Handle, Win32.Constants.DWMWA_USE_IMMERSIVE_DARK_MODE, flagValue, flagSize)
-
-        If Me.WindowState = FormWindowState.Normal Then
-            Dim originalSize As Size = Me.Size
-            Me.Size = New Size(originalSize.Width, originalSize.Height + 1)
-            Me.Size = originalSize
-        End If
-
-        Return hResult = 0
-    End Function
 
     ''' ----------------------------------------------------------------------------------------------------
     ''' <summary>
@@ -1233,21 +1244,27 @@ Friend NotInheritable Class Form1 : Inherits Form
         Try
             Me.currentShortcut = New ShortcutFileInfo(filePath) With {.ViewMode = True}
         Catch ex As Exception
-            MessageBox.Show(Me, "Error trying to read shortcut data:" & Environment.NewLine & Environment.NewLine & ex.Message,
-                            My.Application.Info.Title, MessageBoxButtons.OK, MessageBoxIcon.Error)
+            Me.ShowStyledMessageBox("Error trying to read shortcut data:" & Environment.NewLine & Environment.NewLine & ex.Message,
+                             My.Application.Info.Title, MessageBoxButtons.OK, MessageBoxIcon.Error,
+                             TimeSpan.Zero)
             Exit Sub
         End Try
         If Not Me.currentShortcut.Exists Then
-            Dim dlgResult As DialogResult = MessageBox.Show(Me, $"The shortcut file does not exist: {Me.currentShortcut.FullName}" & Environment.NewLine & Environment.NewLine &
-                                                                "Do you want to create it with the last known saved data?.", My.Application.Info.Title, MessageBoxButtons.YesNoCancel, MessageBoxIcon.Question)
+            Dim dlgResult As DialogResult =
+                Me.ShowStyledMessageBox($"The shortcut file does not exist: {Me.currentShortcut.FullName}" & Environment.NewLine & Environment.NewLine &
+                                         "Do you want to create it with the last known saved data?.",
+                                         My.Application.Info.Title, MessageBoxButtons.YesNoCancel, MessageBoxIcon.Question,
+                                         TimeSpan.Zero)
+
             If dlgResult = DialogResult.Yes Then
                 Me.currentShortcut = Me.ShortcutFileInfoSet(filePath)
                 Try
                     Me.currentShortcut.Create()
 
                 Catch ex As Exception
-                    MessageBox.Show(Me, "Error creating shortcut file:" & Environment.NewLine & Environment.NewLine & ex.Message,
-                                    My.Application.Info.Title, MessageBoxButtons.OK, MessageBoxIcon.Error)
+                    Me.ShowStyledMessageBox("Error creating shortcut file:" & Environment.NewLine & Environment.NewLine & ex.Message,
+                                            My.Application.Info.Title, MessageBoxButtons.OK, MessageBoxIcon.Error,
+                                            TimeSpan.Zero)
                     Exit Sub
                 End Try
             Else
@@ -1256,11 +1273,12 @@ Friend NotInheritable Class Form1 : Inherits Form
             End If
         End If
 
-        If Me.currentShortcut.IsWindowsInstallerShortcut Then
-            MessageBox.Show(Me, "This shortcut points to a Windows Installer product." & Environment.NewLine & Environment.NewLine &
-                                "Support to read/write this shortcut is experimental and saving changes to this file may corrupt the file. Please save any changes to a NEW shortcut file.",
-                            My.Application.Info.Title, MessageBoxButtons.OK, MessageBoxIcon.Exclamation)
-        End If
+        'If Me.currentShortcut.IsWindowsInstallerShortcut Then
+        '    Me.ShowStyledMessageBox("This shortcut points to a Windows Installer product." & Environment.NewLine & Environment.NewLine &
+        '                            "Support to read/write this shortcut is experimental and saving changes to this file may corrupt the file. Please save any changes to a NEW shortcut file.",
+        '                            My.Application.Info.Title, MessageBoxButtons.OK, MessageBoxIcon.Exclamation,
+        '                            TimeSpan.FromSeconds(10))
+        'End If
 
         Me.AdjustPropertyGridSplitter()
         Me.PropertyGrid1.SelectedObject = Me.currentShortcut
@@ -1280,8 +1298,9 @@ Friend NotInheritable Class Form1 : Inherits Form
             Me.ToolStripStatusLabelIcon.Image = Me.RecentToolStripMenuItem.DropDown.Items(0).Image
 
         Catch ex As Exception
-            MessageBox.Show(Me, "Error updating recent file list:" & Environment.NewLine & Environment.NewLine & ex.Message,
-                            My.Application.Info.Title, MessageBoxButtons.OK, MessageBoxIcon.Error)
+            Me.ShowStyledMessageBox("Error updating recent file list:" & Environment.NewLine & Environment.NewLine & ex.Message,
+                                    My.Application.Info.Title, MessageBoxButtons.OK, MessageBoxIcon.Error,
+                                    TimeSpan.Zero)
 
         End Try
 
@@ -1317,8 +1336,9 @@ Friend NotInheritable Class Form1 : Inherits Form
             Me.HexBox1.ByteProvider = Nothing
             Me.HexBox1.ByteProvider = Me.currentFileByteProvider
         Catch ex As Exception
-            MessageBox.Show(Me, "Error trying to read RAW shortcut data:" & Environment.NewLine & Environment.NewLine & ex.Message,
-                            My.Application.Info.Title, MessageBoxButtons.OK, MessageBoxIcon.Error)
+            Me.ShowStyledMessageBox("Error trying to read RAW shortcut data:" & Environment.NewLine & Environment.NewLine & ex.Message,
+                                    My.Application.Info.Title, MessageBoxButtons.OK, MessageBoxIcon.Error,
+                                    TimeSpan.Zero)
         End Try
 
     End Sub
@@ -1405,6 +1425,7 @@ Friend NotInheritable Class Form1 : Inherits Form
 
         ' Add new MRU item.
         Dim newItem As New ToolStripMenuItem With {
+            .ForeColor = Me.RecentToolStripMenuItem.ForeColor,
             .Text = shortcut.Name,
             .Image = ico?.ToBitmap(),
             .Tag = shortcut.FullName
@@ -1420,6 +1441,85 @@ Friend NotInheritable Class Form1 : Inherits Form
         ico?.Dispose()
 
     End Sub
+
+    ''' <summary>
+    ''' Resolves and returns the appropriate owner window for messagebox dialog parenting.
+    ''' </summary>
+    ''' 
+    ''' <returns>
+    ''' An <see cref="IWin32Window"/> instance representing the dialog owner.
+    ''' </returns>
+    Private Function ResolveMsgBoxOwnerwindow() As IWin32Window
+
+        Dim mxgboxOwnerwindow As IWin32Window =
+            If(UtilConsole.Handle <> IntPtr.Zero,
+               New ConsoleWindowWrapper(UtilConsole.Handle),
+               DirectCast(Me, IWin32Window))
+
+        Return mxgboxOwnerwindow
+    End Function
+
+    ''' <summary>
+    ''' Displays a styled custom message box with optional dark theme and timeout support.
+    ''' </summary>
+    ''' 
+    ''' <param name="text">
+    ''' The message text to display inside the dialog.
+    ''' </param>
+    ''' 
+    ''' <param name="caption">
+    ''' The title of the message box window.
+    ''' </param>
+    ''' 
+    ''' <param name="buttons">
+    ''' The set of buttons to display (e.g., OK, YesNo, Cancel).
+    ''' </param>
+    ''' 
+    ''' <param name="icon">
+    ''' The icon to display in the message box.
+    ''' </param>
+    ''' 
+    ''' <param name="timeout">
+    ''' The time span after which the message box will automatically close.
+    ''' </param>
+    ''' 
+    ''' <returns>
+    ''' A <see cref="System.Windows.Forms.DialogResult"/> value indicating which button was pressed or whether the dialog timed out.
+    ''' </returns>
+    ''' 
+    ''' <remarks>
+    ''' If the dark theme option is enabled via <c>DarkToolStripMenuItem</c>, the message box
+    ''' is rendered using a dark color palette for background, footer, foreground, and countdown UI elements.
+    ''' </remarks>
+    Private Function ShowStyledMessageBox(
+        text As String,
+        caption As String,
+        buttons As MessageBoxButtons,
+        icon As MessageBoxIcon,
+        timeout As TimeSpan
+    ) As DialogResult
+
+        Dim ownerWindow As IWin32Window = Me.ResolveMsgBoxOwnerwindow()
+
+        Using msg As New DevMessageBox(ownerWindow, timeout)
+
+            If Me.DarkToolStripMenuItem.Checked Then
+                msg.DialogBackgroundColor = Color.FromArgb(30, 30, 30)
+                msg.DialogFooterBackgroundColor = Color.FromArgb(50, 50, 50)
+                msg.DialogForegroundColor = Color.White
+
+                msg.CountdownBackgroundColor = Color.FromArgb(30, 30, 30)
+                msg.CountdownForegroundColor = Color.DarkGray
+
+                msg.UseDarkTitleBar = True
+            End If
+
+            Dim result As DialogResult = msg.Show(text, caption, buttons, icon, MessageBoxDefaultButton.Button1)
+            Debug.WriteLine(result.ToString())
+            Return result
+        End Using
+
+    End Function
 
 #End Region
 
