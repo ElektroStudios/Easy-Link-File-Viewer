@@ -1,6 +1,16 @@
 # Easy Link File Viewer Change Log 📋
 
-## v1.8.1 **(current)** 🆕
+## v1.8.2 **(current)** 🆕
+
+#### 🌟 Improvements:
+- Enhanced dark theme integration for the menu strip when the visual theme is set to dark. Now the menu items are dark.
+- Replaced standard message box dialogs with a fully featured, centered, visually styled dialog.
+  This feature is prepared for future command-line interface (CLI) integration using an optional (not yet implemented) `/ShowMessageBoxes` argument that would cause sucess confirmations and error messages to be printed and shown using this dialog, with proper centering relative to the console window.
+
+#### 🛠️ Fixes:
+- Fixed a program crash that occurred when attempting to restore the last saved data of a shortcut that is no longer present on the system when selected from the "Recent..." list on certain scenarios.
+
+## v1.8.1 🔄
 
 #### 🌟 Improvements:
  - Added compatibility for reading and writing shortcuts that use virtual shell namespace targets. Should solve Issue [#16](https://github.com/ElektroStudios/Easy-Link-File-Viewer/issues/16)
