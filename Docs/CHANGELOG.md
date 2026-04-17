@@ -5,10 +5,10 @@
 #### 🌟 Improvements:
 - Enhanced dark theme integration for the menu strip when the visual theme is set to dark. Now the menu items are dark.
 - Replaced standard message box dialogs with a fully featured, centered, visually styled dialog.
-  This feature is prepared for future command-line interface (CLI) integration using an optional (not yet implemented) `/ShowMessageBoxes` argument that would cause sucess confirmations and error messages to be printed and shown using this dialog, with proper centering relative to the console window.
+  This feature is prepared for future command-line interface (CLI) integration using an optional (not yet implemented) `/ShowMessageBoxes` argument that would cause success confirmations and error messages to be printed and shown using this dialog, with proper centering relative to the console window.
 
 #### 🛠️ Fixes:
-- Fixed a program crash that occurred when attempting to restore the last saved data of a shortcut that is no longer present on the system when selected from the "Recent..." list on certain scenarios.
+- Fixed an unhandled exception that caused a program crash when restoring last saved data for a shortcut no longer present on the system when selected from the "Recent..." list in certain scenarios.
 
 ## v1.8.1 🔄
 
