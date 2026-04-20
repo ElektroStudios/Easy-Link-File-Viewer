@@ -1,5 +1,16 @@
 # Easy Link File Viewer Change Log 📋
 
+## v1.9.0 **(current)** 🆕
+
+#### 🚀 New Features:
+- Introduced a dedicated "EasyLink.CLI.exe" standalone executable that allows to read, write and modify shortcut files through a command-line interface. Feature Request [#17](https://github.com/ElektroStudios/Easy-Link-File-Viewer/issues/17)
+
+#### 🌟 Improvements:
+- Optimized the custom visual message box integration by eliminating System.Reflection.Emit and all related dependencies.
+
+#### 🛠️ Fixes:
+- Fixed an issue where the Application Model ID failed to persist when using the 'Save' command, caused by an access violation that occurred when the Hex Viewer was enabled and had the shortcut file loaded.
+
 ## v1.8.2 **(current)** 🆕
 
 #### 🌟 Improvements:
