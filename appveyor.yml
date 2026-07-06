@@ -22,8 +22,6 @@ skip_commits:
 image: Visual Studio 2026
 configuration: Release
 install:
-
-install:
   - >-
     choco install chocolatey-dotnetfx.extension --no-progress -y
   - >-
