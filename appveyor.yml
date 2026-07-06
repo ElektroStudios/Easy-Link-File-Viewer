@@ -22,13 +22,16 @@ skip_commits:
 image: Visual Studio 2026
 configuration: Release
 install:
+
+install:
   - >-
     choco install chocolatey-dotnetfx.extension --no-progress -y
   - >-
     git submodule update --init --recursive
 before_build:
   - >-
-    nuget restore "Source\%APP_DIR_NAME%.%SOLUTION_EXT%"
+  - nuget restore "Source\%APP_DIR_NAME%.%SOLUTION_EXT%"
+  - nuget restore "Source\%APP_DIR_NAME%.%SOLUTION_EXT%" -PackagesDirectory "Source\GUI\packages"
 build:
   project: Source\%APP_DIR_NAME%.%SOLUTION_EXT%
   parallel: true
