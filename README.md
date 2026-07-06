@@ -17,7 +17,7 @@ winforms
  -->
 
 <div align="center">
-  <img src="/Design/GitHub%20Readme.png" width="100" alt="Logo">
+  <img src="/Design/GitHub%20Readme.png" width="200" alt="Logo">
   
   <h1>Easy Link File Viewer</h1>
 

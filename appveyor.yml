@@ -1,0 +1,43 @@
+﻿# ------------------------------------------
+# CUSTOMIZABLE TEMPLATE REPOSITORY VARIABLES
+# 
+environment:
+  APP_DIR_NAME: "Easy Link File Viewer"
+  SOLUTION_EXT: "sln"
+# ------------------------------------------
+
+version: CI Build {Build}
+skip_commits:
+  files:
+  - '.github/**/*'
+  - 'Docs/**/*'
+  - 'Documents/**/*'
+  - 'Manual/**/*'
+  - 'Images/**/*'
+  - 'Scripts/**/*'
+  - 'Website/**/*'
+  - '*.md'
+  - '*.zip'
+  - '*.yml'
+image: Visual Studio 2026
+configuration: Release
+install:
+  - >-
+    choco install chocolatey-dotnetfx.extension --no-progress -y
+  - >-
+    git submodule update --init --recursive
+before_build:
+  - >-
+    nuget restore "Source\%APP_DIR_NAME%.%SOLUTION_EXT%"
+build:
+  project: Source\%APP_DIR_NAME%.%SOLUTION_EXT%
+  parallel: true
+after_build:
+  - >-
+    7z a -r "%APPVEYOR_PROJECT_NAME%_Build_%APPVEYOR_BUILD_NUMBER%.zip" ^
+    -i!"Source\*\bin\*"
+  - >-
+    dotnet nuget locals all --clear
+artifacts:
+  - path: "%APPVEYOR_PROJECT_NAME%_Build_%APPVEYOR_BUILD_NUMBER%.zip"
+    name: "%APPVEYOR_PROJECT_NAME%"
