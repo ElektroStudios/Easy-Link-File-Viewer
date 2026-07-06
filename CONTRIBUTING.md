@@ -1,4 +1,4 @@
-## 💪 Contributing
+﻿## 💪 Contributing
 
 Your contribution is highly appreciated!. If you have any ideas, suggestions, or encounter issues, feel free to open an issue.. 
 

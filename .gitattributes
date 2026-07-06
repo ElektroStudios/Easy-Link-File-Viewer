@@ -1,4 +1,4 @@
-# Auto detect text files and perform line endings normalization
+﻿# Auto detect text files and perform line endings normalization
 * text=auto
 #
 # The above will handle all file extensions NOT defied below.

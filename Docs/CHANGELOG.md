@@ -1,4 +1,4 @@
-# Easy Link File Viewer Change Log 📋
+﻿# Easy Link File Viewer Change Log 📋
 
 ## v1.9.0 **(current)** 🆕
 

@@ -1,4 +1,4 @@
----
+﻿---
 name: Question / Get Support
 about: Ask any question you have in mind related to this project
 title: "[QUESTION] Write the title here"
