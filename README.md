@@ -41,11 +41,11 @@ winforms
     <a href="https://github.com/ElektroStudios/Easy-Link-File-Viewer/releases/latest"><img src="https://img.shields.io/github/v/release/ElektroStudios/Easy-Link-File-Viewer" alt="Latest Release"></a>
     <a href="https://learn.microsoft.com/en-us/dotnet/visual-basic/"><img src="https://img.shields.io/badge/language-VB.NET-purple.svg?logo=visualbasic" alt="Language"></a>
     <a href="https://learn.microsoft.com/en-us/windows/apps/"><img src="https://img.shields.io/badge/platform-Windows-lightgray.svg" alt="Platform"></a>
-    <a href="License.md"><img src="https://img.shields.io/github/license/ElektroStudios/Easy-Link-File-Viewer" alt="License"></a>
+    <a href="LICENSE"><img src="https://img.shields.io/github/license/ElektroStudios/Easy-Link-File-Viewer" alt="License"></a>
   <br>
-    <a href="https://github.com/ElektroStudios/Easy-Link-File-Viewer/archive/refs/heads/main.zip"><img src="https://img.shields.io/github/repo-size/ElektroStudios/Easy-Link-File-Viewer" alt="Repo size"></a>
+    <a href="https://api.github.com/repos/ElektroStudios/Easy-Link-File-Viewer/zipball"><img src="https://img.shields.io/github/repo-size/ElektroStudios/Easy-Link-File-Viewer" alt="Repo size"></a>
     <a href="https://somsubhra.github.io/github-release-stats/?username=ElektroStudios&repository=Easy-Link-File-Viewer"><img src="https://img.shields.io/github/downloads/ElektroStudios/Easy-Link-File-Viewer/total.svg?label=total%20downloads" alt="Total Downloads"></a>
-    <a href="https://github.com/ElektroStudios/Easy-Link-File-Viewer/commits/main"><img src="https://img.shields.io/github/last-commit/ElektroStudios/Easy-Link-File-Viewer" alt="Last commit"></a>
+    <a href="https://github.com/ElektroStudios/Easy-Link-File-Viewer/commits"><img src="https://img.shields.io/github/last-commit/ElektroStudios/Easy-Link-File-Viewer" alt="Last commit"></a>
     <a href="https://github.com/ElektroStudios/Easy-Link-File-Viewer/pulls"><img src="https://img.shields.io/github/issues-pr/ElektroStudios/Easy-Link-File-Viewer" alt="Pull Requests"></a>
     <a href="https://github.com/ElektroStudios/Easy-Link-File-Viewer/issues?q=is%3Aissue+is%3Aopen"><img src="https://img.shields.io/github/issues/ElektroStudios/Easy-Link-File-Viewer?color=blue" alt="Open Issues"></a><a href="https://github.com/ElektroStudios/Easy-Link-File-Viewer/issues?q=is%3Aissue+is%3Aclosed"><img src="https://img.shields.io/github/issues-closed/ElektroStudios/Easy-Link-File-Viewer?label=&color=28a745" alt="Closed Issues"></a>
     <a href="https://github.com/ElektroStudios/Easy-Link-File-Viewer/pulse"><img src="https://img.shields.io/badge/maintained-yes-green.svg" alt="Maintenance"></a>
