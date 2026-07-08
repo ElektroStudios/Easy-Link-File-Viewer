@@ -54,6 +54,12 @@ winforms
     <a href="https://en.wikipedia.org/wiki/Spanish_Empire"><img src="https://img.shields.io/badge/Made_in-Spain_%F0%9F%87%AA%F0%9F%87%B8-AA151B?style=flat" alt="Made in Spain"></a>
 </p>
 
+------------------
+
+## 👋 Introduction
+
+**Easy Link File Viewer** is a desktop application designed to read, modify, and write shortcut files (.lnk). It provides access to the internal structure of shortcut files, enabling you to instantly repair broken paths, swap icons, and analyze raw file data without fighting the OS.
+
 ## 💡 Motivation
 
 Windows shortcut files (`.lnk`) are everywhere, but Windows makes it surprisingly difficult to inspect or modify them properly. If you right-click a shortcut and open its properties, the OS only lets you change a few basic fields. And when a shortcut breaks, points to a missing network drive, or needs a batch update across multiple deployments, fixing it manually via the Windows UI is tedious and limited. Developers and power users often have to resort to writing custom scripts or using outdated tools just to see what is actually hidden inside a shell link file.
