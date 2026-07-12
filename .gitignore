@@ -396,3 +396,11 @@ FodyWeavers.xsd
 
 # JetBrains Rider
 *.sln.iml
+
+# Allow specific Resources
+!/Source/*/Resources/
+!/Source/*/Resources/*
+!/Source/*/Resources/x64/
+!/Source/*/Resources/x64/*
+!/Source/*/Resources/x86/
+!/Source/*/Resources/x86/*
