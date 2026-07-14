@@ -10,7 +10,6 @@
     <RootNamespace>
     </RootNamespace>
     <AssemblyName>Easy Link File Viewer</AssemblyName>
-    <SonarQubeCoverageProjectExclude>true</SonarQubeCoverageProjectExclude>
     <FileAlignment>512</FileAlignment>
     <MyType>WindowsForms</MyType>
     <TargetFrameworkVersion>v4.8</TargetFrameworkVersion>

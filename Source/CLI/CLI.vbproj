@@ -10,7 +10,6 @@
     <RootNamespace>
     </RootNamespace>
     <AssemblyName>EasyLink.CLI</AssemblyName>
-    <SonarQubeCoverageProjectExclude>true</SonarQubeCoverageProjectExclude>
     <FileAlignment>512</FileAlignment>
     <MyType>Console</MyType>
     <TargetFrameworkVersion>v4.8</TargetFrameworkVersion>
