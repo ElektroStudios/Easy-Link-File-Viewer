@@ -83,6 +83,7 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="AppId Support\InstalledAppInfo.vb" />
+    <Compile Include="DevCase\EnumDescriptionConverter.vb" />
     <Compile Include="DevCase\ConsoleWindowWrapper.vb" />
     <Compile Include="DevCase\DevMessageBox.vb" />
     <Compile Include="DevCase\Extensions\ContainerControlExtensions.vb" />

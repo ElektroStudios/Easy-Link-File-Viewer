@@ -1,10 +1,13 @@
 ﻿Imports System.ComponentModel
 
+Imports DevCase.Runtime.TypeConverters
+
 Namespace DevCase.Core.IO
 
     ''' <summary>
     ''' Defines the target execution strategy and path resolution mode for a shortcut file.
     ''' </summary>
+    <TypeConverter(GetType(EnumDescriptionConverter))>
     Public Enum ShortcutTargetExecutionMode As Integer
 
         ''' <summary>
