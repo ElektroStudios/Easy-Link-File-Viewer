@@ -55,7 +55,7 @@ jobs:
         shell: powershell
         run: |
           dotnet nuget locals all --clear
-          & "${{ runner.temp }}\scanner\dotnet-sonarscanner" begin /k:"${{ env.SONAR_PROJECT_KEY }}" /o:"${{ env.SONAR_ORGANIZATION }}" /d:sonar.token="$env:SONAR_TOKEN" /d:sonar.sourceEncoding=UTF-8 /d:sonar.coverage.exclusions="/Source/*.*"  /d:sonar.exclusions="**/*.png,**/*.ico,**/*.jpg,**/*.jpeg,**/*.gif,**/*.webp,**/*.bmp,**/*.tif,**/*.tiff,**/*.rtf,**/*.html,**/*.htm,**/*.resx,**/*.yml,**/*.myapp,**/*.sample,**/*.settings,**/*.conf,**/*.md,**/*.bin,**/*.sln,**/*.slnx,**/*.zip,**/*.rar,**/*.rev,**/*.idx,**/*.nfo,**/*.gitattributes,**/*.gitignore,**/.github/**/*"
+          & "${{ runner.temp }}\scanner\dotnet-sonarscanner" begin /k:"${{ env.SONAR_PROJECT_KEY }}" /o:"${{ env.SONAR_ORGANIZATION }}" /d:sonar.token="$env:SONAR_TOKEN" /d:sonar.sourceEncoding=UTF-8 /d:sonar.coverage.exclusions="/Source/*.*" /d:sonar.exclusions="**/*.png,**/*.ico,**/*.jpg,**/*.jpeg,**/*.gif,**/*.webp,**/*.bmp,**/*.tif,**/*.tiff,**/*.rtf,**/*.html,**/*.htm,**/*.resx,**/*.yml,**/*.myapp,**/*.sample,**/*.settings,**/*.conf,**/*.md,**/*.bin,**/*.sln,**/*.slnx,**/*.zip,**/*.rar,**/*.rev,**/*.idx,**/*.nfo,**/*.gitattributes,**/*.gitignore,**/.github/**/*"
           nuget restore "Source\${{ env.SOLUTION_NAME }}.${{ env.SOLUTION_EXT }}"
           msbuild "Source\${{ env.SOLUTION_NAME }}.${{ env.SOLUTION_EXT }}" /p:Configuration=Release /p:GenerateResourceUsePreserializedResources=true
           & "${{ runner.temp }}\scanner\dotnet-sonarscanner" end /d:sonar.token="$env:SONAR_TOKEN"
