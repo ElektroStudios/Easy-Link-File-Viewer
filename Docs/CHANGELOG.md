@@ -1,6 +1,14 @@
 ﻿# Easy Link File Viewer Change Log 📋
 
-## v1.9.0 **(current)** 🆕
+## v1.9.1 **(current)** 🆕
+
+#### 🚀 New Features:
+- **Added support for relative paths (portable shortcuts)** to resolve Feature Request [#21](https://github.com/ElektroStudios/Easy-Link-File-Viewer/issues/21). You can now configure the target execution mode:
+  - **Standard:** Default behavior.
+  - **Relative Path via Windows Explorer:** Uses an `explorer.exe` workaround to launch target files using relative paths.
+  - **Relative Path with Arguments via Command Prompt:** Uses a `cmd.exe` launcher to support relative target paths while still allowing command-line arguments to be passed.
+
+## v1.9.0 🔄
 
 #### 🚀 New Features:
 - Introduced a dedicated "EasyLink.CLI.exe" standalone executable that allows to read, write and modify shortcut files through a command-line interface. Feature Request [#17](https://github.com/ElektroStudios/Easy-Link-File-Viewer/issues/17)
@@ -11,7 +19,7 @@
 #### 🛠️ Fixes:
 - Fixed an issue where the Application Model ID failed to persist when using the 'Save' command, caused by an access violation that occurred when the Hex Viewer was enabled and had the shortcut file loaded.
 
-## v1.8.2 **(current)** 🆕
+## v1.8.2 🔄
 
 #### 🌟 Improvements:
 - Enhanced dark theme integration for the menu strip when the visual theme is set to dark. Now the menu items are dark.

@@ -108,8 +108,7 @@ Friend NotInheritable Class Form1 : Inherits Form
     ''' </param>
     ''' 
     Private Sub Form1_Load(sender As Object, e As EventArgs) Handles MyBase.Load
-        Me.Text = $"{My.Application.Info.ProductName} ({My.Application.Info.AssemblyName}) " &
-                  $"v{My.Application.Info.Version.Major}.{My.Application.Info.Version.Minor}.{My.Application.Info.Version.Build}"
+        Me.Text = $"{My.Application.Info.ProductName} {My.Application.Info.Version.ToString(fieldCount:=3)}"
 
         Me.ToolStripStatusLabelIcon.Text = ""
         Me.ToolStripStatusLabelFileName.Text = ""
@@ -426,6 +425,15 @@ Friend NotInheritable Class Form1 : Inherits Form
     Private Sub SaveToolStripMenuItem_Click(sender As Object, e As EventArgs) _
         Handles SaveToolStripMenuItem.Click, SaveToolBarMenuItem.Click
 
+        If Me.currentShortcut.TargetExecutionMode = ShortcutTargetExecutionMode.RelativePathViaExplorer AndAlso
+           Not String.IsNullOrEmpty(Me.currentShortcut.TargetArguments) Then
+
+            Me.ShowStyledMessageBox("Cannot set arguments when target execution mode is RelativePathViaExplorer. Use Standard or RelativePathViaCommandPrompt modes instead.",
+                                    My.Application.Info.Title, MessageBoxButtons.OK, MessageBoxIcon.Error,
+                                    TimeSpan.Zero)
+            Exit Sub
+        End If
+
         ' If not disposed, the "WriteLink" method (SetAppUserModelId) will cause access violation to the file.
         Me.currentFileByteProvider?.Dispose()
 
@@ -434,6 +442,10 @@ Friend NotInheritable Class Form1 : Inherits Form
             Me.ShowStyledMessageBox("Shortcut file saved successfully.", My.Application.Info.Title,
                                     MessageBoxButtons.OK, MessageBoxIcon.Information,
                                     TimeSpan.FromSeconds(10))
+
+            ' Restore default execution mode for the PropertyGrid refresh.
+            Me.currentShortcut.TargetExecutionMode = ShortcutTargetExecutionMode.Standard
+
 
             If Me.ShortcutFileInfoSet.ContainsKey(Me.currentShortcut.FullName) Then
                 Me.ShortcutFileInfoSet(Me.currentShortcut.FullName) = Me.currentShortcut
@@ -467,6 +479,15 @@ Friend NotInheritable Class Form1 : Inherits Form
     Private Sub SaveAsToolStripMenuItem_Click(sender As Object, e As EventArgs) _
         Handles SaveAsToolStripMenuItem.Click, SaveAsToolBarMenuItem.Click
 
+        If Me.currentShortcut.TargetExecutionMode = ShortcutTargetExecutionMode.RelativePathViaExplorer AndAlso
+                       Not String.IsNullOrEmpty(Me.currentShortcut.TargetArguments) Then
+
+            Me.ShowStyledMessageBox("Cannot set arguments when target execution mode is RelativePathViaExplorer. Use Standard or RelativePathViaCommandPrompt modes instead.",
+                                    My.Application.Info.Title, MessageBoxButtons.OK, MessageBoxIcon.Error,
+                                    TimeSpan.Zero)
+            Exit Sub
+        End If
+
         Using dlg As New SaveFileDialog()
             dlg.FileName = Me.currentShortcut.FullName
             dlg.DefaultExt = "lnk"
@@ -497,6 +518,9 @@ Friend NotInheritable Class Form1 : Inherits Form
                         Me.ShowStyledMessageBox("Shortcut file saved successfully.", My.Application.Info.Title,
                                                 MessageBoxButtons.OK, MessageBoxIcon.Information,
                                                 TimeSpan.FromSeconds(10))
+
+                        ' Restore default execution mode for the PropertyGrid refresh.
+                        Me.currentShortcut.TargetExecutionMode = ShortcutTargetExecutionMode.Standard
 
                         If Me.ShortcutFileInfoSet.ContainsKey(Me.currentShortcut.FullName) Then
                             Me.ShortcutFileInfoSet(Me.currentShortcut.FullName) = Me.currentShortcut

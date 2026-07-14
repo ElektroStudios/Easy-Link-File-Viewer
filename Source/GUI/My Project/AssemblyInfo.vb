@@ -13,7 +13,7 @@ Imports System.Runtime.InteropServices
 <Assembly: AssemblyDescription("A desktop application to read, modify and write shortcut files (*.lnk) with ease.")>
 <Assembly: AssemblyCompany("ElektroStudios")>
 <Assembly: AssemblyProduct("Easy Link File Viewer")>
-<Assembly: AssemblyCopyright("Copyright © ElektroStudios 2018-2025")>
+<Assembly: AssemblyCopyright("Copyright © ElektroStudios 2018-2026")>
 <Assembly: AssemblyTrademark("")>
 
 <Assembly: ComVisible(False)>
@@ -32,6 +32,6 @@ Imports System.Runtime.InteropServices
 ' by using the '*' as shown below:
 ' <Assembly: AssemblyVersion("1.0.*")>
 
-<Assembly: AssemblyVersion("1.9.0.0")>
-<Assembly: AssemblyFileVersion("1.9.0.0")>
+<Assembly: AssemblyVersion("1.9.1.0")>
+<Assembly: AssemblyFileVersion("1.9.1.0")>
 <Assembly: NeutralResourcesLanguage("en")>

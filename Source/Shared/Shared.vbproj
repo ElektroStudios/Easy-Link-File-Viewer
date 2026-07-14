@@ -88,6 +88,7 @@
     <Compile Include="DevCase\Extensions\ContainerControlExtensions.vb" />
     <Compile Include="DevCase\Extensions\MenuStripExtensions.vb" />
     <Compile Include="DevCase\Extensions\ToolStripExtensions.vb" />
+    <Compile Include="DevCase\TargetExecutionMode.vb" />
     <Compile Include="DevCase\TransparentControlsForm.vb">
       <SubType>Generic</SubType>
     </Compile>

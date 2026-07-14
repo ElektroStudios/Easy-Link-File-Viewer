@@ -1259,6 +1259,17 @@ Namespace DevCase.Win32
         ) As IntPtr
         End Function
 
+
+        <DllImport("shlwapi.dll", CharSet:=CharSet.Auto)>
+        Friend Shared Function PathRelativePathTo(
+             pszPath As StringBuilder,
+             pszFrom As String,
+             dwAttrFrom As Integer,
+             pszTo As String,
+             dwAttrTo As Integer
+        ) As Boolean
+        End Function
+
 #End Region
 
 #Region " User32.dll "

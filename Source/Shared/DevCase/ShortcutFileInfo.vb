@@ -816,7 +816,6 @@ Namespace DevCase.Core.IO
 
 #Region " Other "
 
-        ''' 
         ''' <summary>
         ''' Gets or sets a value indicating whether this <see cref="ShortcutFileInfo"/> is in 'view mode',
         ''' for example, being displayed in a <see cref="PropertyGrid"/> control.
@@ -853,6 +852,30 @@ Namespace DevCase.Core.IO
         ''' </summary>
         ''' 
         Private viewMode_ As Boolean
+
+        ''' <summary>
+        ''' Gets or sets the target execution strategy and path resolution mode for the shortcut file.
+        ''' </summary>
+        <Description("Specifies how the shortcut target path is stored and resolved (Standard behavior, or relative path via Windows Explorer or Command Prompt).")>
+        <DisplayName("Target Execution Mode")>
+        <Category("Shortcut")>
+        <DefaultValue(ShortcutTargetExecutionMode.Standard)>
+        Public Property TargetExecutionMode As ShortcutTargetExecutionMode
+            Get
+                Return Me.targetExecutionMode_
+            End Get
+            Set(value As ShortcutTargetExecutionMode)
+                If (value <> Me.targetExecutionMode_) Then
+                    Me.targetExecutionMode_ = value
+                End If
+            End Set
+        End Property
+
+        ''' <summary>
+        ''' ( Backing Field of <see cref="ShortcutFileInfo.TargetExecutionMode"/> property. )
+        ''' <para></para>
+        ''' </summary>
+        Private targetExecutionMode_ As ShortcutTargetExecutionMode = ShortcutTargetExecutionMode.Standard
 
 #End Region
 
@@ -1285,6 +1308,8 @@ Namespace DevCase.Core.IO
             Dim description As New StringBuilder(capacity:=maxDescriptionLength, maxCapacity:=maxDescriptionLength)
             Dim hotkey As UShort
             Dim icon As New StringBuilder(capacity:=maxIconLength, maxCapacity:=maxIconLength)
+
+
             Dim iconIndex As Integer
             Dim idlist As IntPtr
             Dim target As New StringBuilder(capacity:=maxTargetLength, maxCapacity:=maxTargetLength)
@@ -1434,8 +1459,66 @@ Namespace DevCase.Core.IO
             With shellLink
                 If isVirtualTarget AndAlso Me.targetPidl_ <> IntPtr.Zero Then
                     .SetIDList(Me.targetPidl_)
+
                 ElseIf Not String.IsNullOrEmpty(Me.target_) Then
-                    .SetPath(Me.target_) ' Will throw error if empty string.
+
+                    Const MAX_PATH As Integer = 260
+
+                    Select Case Me.targetExecutionMode_
+                        Case ShortcutTargetExecutionMode.Standard
+                            .SetPath(Me.target_) ' Will throw error if empty string.
+
+                        Case Else
+                            Const FILE_ATTRIBUTE_DIRECTORY As Integer = &H10
+                            Const FILE_ATTRIBUTE_NORMAL As Integer = &H80
+
+                            Dim lnkFolder As String = Path.GetDirectoryName(Me.FullName)
+                            Dim relativePathBuilder As New StringBuilder(MAX_PATH)
+                            Dim success As Boolean = NativeMethods.PathRelativePathTo(
+                                relativePathBuilder,
+                                lnkFolder,
+                                FILE_ATTRIBUTE_DIRECTORY,
+                                Me.target_,
+                                FILE_ATTRIBUTE_NORMAL
+                            )
+
+                            If Not success Then
+                                Throw New InvalidOperationException($"Failed to resolve a relative path from '{lnkFolder}' to '{Me.target_}'. Ensure both locations share the same drive root.")
+                            End If
+
+                            Dim relativePath As String = relativePathBuilder.ToString()
+
+                            If Me.targetExecutionMode_ = ShortcutTargetExecutionMode.RelativePathViaExplorer Then
+                                Dim explorerPath As String = Path.Combine(
+                                    Environment.GetFolderPath(Environment.SpecialFolder.Windows),
+                                    "explorer.exe"
+                                )
+
+                                Me.target_ = explorerPath
+                                Me.targetArguments_ = $"""{relativePath}"""
+
+                            ElseIf Me.targetExecutionMode_ = ShortcutTargetExecutionMode.RelativePathWithArgumentsViaCommandPrompt Then
+                                Dim cmdPath As String = Path.Combine(
+                                    Environment.GetFolderPath(Environment.SpecialFolder.System),
+                                    "cmd.exe"
+                                )
+
+                                Dim cmdArguments As String = $"/c start """" ""{relativePath}"""
+                                If Not String.IsNullOrEmpty(Me.targetArguments_) Then
+                                    cmdArguments = $"{cmdArguments} {Me.targetArguments_}"
+                                End If
+
+                                Me.target_ = cmdPath
+                                Me.targetArguments_ = cmdArguments
+
+                            Else
+                                Throw New InvalidEnumArgumentException($"Unsupported ShortcutTargetExecutionMode: {Me.targetExecutionMode_}")
+
+                            End If
+
+                            .SetPath(Me.target_)
+                    End Select
+
                 End If
 
                 .SetArguments(Me.targetArguments_)
