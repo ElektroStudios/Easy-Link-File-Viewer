@@ -1730,7 +1730,6 @@ Namespace DevCase.UI.Dialogs
         ''' <returns>
         ''' A <see cref="DialogResult"/> representing the result of the message box interaction.
         ''' </returns>
-        ''' 
         ''' <exception cref="NotSupportedException">
         ''' Thrown when the entry assembly is a DLL.
         ''' </exception>

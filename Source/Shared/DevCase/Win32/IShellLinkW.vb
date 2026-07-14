@@ -44,7 +44,6 @@ Namespace DevCase.Win32.Interfaces
     <Guid("000214F9-0000-0000-C000-000000000046")>
     Friend Interface IShellLinkW
 
-        ''' 
         ''' <summary>
         ''' Retrieves the path and file name of a Shell link object.
         ''' </summary>
@@ -75,7 +74,6 @@ Namespace DevCase.Win32.Interfaces
                                                      ByRef refWin32FindData As Win32FindDataW,
                                                            flags As IShellLinkGetPathFlags)
 
-        ''' 
         ''' <summary>
         ''' Retrieves the list of item identifiers for a Shell link object.
         ''' </summary>
@@ -86,7 +84,6 @@ Namespace DevCase.Win32.Interfaces
         ''' 
         Sub GetIDList(ByRef refPidl As IntPtr)
 
-        ''' 
         ''' <summary>
         ''' Sets the pointer to an item identifier list (PIDL) for a Shell link object.
         ''' </summary>
@@ -98,7 +95,6 @@ Namespace DevCase.Win32.Interfaces
         <PreserveSig>
         Function SetIDList(pidl As IntPtr) As Integer
 
-        ''' 
         ''' <summary>
         ''' Retrieves the description string for a Shell link object.
         ''' </summary>
@@ -113,7 +109,6 @@ Namespace DevCase.Win32.Interfaces
         ''' 
         Sub GetDescription(<Out, MarshalAs(UnmanagedType.LPWStr)> name As StringBuilder, maxName As Integer)
 
-        ''' 
         ''' <summary>
         ''' Sets the description for a Shell link object.
         ''' The description can be any application-defined string.
@@ -125,7 +120,6 @@ Namespace DevCase.Win32.Interfaces
         ''' 
         Sub SetDescription(<MarshalAs(UnmanagedType.LPWStr)> name As String)
 
-        ''' 
         ''' <summary>
         ''' Retrieves the name of the working directory for a Shell link object.
         ''' </summary>
@@ -143,7 +137,6 @@ Namespace DevCase.Win32.Interfaces
         Sub GetWorkingDirectory(<Out, MarshalAs(UnmanagedType.LPWStr)> dir As StringBuilder,
                                                                        maxPath As Integer)
 
-        ''' 
         ''' <summary>
         ''' Sets the name of the working directory for a Shell link object.
         ''' </summary>
@@ -154,7 +147,6 @@ Namespace DevCase.Win32.Interfaces
         ''' 
         Sub SetWorkingDirectory(<MarshalAs(UnmanagedType.LPWStr)> dir As String)
 
-        ''' 
         ''' <summary>
         ''' Retrieves the command-line arguments associated with a Shell link object.
         ''' </summary>
@@ -175,7 +167,6 @@ Namespace DevCase.Win32.Interfaces
         Sub GetArguments(<Out, MarshalAs(UnmanagedType.LPWStr)> args As StringBuilder,
                                                                 maxPath As Integer)
 
-        ''' 
         ''' <summary>
         ''' Sets the command-line arguments for a Shell link object.
         ''' </summary>
@@ -191,7 +182,6 @@ Namespace DevCase.Win32.Interfaces
         ''' 
         Sub SetArguments(<MarshalAs(UnmanagedType.LPWStr)> args As String)
 
-        ''' 
         ''' <summary>
         ''' Retrieves the hot key for a Shell link object.
         ''' </summary>
@@ -204,7 +194,6 @@ Namespace DevCase.Win32.Interfaces
         ''' 
         Sub GetHotkey(ByRef refHotkey As UShort)
 
-        ''' 
         ''' <summary>
         ''' Sets a hot key for a Shell link object.
         ''' </summary>
@@ -217,7 +206,6 @@ Namespace DevCase.Win32.Interfaces
         ''' 
         Sub SetHotkey(hotkey As UShort)
 
-        ''' 
         ''' <summary>
         ''' Retrieves the ShowWindowFlags for a Shell link object.
         ''' </summary>
@@ -228,7 +216,6 @@ Namespace DevCase.Win32.Interfaces
         ''' 
         Sub GetShowCmd(ByRef refWindowState As NativeWindowState)
 
-        ''' 
         ''' <summary>
         ''' Sets the show command for a Shell link object.
         ''' <para></para>
@@ -241,7 +228,6 @@ Namespace DevCase.Win32.Interfaces
         ''' 
         Sub SetShowCmd(windowState As NativeWindowState)
 
-        ''' 
         ''' <summary>
         ''' Retrieves the location (path and index) of the icon for a Shell link object.
         ''' </summary>
@@ -262,7 +248,6 @@ Namespace DevCase.Win32.Interfaces
                                                                    iconPathSize As Integer,
                                                              ByRef refIconIndex As Integer)
 
-        ''' 
         ''' <summary>
         ''' Sets the location (path and index) of the icon for a Shell link object.
         ''' </summary>
@@ -278,7 +263,6 @@ Namespace DevCase.Win32.Interfaces
         Sub SetIconLocation(<MarshalAs(UnmanagedType.LPWStr)> iconPath As String,
                                                               iconIndex As Integer)
 
-        ''' 
         ''' <summary>
         ''' Sets the relative path to the Shell link object.
         ''' </summary>
@@ -299,7 +283,6 @@ Namespace DevCase.Win32.Interfaces
         Sub SetRelativePath(<MarshalAs(UnmanagedType.LPWStr)> pathRelative As String,
                                                               reserved As Integer)
 
-        ''' 
         ''' <summary>
         ''' Attempts to find the target of a Shell link, even if it has been moved or renamed.
         ''' </summary>
@@ -317,7 +300,6 @@ Namespace DevCase.Win32.Interfaces
         Sub Resolve(hWnd As IntPtr,
                     flags As IShellLinkResolveFlags)
 
-        ''' 
         ''' <summary>
         ''' Sets the path and file name of a Shell link object
         ''' </summary>

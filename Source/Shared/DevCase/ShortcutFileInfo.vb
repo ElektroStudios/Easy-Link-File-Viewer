@@ -137,7 +137,6 @@ Namespace DevCase.Core.IO
 
 #Region " File Info "
 
-        ''' 
         ''' <summary>
         ''' Gets the file name of the link file.
         ''' </summary>
@@ -151,7 +150,6 @@ Namespace DevCase.Core.IO
             End Get
         End Property
 
-        ''' 
         ''' <summary>
         ''' Gets the full path of the link file.
         ''' </summary>
@@ -165,7 +163,6 @@ Namespace DevCase.Core.IO
             End Get
         End Property
 
-        ''' 
         ''' <summary>
         ''' Gets the file size, in bytes, of the current link file.
         ''' </summary>
@@ -173,7 +170,6 @@ Namespace DevCase.Core.IO
         ''' <value>
         ''' The file attributes.
         ''' </value>
-        ''' 
         <Description("The file size of the link file.")>
         <DisplayName("Length")>
         <Category("File Info")>
@@ -189,7 +185,6 @@ Namespace DevCase.Core.IO
 
 #Region " File Info (non-browsable)"
 
-        ''' 
         ''' <summary>
         ''' Gets or sets the file attributes of the link file.
         ''' </summary>
@@ -197,7 +192,6 @@ Namespace DevCase.Core.IO
         ''' <value>
         ''' The file attributes.
         ''' </value>
-        ''' 
         <Description("The file attributes of the link file.")>
         <DisplayName("Attributes")>
         <Category("File Info")>
@@ -213,7 +207,6 @@ Namespace DevCase.Core.IO
             End Set
         End Property
 
-        ''' 
         ''' <summary>
         ''' Gets or sets a value that determines if the link file is read-only.
         ''' </summary>
@@ -221,7 +214,6 @@ Namespace DevCase.Core.IO
         ''' <value>
         ''' <see langword="True"/> if the link file is read-only; otherwise, <see langword="False"/>.
         ''' </value>
-        ''' 
         <Description("A value that determines if the link file is read-only.")>
         <DisplayName("Is Read-Only")>
         <Category("File Info")>
@@ -235,7 +227,6 @@ Namespace DevCase.Core.IO
             End Set
         End Property
 
-        ''' 
         ''' <summary>
         ''' Gets a value indicating whether the link file exists.
         ''' </summary>
@@ -243,7 +234,6 @@ Namespace DevCase.Core.IO
         ''' <value>
         ''' <see langword="True"/> if the link file exists; otherwise, <see langword="False"/>.
         ''' </value>
-        ''' 
         <Description("A value indicating whether the link file exists.")>
         <DisplayName("Exists")>
         <Category("File Info")>
@@ -254,7 +244,6 @@ Namespace DevCase.Core.IO
             End Get
         End Property
 
-        ''' 
         ''' <summary>
         ''' Gets an instance of the parent directory of the link file.
         ''' </summary>
@@ -269,7 +258,6 @@ Namespace DevCase.Core.IO
             End Get
         End Property
 
-        ''' 
         ''' <summary>
         ''' Gets a string representing the shortcut directory's full path.
         ''' </summary>
@@ -284,7 +272,6 @@ Namespace DevCase.Core.IO
             End Get
         End Property
 
-        ''' 
         ''' <summary>
         ''' Gets a string representing the extension part of the link file.
         ''' </summary>
@@ -292,7 +279,6 @@ Namespace DevCase.Core.IO
         ''' <value>
         ''' The extension.
         ''' </value>
-        ''' 
         <Description("A string representing the extension part of the link file.")>
         <DisplayName("Extension")>
         <Category("File Info")>
@@ -303,7 +289,6 @@ Namespace DevCase.Core.IO
             End Get
         End Property
 
-        ''' 
         ''' <summary>
         ''' Gets or sets the creation time, in coordinated universal time (UTC) of the link file.
         ''' </summary>
@@ -311,7 +296,6 @@ Namespace DevCase.Core.IO
         ''' <value>
         ''' The creation time UTC.
         ''' </value>
-        ''' 
         <Description("The creation time, in coordinated universal time (UTC) of the link file.")>
         <DisplayName("Creation Time (UTC)")>
         <Category("File Info")>
@@ -327,7 +311,6 @@ Namespace DevCase.Core.IO
             End Set
         End Property
 
-        ''' 
         ''' <summary>
         ''' Gets or sets the time, in coordinated universal time (UTC), the link file was last accessed.
         ''' </summary>
@@ -335,7 +318,6 @@ Namespace DevCase.Core.IO
         ''' <value>
         ''' The last access time UTC.
         ''' </value>
-        ''' 
         <Description("The time, in coordinated universal time (UTC), the link file was last accessed.")>
         <DisplayName("Last Access Time (UTC)")>
         <Category("File Info")>
@@ -351,7 +333,6 @@ Namespace DevCase.Core.IO
             End Set
         End Property
 
-        ''' 
         ''' <summary>
         ''' Gets or sets the time, in coordinated universal time (UTC), the link file was last written to.
         ''' </summary>
@@ -359,7 +340,6 @@ Namespace DevCase.Core.IO
         ''' <value>
         ''' The last write time UTC.
         ''' </value>
-        ''' 
         <Description("The time, in coordinated universal time (UTC), the link file was last written to.")>
         <DisplayName("Last Write Time (UTC)")>
         <Category("File Info")>
@@ -375,7 +355,6 @@ Namespace DevCase.Core.IO
             End Set
         End Property
 
-        ''' 
         ''' <summary>
         ''' Gets or sets the creation time of the link file.
         ''' </summary>
@@ -383,7 +362,6 @@ Namespace DevCase.Core.IO
         ''' <value>
         ''' The creation time.
         ''' </value>
-        ''' 
         <Description("The creation time of the link file.")>
         <DisplayName("Creation Time")>
         <Category("File Info")>
@@ -399,7 +377,6 @@ Namespace DevCase.Core.IO
             End Set
         End Property
 
-        ''' 
         ''' <summary>
         ''' Gets or sets the time the link file was last accessed.
         ''' </summary>
@@ -407,7 +384,6 @@ Namespace DevCase.Core.IO
         ''' <value>
         ''' The last access time.
         ''' </value>
-        ''' 
         <Description("The time the link file was last accessed.")>
         <DisplayName("Last Access Time")>
         <Category("File Info")>
@@ -423,7 +399,6 @@ Namespace DevCase.Core.IO
             End Set
         End Property
 
-        ''' 
         ''' <summary>
         ''' Gets or sets the time the link file was last written to.
         ''' </summary>
@@ -431,7 +406,6 @@ Namespace DevCase.Core.IO
         ''' <value>
         ''' The last write time.
         ''' </value>
-        ''' 
         <Description("The time the link file was last written to.")>
         <DisplayName("Last Write Time")>
         <Category("File Info")>
@@ -451,7 +425,6 @@ Namespace DevCase.Core.IO
 
 #Region " Shortcut "
 
-        ''' 
         ''' <summary>
         ''' Gets or sets the shortcut description.
         ''' </summary>
@@ -474,7 +447,6 @@ Namespace DevCase.Core.IO
                 End If
             End Set
         End Property
-        ''' 
         ''' <summary>
         ''' ( Backing Field of <see cref="ShortcutFileInfo.Description"/> property. )
         ''' <para></para>
@@ -483,7 +455,6 @@ Namespace DevCase.Core.IO
         ''' 
         Private description_ As String
 
-        ''' 
         ''' <summary>
         ''' Gets or sets the shortcut hotkey.
         ''' </summary>
@@ -504,7 +475,6 @@ Namespace DevCase.Core.IO
                 End If
             End Set
         End Property
-        ''' 
         ''' <summary>
         ''' ( Backing Field of <see cref="ShortcutFileInfo.Hotkey"/> property. )
         ''' <para></para>
@@ -513,7 +483,6 @@ Namespace DevCase.Core.IO
         ''' 
         Private hotkey_ As Keys
 
-        ''' 
         ''' <summary>
         ''' Gets or sets the full path of the icon file.
         ''' </summary>
@@ -537,7 +506,6 @@ Namespace DevCase.Core.IO
                 End If
             End Set
         End Property
-        ''' 
         ''' <summary>
         ''' ( Backing Field of <see cref="ShortcutFileInfo.Icon"/> property. )
         ''' <para></para>
@@ -546,7 +514,6 @@ Namespace DevCase.Core.IO
         ''' 
         Private icon_ As String
 
-        ''' 
         ''' <summary>
         ''' Gets or sets the image index within the icon file.
         ''' </summary>
@@ -567,7 +534,6 @@ Namespace DevCase.Core.IO
                 End If
             End Set
         End Property
-        ''' 
         ''' <summary>
         ''' ( Backing Field of <see cref="ShortcutFileInfo.IconIndex"/> property. )
         ''' <para></para>
@@ -576,7 +542,6 @@ Namespace DevCase.Core.IO
         ''' 
         Private iconIndex_ As Integer
 
-        ''' 
         ''' <summary>
         ''' Gets or sets the window state for the target file or directory.
         ''' </summary>
@@ -596,7 +561,6 @@ Namespace DevCase.Core.IO
                 End If
             End Set
         End Property
-        ''' 
         ''' <summary>
         ''' ( Backing Field of <see cref="ShortcutFileInfo.WindowState"/> property. )
         ''' <para></para>
@@ -605,7 +569,6 @@ Namespace DevCase.Core.IO
         ''' 
         Private windowState_ As ShortcutWindowState
 
-        ''' 
         ''' <summary>
         ''' Gets or sets the full path of the target file or directory.
         ''' </summary>
@@ -634,7 +597,6 @@ Namespace DevCase.Core.IO
                 End If
             End Set
         End Property
-        ''' 
         ''' <summary>
         ''' ( Backing Field of <see cref="ShortcutFileInfo.Target"/> property. )
         ''' <para></para>
@@ -643,7 +605,6 @@ Namespace DevCase.Core.IO
         ''' 
         Private target_ As String
 
-        ''' 
         ''' <summary>
         ''' Gets or sets the command-line arguments of the target.
         ''' </summary>
@@ -666,7 +627,6 @@ Namespace DevCase.Core.IO
                 End If
             End Set
         End Property
-        ''' 
         ''' <summary>
         ''' ( Backing Field of <see cref="ShortcutFileInfo.TargetArguments"/> property. )
         ''' <para></para>
@@ -675,7 +635,6 @@ Namespace DevCase.Core.IO
         ''' 
         Private targetArguments_ As String
 
-        ''' 
         ''' <summary>
         ''' Gets the display name of the target file or directory.
         ''' <para></para>
@@ -697,7 +656,6 @@ Namespace DevCase.Core.IO
             End Get
         End Property
 
-        ''' 
         ''' <summary>
         ''' Gets or sets the working directory of the target file or directory.
         ''' </summary>
@@ -721,7 +679,6 @@ Namespace DevCase.Core.IO
                 End If
             End Set
         End Property
-        ''' 
         ''' <summary>
         ''' ( Backing Field of <see cref="ShortcutFileInfo.WorkingDirectory"/> property. )
         ''' <para></para>
@@ -730,7 +687,6 @@ Namespace DevCase.Core.IO
         ''' 
         Private workingDirectory_ As String
 
-        ''' 
         ''' <summary>
         ''' Gets a value that determine whether the shortcut has an ITEM ID LIST pointing to a Windows Installer product.
         ''' </summary>
@@ -746,7 +702,6 @@ Namespace DevCase.Core.IO
         End Property
         Private isWindowsInstallerShortcut_ As Boolean
 
-        ''' 
         ''' <summary>
         ''' Gets or sets the appliaction model ID of the shortcut file.
         ''' </summary>
@@ -772,7 +727,6 @@ Namespace DevCase.Core.IO
                 End If
             End Set
         End Property
-        ''' 
         ''' <summary>
         ''' ( Backing Field of <see cref="ShortcutFileInfo.AppId"/> property. )
         ''' <para></para>
@@ -827,7 +781,6 @@ Namespace DevCase.Core.IO
         ''' <see langword="True"/> if this <see cref="ShortcutFileInfo"/> is displayed in a <see cref="PropertyGrid"/> control; 
         ''' otherwise, <see langword="False"/>.
         ''' </value>
-        ''' 
         <Browsable(False)>
         <EditorBrowsable(EditorBrowsableState.Advanced)>
         Public Property ViewMode As Boolean
@@ -841,7 +794,6 @@ Namespace DevCase.Core.IO
                 End If
             End Set
         End Property
-        ''' 
         ''' <summary>
         ''' ( Backing Field of <see cref="ShortcutFileInfo.ViewMode"/> property. )
         ''' <para></para>
@@ -883,7 +835,6 @@ Namespace DevCase.Core.IO
 
 #Region " Constructors "
 
-        ''' 
         ''' <summary>
         ''' Initializes a new instance of the <see cref="ShortcutFileInfo"/> class.
         ''' </summary>
@@ -904,7 +855,6 @@ Namespace DevCase.Core.IO
             End If
         End Sub
 
-        ''' 
         ''' <summary>
         ''' Initializes a new instance of the <see cref="ShortcutFileInfo"/> class.
         ''' </summary>
@@ -918,7 +868,6 @@ Namespace DevCase.Core.IO
             Me.New(file.FullName)
         End Sub
 
-        ''' 
         ''' <summary>
         ''' Prevents a default instance of the <see cref="ShortcutFileInfo"/> class from being created.
         ''' </summary>
@@ -930,7 +879,6 @@ Namespace DevCase.Core.IO
 
 #Region " Public Methods "
 
-        ''' 
         ''' <summary>
         ''' Refreshes the state of the object.
         ''' </summary>
@@ -943,7 +891,6 @@ Namespace DevCase.Core.IO
             End If
         End Sub
 
-        ''' 
         ''' <summary>
         ''' Creates the link file. It overwrites any existing file.
         ''' </summary>
@@ -965,7 +912,6 @@ Namespace DevCase.Core.IO
             Me.viewMode_ = oldViewMode
         End Sub
 
-        ''' 
         ''' <summary>
         ''' Deletes the link file.
         ''' </summary>
@@ -977,7 +923,6 @@ Namespace DevCase.Core.IO
             file.Delete()
         End Sub
 
-        ''' 
         ''' <summary>
         ''' Encrypts a link file so that only the account used to encrypt the file can decrypt it.
         ''' </summary>
@@ -989,7 +934,6 @@ Namespace DevCase.Core.IO
             file.Encrypt()
         End Sub
 
-        ''' 
         ''' <summary>
         ''' Decrypts a link file that was encrypted by the current account using the <see cref="ShortcutFileInfo.Encrypt"/> method.
         ''' </summary>
@@ -1001,7 +945,6 @@ Namespace DevCase.Core.IO
             file.Decrypt()
         End Sub
 
-        ''' 
         ''' <summary>
         ''' Copies an existing link file to a new file, allowing the overwriting of an existing file.
         ''' </summary>
@@ -1019,13 +962,11 @@ Namespace DevCase.Core.IO
         ''' <para></para>
         ''' If the file exists and overwrite is false, an <see cref="IOException"/> is thrown.
         ''' </returns>
-        ''' 
         <DebuggerStepThrough>
         Public Function CopyTo(destFileName As String, overwrite As Boolean) As ShortcutFileInfo
             Return New ShortcutFileInfo(New FileInfo(Me.FullName).CopyTo(destFileName, overwrite))
         End Function
 
-        ''' 
         ''' <summary>
         ''' Moves the link file to a new location, providing the option to specify a new file name.
         ''' </summary>
@@ -1041,7 +982,6 @@ Namespace DevCase.Core.IO
             file.MoveTo(destFileName)
         End Sub
 
-        ''' 
         ''' <summary>
         ''' Opens the link file in the specified mode.
         ''' </summary>
@@ -1053,13 +993,11 @@ Namespace DevCase.Core.IO
         ''' <returns>
         ''' The link file opened in the specified mode, with read/write access and unshared.
         ''' </returns>
-        ''' 
         <DebuggerStepThrough>
         Public Function Open(mode As FileMode) As FileStream
             Return New FileInfo(Me.FullName).Open(mode)
         End Function
 
-        ''' 
         ''' <summary>
         ''' Opens the link file in the specified mode with read, write, or read/write access.
         ''' </summary>
@@ -1075,13 +1013,11 @@ Namespace DevCase.Core.IO
         ''' <returns>
         ''' The link file opened in the specified mode and access, and unshared.
         ''' </returns>
-        ''' 
         <DebuggerStepThrough>
         Public Function Open(mode As FileMode, access As FileAccess) As FileStream
             Return New FileInfo(Me.FullName).Open(mode, access)
         End Function
 
-        ''' 
         ''' <summary>
         ''' Opens the link file in the specified mode with read, write, or read/write access and the specified sharing option.
         ''' </summary>
@@ -1101,13 +1037,11 @@ Namespace DevCase.Core.IO
         ''' <returns>
         ''' The link file opened in the specified mode, access, and sharing options.
         ''' </returns>
-        ''' 
         <DebuggerStepThrough>
         Public Function Open(mode As FileMode, access As FileAccess, share As FileShare) As FileStream
             Return New FileInfo(Me.FullName).Open(mode, access, share)
         End Function
 
-        ''' 
         ''' <summary>
         ''' Creates a read-only <see cref="FileStream"/>.
         ''' </summary>
@@ -1115,13 +1049,11 @@ Namespace DevCase.Core.IO
         ''' <returns>
         ''' A read-only unshared <see cref="FileStream"/> object for the existing link file.
         ''' </returns>
-        ''' 
         <DebuggerStepThrough>
         Public Function OpenRead() As FileStream
             Return New FileInfo(Me.FullName).OpenRead()
         End Function
 
-        ''' 
         ''' <summary>
         ''' Creates a write-only <see cref="FileStream"/>.
         ''' </summary>
@@ -1129,13 +1061,11 @@ Namespace DevCase.Core.IO
         ''' <returns>
         ''' A write-only unshared <see cref="FileStream"/> object for the existing link file.
         ''' </returns>
-        ''' 
         <DebuggerStepThrough>
         Public Function OpenWrite() As FileStream
             Return New FileInfo(Me.FullName).OpenWrite()
         End Function
 
-        ''' 
         ''' <summary>
         ''' Gets a <see cref="FileSecurity"/> object that encapsulates the access control list (ACL) entries 
         ''' for the file described by the current <see cref="ShortCutFileInfo"/> object.
@@ -1144,13 +1074,11 @@ Namespace DevCase.Core.IO
         ''' <returns>
         ''' A <see cref="FileSecurity"/> object that encapsulates the access control rules for the current link file.
         ''' </returns>
-        ''' 
         <DebuggerStepThrough>
         Public Function GetAccessControl() As FileSecurity
             Return New FileInfo(Me.FullName).GetAccessControl()
         End Function
 
-        ''' 
         ''' <summary>
         ''' Gets a <see cref="FileSecurity"/> object that encapsulates the specified type of access control list (ACL) entries 
         ''' for the file described by the current <see cref="ShortCutFileInfo"/> object.
@@ -1163,13 +1091,11 @@ Namespace DevCase.Core.IO
         ''' <returns>
         ''' A <see cref="FileSecurity"/> object that encapsulates the access control rules for the current link file.
         ''' </returns>
-        ''' 
         <DebuggerStepThrough>
         Public Function GetAccessControl(includeSections As AccessControlSections) As FileSecurity
             Return New FileInfo(Me.FullName).GetAccessControl(includeSections)
         End Function
 
-        ''' 
         ''' <summary>
         ''' Returns the shortcut' path as a string.
         ''' </summary>
@@ -1177,13 +1103,11 @@ Namespace DevCase.Core.IO
         ''' <returns>
         ''' A string representing the shortcut's path.
         ''' </returns>
-        ''' 
         <DebuggerStepThrough>
         Public Overrides Function ToString() As String
             Return Me.OriginalPath
         End Function
 
-        ''' 
         ''' <summary>
         ''' Determines whether the specified <see cref="ShortcutFileInfo"/> is equal to this <see cref="ShortcutFileInfo"/>.
         ''' </summary>
@@ -1196,13 +1120,11 @@ Namespace DevCase.Core.IO
         ''' <see langword="True"/> if the specified <see cref="ShortcutFileInfo"/> is equal to this <see cref="ShortcutFileInfo"/>; 
         ''' otherwise, <see langword="False"/>.
         ''' </returns>
-        ''' 
         <DebuggerStepThrough>
         Public Shadows Function Equals(file As ShortcutFileInfo) As Boolean
             Return (Me = file)
         End Function
 
-        ''' 
         ''' <summary>
         ''' Resolves the target of a shortcut.
         ''' <para></para>
@@ -1297,7 +1219,6 @@ Namespace DevCase.Core.IO
 
 #Region " Private Methods "
 
-        ''' 
         ''' <summary>
         ''' Reads the information from the link file.
         ''' </summary>
@@ -1426,7 +1347,6 @@ Namespace DevCase.Core.IO
             End Try
         End Sub
 
-        ''' 
         ''' <summary>
         ''' Writes the information to the link file.
         ''' </summary>
@@ -1577,7 +1497,6 @@ Namespace DevCase.Core.IO
 
         End Sub
 
-        ''' 
         ''' <summary>
         ''' Converts the shortcut hotkey to a <see cref="Keys"/> value.
         ''' </summary>
@@ -1593,7 +1512,6 @@ Namespace DevCase.Core.IO
         ''' <returns>
         ''' The resulting <see cref="Keys"/> value.
         ''' </returns>
-        ''' 
         <DebuggerStepThrough>
         Private Function HotkeyToKeys(keyModifier As ShortcutHotkeyModifier, keyAccesor As Keys) As Keys
 
@@ -1615,7 +1533,6 @@ Namespace DevCase.Core.IO
 
         End Function
 
-        ''' 
         ''' <summary>
         ''' Converts a <see cref="Keys"/> value to a valid shortcut hotkey.
         ''' </summary>
@@ -1627,7 +1544,6 @@ Namespace DevCase.Core.IO
         ''' <returns>
         ''' The resulting shortcut hotkey.
         ''' </returns>
-        ''' 
         <DebuggerStepThrough>
         Private Function KeysToHotkey(key As Keys) As UShort
 
@@ -1708,7 +1624,6 @@ Namespace DevCase.Core.IO
 
 #Region " Operators "
 
-        ''' 
         ''' <summary>
         ''' Performs an implicit conversion from <see cref="ShortcutFileInfo"/> to <see cref="FileInfo"/>.
         ''' </summary>
@@ -1720,13 +1635,11 @@ Namespace DevCase.Core.IO
         ''' <returns>
         ''' The resulting <see cref="FileInfo"/>.
         ''' </returns>
-        ''' 
         <DebuggerStepThrough>
         Public Shared Widening Operator CType(file As ShortcutFileInfo) As FileInfo
             Return New FileInfo(file.ToString())
         End Operator
 
-        ''' 
         ''' <summary>
         ''' Performs an implicit conversion from <see cref="FileInfo"/> to <see cref="ShortcutFileInfo"/>.
         ''' </summary>
@@ -1738,13 +1651,11 @@ Namespace DevCase.Core.IO
         ''' <returns>
         ''' The resulting <see cref="ShortcutFileInfo"/>.
         ''' </returns>
-        ''' 
         <DebuggerStepThrough>
         Public Shared Widening Operator CType(file As FileInfo) As ShortcutFileInfo
             Return New ShortcutFileInfo(file)
         End Operator
 
-        ''' 
         ''' <summary>
         ''' Determines whether the specified <see cref="ShortcutFileInfo"/> instances are equal.
         ''' </summary>
@@ -1761,7 +1672,6 @@ Namespace DevCase.Core.IO
         ''' <see langword="True"/> if the <see cref="ShortcutFileInfo"/> instances are considered equal; 
         ''' otherwise, <see langword="False"/>.
         ''' </returns>
-        ''' 
         Public Shared Operator =(first As ShortcutFileInfo, second As ShortcutFileInfo) As Boolean
 
             Return (first.Attributes = second.Attributes) AndAlso
@@ -1780,7 +1690,6 @@ Namespace DevCase.Core.IO
 
         End Operator
 
-        ''' 
         ''' <summary>
         ''' Determines whether the specified <see cref="ShortcutFileInfo"/> instances are not equal.
         ''' </summary>
@@ -1797,7 +1706,6 @@ Namespace DevCase.Core.IO
         ''' <see langword="True"/> if the <see cref="ShortcutFileInfo"/> instances are not equal; 
         ''' otherwise, <see langword="False"/>.
         ''' </returns>
-        ''' 
         Public Shared Operator <>(first As ShortcutFileInfo, second As ShortcutFileInfo) As Boolean
             Return Not (first = second)
         End Operator

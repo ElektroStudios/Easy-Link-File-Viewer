@@ -40,7 +40,6 @@ Namespace DevCase.Core.Imaging.Tools
 
 #Region " Constructors "
 
-        ''' 
         ''' <summary>
         ''' Prevents a default instance of the <see cref="ImageUtil"/> class from being created.
         ''' </summary>
@@ -53,7 +52,6 @@ Namespace DevCase.Core.Imaging.Tools
 
 #Region " Public Methods "
 
-        ''' 
         ''' <summary>
         ''' Extracts the icon associated for the specified directory.
         ''' <para></para>
@@ -76,7 +74,6 @@ Namespace DevCase.Core.Imaging.Tools
         ''' <returns>
         ''' The resulting icon.
         ''' </returns>
-        ''' 
         <DebuggerStepThrough>
         Public Shared Function ExtractIconFromDirectory(directoryPath As String) As Icon
 
@@ -98,7 +95,6 @@ Namespace DevCase.Core.Imaging.Tools
 
         End Function
 
-        ''' 
         ''' <summary>
         ''' Extracts the icon associated for the specified file.
         ''' <para></para>
@@ -121,7 +117,6 @@ Namespace DevCase.Core.Imaging.Tools
         ''' <returns>
         ''' The resulting icon.
         ''' </returns>
-        ''' 
         <DebuggerStepThrough>
         Public Shared Function ExtractIconFromFile(filepath As String) As Icon
 
@@ -146,7 +141,6 @@ Namespace DevCase.Core.Imaging.Tools
 
         End Function
 
-        ''' 
         ''' <summary>
         ''' Extracts the icon associated for the specified file extension.
         ''' <para></para>
@@ -169,7 +163,6 @@ Namespace DevCase.Core.Imaging.Tools
         ''' <returns>
         ''' The resulting icon.
         ''' </returns>
-        ''' 
         <DebuggerStepThrough>
         Public Shared Function ExtractIconFromFileExtension(ext As String) As Icon
 
@@ -194,7 +187,6 @@ Namespace DevCase.Core.Imaging.Tools
 
         End Function
 
-        ''' 
         ''' <summary>
         ''' Extracts a icon stored in the specified executable, dll or icon file.
         ''' </summary>
@@ -223,7 +215,6 @@ Namespace DevCase.Core.Imaging.Tools
 
         End Function
 
-        ''' 
         ''' <summary>
         ''' Extracts a icon stored in the specified executable, dll or icon file.
         ''' </summary>

@@ -52,7 +52,6 @@ Namespace DevCase.Win32.Interfaces
         <EditorBrowsable(EditorBrowsableState.Never)>
         Function NotImplemented_BindToHandler() As Object
 
-        ''' 
         ''' <summary>
         ''' Gets the parent of an <see cref="IShellItem"/> object.
         ''' </summary>
@@ -60,10 +59,8 @@ Namespace DevCase.Win32.Interfaces
         ''' <returns>
         ''' The address of a pointer to the parent of an <see cref="IShellItem"/> interface.
         ''' </returns>
-        ''' 
         Function GetParent() As IShellItem
 
-        ''' 
         ''' <summary>
         ''' Gets the display name of the <see cref="IShellItem"/> object.
         ''' </summary>
@@ -76,7 +73,6 @@ Namespace DevCase.Win32.Interfaces
         ''' A value that, when this function returns successfully, 
         ''' receives the address of a pointer to the retrieved display name.
         ''' </returns>
-        ''' 
         <MethodImpl(MethodImplOptions.InternalCall, MethodCodeType:=MethodCodeType.Runtime)>
         Function GetDisplayName(sigdn As ShellItemGetDisplayName) As StringBuilder
 

@@ -38,7 +38,6 @@ Namespace DevCase.Core.Extensions
 
 #Region " Public Extension Methods "
 
-        ''' 
         ''' <summary>
         ''' Moves the splitter control of the source the <see cref="PropertyGrid"/> 
         ''' to adjust the columns width.

@@ -43,14 +43,12 @@ Namespace DevCase.Core.Design
 
 #Region " Private Fields "
 
-        ''' 
         ''' <summary>
         ''' A reference to <see cref="ShortcutFileInfo.Icon"/> property.
         ''' </summary>
         ''' 
         Private iconPath As String
 
-        ''' 
         ''' <summary>
         ''' A reference to <see cref="ShortcutFileInfo.Target"/> property.
         ''' </summary>
@@ -61,7 +59,6 @@ Namespace DevCase.Core.Design
 
 #Region " Public Methods "
 
-        ''' 
         ''' <summary>
         ''' Paints a representative value of the given object to the provided canvas.
         ''' </summary>
@@ -130,7 +127,6 @@ Namespace DevCase.Core.Design
             MyBase.PaintValue(e)
         End Sub
 
-        ''' 
         ''' <summary>
         ''' Edits the given object value using the editor style provided by the 
         ''' <see cref="IconEditor.GetEditStyle(ITypeDescriptorContext)"/> method.
@@ -153,7 +149,6 @@ Namespace DevCase.Core.Design
         ''' <para></para>
         ''' If the value of the object has not changed, this should return the same object it was passed.
         ''' </returns>
-        ''' 
         Public Overrides Function EditValue(context As ITypeDescriptorContext, provider As IServiceProvider, value As Object) As Object
 
             Me.UpdateFields(context)
@@ -180,7 +175,6 @@ Namespace DevCase.Core.Design
 
         End Function
 
-        ''' 
         ''' <summary>
         ''' Retrieves the editing style of the <see cref="IconEditor.EditValue"/> method.
         ''' </summary>
@@ -192,7 +186,6 @@ Namespace DevCase.Core.Design
         ''' <returns>
         ''' One of the <see cref="UITypeEditorEditStyle"/> values indicating the provided editing style.
         ''' </returns>
-        ''' 
         Public Overrides Function GetEditStyle(context As ITypeDescriptorContext) As UITypeEditorEditStyle
             Me.UpdateFields(context)
             Return UITypeEditorEditStyle.Modal
@@ -202,7 +195,6 @@ Namespace DevCase.Core.Design
 
 #Region " Private Methods "
 
-        ''' 
         ''' <summary>
         ''' Updates the <see cref="ShortcutFileInfoIconIndexEditor.iconPath"/> and 
         ''' <see cref="ShortcutFileInfoIconIndexEditor.target"/> values.

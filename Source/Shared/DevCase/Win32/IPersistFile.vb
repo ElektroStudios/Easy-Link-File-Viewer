@@ -45,7 +45,6 @@ Namespace DevCase.Win32.Interfaces
 
         Shadows Sub GetClassID(ByRef refClassID As Guid)
 
-        ''' 
         ''' <summary>
         ''' Determines whether an object has changed since it was last saved to its current file.
         ''' </summary>
@@ -53,11 +52,9 @@ Namespace DevCase.Win32.Interfaces
         ''' <returns>
         ''' This method returns <see cref="Enums.HResult.S_OK"/> to indicate that the object has changed. Otherwise, it returns <c>S_FALSE</c>.
         ''' </returns>
-        ''' 
         <PreserveSig()>
         Function IsDirty() As Integer
 
-        ''' 
         ''' <summary>
         ''' Opens the specified file and initializes an object from the file contents.
         ''' </summary>
@@ -81,7 +78,6 @@ Namespace DevCase.Win32.Interfaces
         Sub Load(<[In](), MarshalAs(UnmanagedType.LPWStr)> fileName As String,
                                                            mode As UInteger)
 
-        ''' 
         ''' <summary>
         ''' Saves a copy of the object to the specified file.
         ''' </summary>
@@ -110,7 +106,6 @@ Namespace DevCase.Win32.Interfaces
         Sub Save(<[In](), MarshalAs(UnmanagedType.LPWStr)> fileName As String,
                  <[In](), MarshalAs(UnmanagedType.Bool)> remember As Boolean)
 
-        ''' 
         ''' <summary>
         ''' Notifies the object that it can write to its file.
         ''' <para></para>
@@ -127,7 +122,6 @@ Namespace DevCase.Win32.Interfaces
         <PreserveSig()>
         Sub SaveCompleted(<[In](), MarshalAs(UnmanagedType.LPWStr)> fileName As String)
 
-        ''' 
         ''' <summary>
         ''' Retrieves the current name of the file associated with the object.
         ''' </summary>

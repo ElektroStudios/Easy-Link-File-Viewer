@@ -39,7 +39,6 @@ Namespace DevCase.Core.Design
 
 #Region " Constructors "
 
-        ''' 
         ''' <summary>
         ''' Initializes a new instance of the <see cref="FileOrFolderNameEditor"/> class.
         ''' </summary>
@@ -52,7 +51,6 @@ Namespace DevCase.Core.Design
 
 #Region " Public Methods "
 
-        ''' 
         ''' <summary>
         ''' Gets the editor style used by the <see cref="UITypeEditor.EditValue(IServiceProvider, Object)"/> method.
         ''' </summary>
@@ -68,12 +66,10 @@ Namespace DevCase.Core.Design
         ''' If the <see cref="UITypeEditor"/> does not support this method, 
         ''' then <see cref="UITypeEditor.GetEditStyle"/> will return <see cref="UITypeEditorEditStyle.None"/>.
         ''' </returns>
-        ''' 
         Public Overrides Function GetEditStyle(context As ITypeDescriptorContext) As UITypeEditorEditStyle
             Return UITypeEditorEditStyle.Modal
         End Function
 
-        ''' 
         ''' <summary>
         ''' Edits the specified object's value using the editor style indicated by the <see cref="UITypeEditor.GetEditStyle"/> method.
         ''' </summary>
@@ -95,7 +91,6 @@ Namespace DevCase.Core.Design
         ''' <para></para>
         ''' If the value of the object has not changed, this should return the same object it was passed.
         ''' </returns>
-        ''' 
         Public Overrides Function EditValue(context As ITypeDescriptorContext, provider As IServiceProvider, value As Object) As Object
 
             Using dlg As New OpenFileOrFolderDialog() With {

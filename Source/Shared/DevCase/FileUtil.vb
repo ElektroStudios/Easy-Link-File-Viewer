@@ -41,7 +41,6 @@ Namespace DevCase.Core.IO.Tools
 
 #Region " Constructors "
 
-        ''' 
         ''' <summary>
         ''' Prevents a default instance of the <see cref="FileUtil"/> class from being created.
         ''' </summary>
@@ -54,7 +53,6 @@ Namespace DevCase.Core.IO.Tools
 
 #Region " Public Methods "
 
-        ''' 
         ''' <summary>
         ''' Opens the specified file or folder in Explorer.
         ''' </summary>

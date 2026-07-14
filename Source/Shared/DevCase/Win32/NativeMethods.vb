@@ -52,7 +52,6 @@ Namespace DevCase.Win32
 
 #Region " Constructors "
 
-        ''' 
         ''' <summary>
         ''' Prevents a default instance of the <see cref="NativeMethods"/> class from being created.
         ''' </summary>
@@ -276,7 +275,6 @@ Namespace DevCase.Win32
 
 #Region " Kernel32.dll "
 
-        ''' 
         ''' <summary>
         ''' Sets the process preferred UI languages for the current process.
         ''' </summary>
@@ -310,7 +308,6 @@ Namespace DevCase.Win32
         ''' <para></para>
         ''' To get extended error information, call <see cref="Marshal.GetLastWin32Error()"/>.
         ''' </returns>
-        ''' 
         <DllImport("Kernel32.dll", SetLastError:=True, ExactSpelling:=True, CharSet:=CharSet.Unicode)>
         Friend Shared Function SetProcessPreferredUILanguages(flags As MuiLanguageMode,
                                                               languagesBuffer As String,
@@ -367,7 +364,6 @@ Namespace DevCase.Win32
 
 #Region " msi.dll "
 
-        ''' 
         ''' <summary>
         ''' Examines an MSI shortcut file (*.lnk) and returns its product, feature name, and component if available.
         ''' </summary>
@@ -413,7 +409,6 @@ Namespace DevCase.Win32
         ''' <para></para>
         ''' To get extended error information, call <see cref="Marshal.GetLastWin32Error()"/>.
         ''' </returns>
-        ''' 
         <DllImport("msi.dll", SetLastError:=True, CharSet:=CharSet.Unicode)>
         Friend Shared Function MsiGetShortcutTargetW(shortcutPath As String,
                                                      productCode As StringBuilder,
@@ -421,7 +416,6 @@ Namespace DevCase.Win32
                                                      componentCode As StringBuilder) As Integer
         End Function
 
-        ''' 
         ''' <summary>
         ''' Returns the full path to an installed component. 
         ''' <para></para>
@@ -599,7 +593,6 @@ Namespace DevCase.Win32
 
 #Region " Shell32.dll "
 
-        ''' 
         ''' <summary>
         ''' Retrieves information about an object in the file system, 
         ''' such as a file, folder, directory, or drive root.
@@ -655,7 +648,6 @@ Namespace DevCase.Win32
         ''' If <paramref name="flags"/> parameter contains the <see cref="SHGetFileInfoFlags.ExeType"/> flag, 
         ''' the return value specifies the type of the executable.
         ''' </returns>
-        ''' 
         <SuppressUnmanagedCodeSecurity>
         <DllImport("Shell32.dll", CharSet:=CharSet.Auto, BestFitMapping:=False, ThrowOnUnmappableChar:=True)>
         Friend Shared Function SHGetFileInfo(path As String,
@@ -666,7 +658,6 @@ Namespace DevCase.Win32
         ) As IntPtr
         End Function
 
-        ''' 
         ''' <summary>
         ''' Retrieves the display name of an item identified by its IDList.
         ''' </summary>
@@ -692,7 +683,6 @@ Namespace DevCase.Win32
         ''' <para></para>
         ''' Otherwise, it returns an <see cref="HResult"/> error code.
         ''' </returns>
-        ''' 
         <DllImport("Shell32.dll", CharSet:=CharSet.Auto, BestFitMapping:=False, ThrowOnUnmappableChar:=True)>
         Friend Shared Function SHGetNameFromIDList(pidl As IntPtr,
                                                    sigdn As ShellItemGetDisplayName,
@@ -700,7 +690,6 @@ Namespace DevCase.Win32
         ) As HResult
         End Function
 
-        ''' 
         ''' <summary>
         ''' Creates and initializes a Shell item object from a parsing name.
         ''' </summary>
@@ -735,7 +724,6 @@ Namespace DevCase.Win32
         ''' If this function succeeds, it returns <see cref="HResult.S_OK"/>. 
         ''' Otherwise, it returns an <see cref="HResult"/> error code.
         ''' </returns>
-        ''' 
         <DllImport("Shell32.dll", SetLastError:=True, CharSet:=CharSet.Auto, BestFitMapping:=False, ThrowOnUnmappableChar:=True)>
         Friend Shared Function SHCreateItemFromParsingName(path As String,
                                                            pbc As IntPtr,
@@ -744,7 +732,6 @@ Namespace DevCase.Win32
         ) As HResult
         End Function
 
-        ''' 
         ''' <summary>
         ''' Provides a default handler to extract an icon from a file.
         ''' </summary>
@@ -797,7 +784,6 @@ Namespace DevCase.Win32
         ''' <para></para>
         ''' <see cref="HResult.S_OK"/>, <see cref="HResult.S_FALSE"/> or <see cref="HResult.E_FAIL"/>.
         ''' </returns>
-        ''' 
         <SuppressUnmanagedCodeSecurity>
         <DllImport("Shell32.dll", SetLastError:=False, CharSet:=CharSet.Auto, BestFitMapping:=False, ThrowOnUnmappableChar:=True)>
         Friend Shared Function SHDefExtractIcon(iconFile As String,
@@ -809,7 +795,6 @@ Namespace DevCase.Win32
         ) As HResult
         End Function
 
-        ''' 
         ''' <summary>
         ''' Displays a dialog box that allows the user to choose an icon from the 
         ''' selection available embedded in a resource such as an executable or DLL file.
@@ -847,7 +832,6 @@ Namespace DevCase.Win32
         ''' <returns>
         ''' Returns <see langword="true"/> if successful; otherwise, <see langword="false"/>.
         ''' </returns>
-        ''' 
         <DllImport("Shell32.dll", SetLastError:=True, CharSet:=CharSet.Auto, BestFitMapping:=False, ThrowOnUnmappableChar:=True)>
         Friend Shared Function PickIconDlg(hWnd As IntPtr,
                                            iconPath As String,
@@ -1226,7 +1210,6 @@ Namespace DevCase.Win32
 
 #Region " ShlwApi.dll "
 
-        ''' 
         ''' <summary>
         ''' Converts a numeric value into a string that represents the number expressed as a size value in bytes, 
         ''' kilobytes, megabytes, gigabytes, petabytes or exabytes, depending on the size.
@@ -1251,7 +1234,6 @@ Namespace DevCase.Win32
         ''' <returns>
         ''' Returns a pointer to the converted string, or NULL if the conversion fails.
         ''' </returns>
-        ''' 
         <DllImport("ShlwApi.dll", SetLastError:=True, ExactSpelling:=True, CharSet:=CharSet.Ansi)>
         Friend Shared Function StrFormatByteSize64A(number As ULong,
                                                     buffer As StringBuilder,
@@ -1274,7 +1256,6 @@ Namespace DevCase.Win32
 
 #Region " User32.dll "
 
-        ''' 
         ''' <summary>
         ''' Destroys an icon and frees any memory the icon occupied.
         ''' </summary>
@@ -1296,7 +1277,6 @@ Namespace DevCase.Win32
         ''' <para></para>
         ''' To get extended error information, call <see cref="Marshal.GetLastWin32Error()"/>. 
         ''' </returns>
-        ''' 
         <SuppressUnmanagedCodeSecurity>
         <DllImport("User32.dll", SetLastError:=True)>
         Friend Shared Function DestroyIcon(hIcon As IntPtr

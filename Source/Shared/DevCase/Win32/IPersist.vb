@@ -43,7 +43,6 @@ Namespace DevCase.Win32.Interfaces
     <Guid("0000010c-0000-0000-c000-000000000046")>
     Friend Interface IPersist
 
-        ''' 
         ''' <summary>
         ''' Retrieves the class identifier (CLSID) of the object.
         ''' </summary>

@@ -34,7 +34,6 @@ Namespace DevCase.Core.Application.Tools
 
 #Region " Public Methods "
 
-        ''' 
         ''' <summary>
         ''' Sets the preferred UI languages for the current process.
         ''' <para></para>
@@ -60,7 +59,6 @@ Namespace DevCase.Core.Application.Tools
         ''' <returns>
         ''' Returns the amount of languages that were successfully set.
         ''' </returns>
-        ''' 
         <DebuggerStepThrough>
         Public Shared Function SetProcessPreferredUILanguages(ParamArray langNames As String()) As Integer
 
@@ -75,7 +73,6 @@ Namespace DevCase.Core.Application.Tools
 
         End Function
 
-        ''' 
         ''' <summary>
         ''' Sets the preferred UI languages for the current process.
         ''' <para></para>
@@ -108,7 +105,6 @@ Namespace DevCase.Core.Application.Tools
         ''' <returns>
         ''' Returns the amount of languages that were successfully set.
         ''' </returns>
-        ''' 
         <DebuggerStepThrough>
         Public Shared Function SetProcessPreferredUILanguages(ParamArray cultures As CultureInfo()) As Integer
             Return SetProcessPreferredUILanguages(cultures.Select(Function(ci) ci.Name).ToArray())

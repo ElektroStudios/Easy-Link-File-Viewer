@@ -52,7 +52,6 @@ Namespace DevCase.UserControls.Controls
 
 #Region " Private Fields "
 
-        ''' 
         ''' <summary>
         ''' The underlying <see cref="OpenFileDialog"/>.
         ''' </summary>
@@ -63,7 +62,6 @@ Namespace DevCase.UserControls.Controls
 
 #Region " Properties "
 
-        ''' 
         ''' <summary>
         ''' Gets the custom places collection for this <see cref="OpenFileOrFolderDialog"/> instance.
         ''' </summary>
@@ -71,7 +69,6 @@ Namespace DevCase.UserControls.Controls
         ''' <value>
         ''' The custom places collection for this <see cref="OpenFileOrFolderDialog"/> instance.
         ''' </value>
-        ''' 
         <Browsable(False)>
         <DesignerSerializationVisibility(DesignerSerializationVisibility.Hidden)>
         Public ReadOnly Property CustomPlaces As FileDialogCustomPlacesCollection
@@ -81,7 +78,6 @@ Namespace DevCase.UserControls.Controls
             End Get
         End Property
 
-        ''' 
         ''' <summary>
         ''' Gets or sets the dialog box title.
         ''' </summary>
@@ -89,7 +85,6 @@ Namespace DevCase.UserControls.Controls
         ''' <value>
         ''' The dialog box title. The default value is an empty string ("").
         ''' </value>
-        ''' 
         <DefaultValue("")>
         <Localizable(True)>
         <Description("The dialog box title.")>
@@ -104,7 +99,6 @@ Namespace DevCase.UserControls.Controls
             End Set
         End Property
 
-        ''' 
         ''' <summary>
         ''' Gets or sets a value indicating whether the Help button is displayed in the dialog box.
         ''' </summary>
@@ -115,7 +109,6 @@ Namespace DevCase.UserControls.Controls
         ''' <para></para>
         ''' The default value is <see langword="False"/>.
         ''' </value>
-        ''' 
         <DefaultValue(False)>
         <Description("A value indicating whether the Help button is displayed in the dialog box.")>
         Public Property ShowHelp As Boolean
@@ -129,7 +122,6 @@ Namespace DevCase.UserControls.Controls
             End Set
         End Property
 
-        ''' 
         ''' <summary>
         ''' Gets or sets a value indicating whether the dialog box restores the directory 
         ''' to the previously selected directory before closing.
@@ -142,7 +134,6 @@ Namespace DevCase.UserControls.Controls
         ''' <para></para>
         ''' The default value is <see langword="False"/>.
         ''' </value>
-        ''' 
         <DefaultValue(False)>
         <Description("A value indicating whether the dialog box restores the directory to the previously selected directory before closing.")>
         Public Property RestoreDirectory As Boolean
@@ -156,7 +147,6 @@ Namespace DevCase.UserControls.Controls
             End Set
         End Property
 
-        ''' 
         ''' <summary>
         ''' Gets or sets the initial directory displayed by the dialog box.
         ''' </summary>
@@ -164,7 +154,6 @@ Namespace DevCase.UserControls.Controls
         ''' <value>
         ''' The initial directory displayed by the dialog box. The default is an empty string ("").
         ''' </value>
-        ''' 
         <DefaultValue("")>
         <Description("The initial directory displayed by the dialog box.")>
         Public Property InitialDirectory As String
@@ -178,7 +167,6 @@ Namespace DevCase.UserControls.Controls
             End Set
         End Property
 
-        ''' 
         ''' <summary>
         ''' Gets or sets a value indicating whether this dialog box should 
         ''' automatically upgrade appearance and behavior when running on Windows Vista.
@@ -191,7 +179,6 @@ Namespace DevCase.UserControls.Controls
         ''' <para></para>
         ''' The default value is <see langword="True"/>.
         ''' </value>
-        ''' 
         <DefaultValue(True)>
         <Description("A value indicating whether this dialog box should automatically upgrade appearance and behavior when running on Windows Vista.")>
         Public Property AutoUpgradeEnabled As Boolean
@@ -205,7 +192,6 @@ Namespace DevCase.UserControls.Controls
             End Set
         End Property
 
-        ''' 
         ''' <summary>
         ''' Gets or sets a value indicating whether the dialog box returns the location of the 
         ''' file referenced by the shortcut or whether it returns the location of the shortcut (.lnk).
@@ -217,7 +203,6 @@ Namespace DevCase.UserControls.Controls
         ''' <para></para>
         ''' The default value is <see langword="False"/>.
         ''' </value>
-        ''' 
         <DefaultValue(True)>
         <Description("A value indicating whether the dialog box returns the location of the file referenced by the shortcut or whether it returns the location of the shortcut (.lnk).")>
         Public Property DereferenceLinks As Boolean
@@ -231,7 +216,6 @@ Namespace DevCase.UserControls.Controls
             End Set
         End Property
 
-        ''' 
         ''' <summary>
         ''' Gets or sets a string containing the name of the item selected in the dialog box.
         ''' </summary>
@@ -240,7 +224,6 @@ Namespace DevCase.UserControls.Controls
         ''' <para></para>
         ''' The default value is an empty string ("").
         ''' </value>
-        ''' 
         <DefaultValue("")>
         <Description("A string containing the name of the item selected in the dialog box.")>
         Public Property ItemName As String
@@ -271,7 +254,6 @@ Namespace DevCase.UserControls.Controls
 
 #Region " Events "
 
-        ''' 
         ''' <summary>
         ''' Occurs when the user clicks on the Open button on the dialog box to select a file or folder.
         ''' </summary>
@@ -283,7 +265,6 @@ Namespace DevCase.UserControls.Controls
 
 #Region " Constructors "
 
-        ''' 
         ''' <summary>
         ''' Initializes a new instance of the <see cref="OpenFileOrFolderDialog"/> class.
         ''' </summary>
@@ -303,7 +284,6 @@ Namespace DevCase.UserControls.Controls
 
 #Region " Public Methods "
 
-        ''' 
         ''' <summary>
         ''' Runs a common dialog box with a default owner.
         ''' </summary>
@@ -312,13 +292,11 @@ Namespace DevCase.UserControls.Controls
         ''' <see cref="DialogResult.OK"/> if the user clicks OK in the dialog box; 
         ''' otherwise, <see cref="DialogResult.Cancel"/>.
         ''' </returns>
-        ''' 
         <DebuggerStepThrough>
         Public Shadows Function ShowDialog() As DialogResult
             Return Me.ShowDialog(Nothing)
         End Function
 
-        ''' 
         ''' <summary>
         ''' Runs a common dialog box with a default owner.
         ''' </summary>
@@ -332,7 +310,6 @@ Namespace DevCase.UserControls.Controls
         ''' <see cref="DialogResult.OK"/> if the user clicks OK in the dialog box; 
         ''' otherwise, <see cref="DialogResult.Cancel"/>.
         ''' </returns>
-        ''' 
         <DebuggerStepThrough>
         Public Shadows Function ShowDialog(owner As IWin32Window) As DialogResult
             ' Set initial directory (used when 'Me.dialog.FileName' is set from outside)
@@ -355,7 +332,6 @@ Namespace DevCase.UserControls.Controls
             Return If(owner Is Nothing, Me.Dialog.ShowDialog(), Me.Dialog.ShowDialog(owner))
         End Function
 
-        ''' 
         ''' <summary>
         ''' Resets the properties of a common dialog box to their default values.
         ''' </summary>
@@ -365,7 +341,6 @@ Namespace DevCase.UserControls.Controls
             Me.Dialog.Reset()
         End Sub
 
-        ''' 
         ''' <summary>
         ''' Returns a string version of this object.
         ''' </summary>
@@ -373,7 +348,6 @@ Namespace DevCase.UserControls.Controls
         ''' <returns>
         ''' A string version of this object.
         ''' </returns>
-        ''' 
         <DebuggerStepThrough>
         Public Overrides Function ToString() As String
             Return Me.Dialog.ToString()
@@ -383,7 +357,6 @@ Namespace DevCase.UserControls.Controls
 
 #Region " Event Invocators "
 
-        ''' 
         ''' <summary>
         ''' Raises the System.Windows.Forms.FileDialog.FileOk event.
         ''' </summary>
@@ -403,7 +376,6 @@ Namespace DevCase.UserControls.Controls
 
 #Region " Event Handlers "
 
-        ''' 
         ''' <summary>
         ''' Handles the <see cref="OpenFileDialog.FileOk"/> event of the <see cref="OpenFileOrFolderDialog.Dialog"/> component.
         ''' </summary>
@@ -421,7 +393,6 @@ Namespace DevCase.UserControls.Controls
             Me.OnItemOk(e)
         End Sub
 
-        ''' 
         ''' <summary>
         ''' Handles the <see cref="OpenFileDialog.HelpRequest"/> event of the <see cref="OpenFileOrFolderDialog.Dialog"/> component.
         ''' </summary>
@@ -443,7 +414,6 @@ Namespace DevCase.UserControls.Controls
 
 #Region " Private Methods "
 
-        ''' 
         ''' <summary>
         ''' Specifies a common dialog box.
         ''' </summary>
@@ -455,13 +425,11 @@ Namespace DevCase.UserControls.Controls
         ''' <returns>
         ''' <see langword="True"/> if the dialog box was successfully run; otherwise, <see langword="False"/>.
         ''' </returns>
-        ''' 
         <DebuggerStepperBoundary>
         Protected Overrides Function RunDialog(hwndOwner As IntPtr) As Boolean
             Return True
         End Function
 
-        ''' 
         ''' <summary>
         ''' Releases the unmanaged resources used by the <see cref="T:System.ComponentModel.Component" /> and optionally releases the managed resources.
         ''' </summary>

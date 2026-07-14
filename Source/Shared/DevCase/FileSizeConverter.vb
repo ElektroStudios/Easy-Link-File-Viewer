@@ -87,7 +87,6 @@ Namespace DevCase.Core.Design
 
 #Region " Constructors "
 
-        ''' 
         ''' <summary>
         ''' Initializes a new instance of the <see cref="FileSizeConverter"/> class.
         ''' </summary>
@@ -100,7 +99,6 @@ Namespace DevCase.Core.Design
 
 #Region " Public Methods "
 
-        ''' 
         ''' <summary>
         ''' Determines if this converter can convert an object in the given source type to the native type of the converter.
         ''' </summary>
@@ -116,14 +114,12 @@ Namespace DevCase.Core.Design
         ''' <returns>
         ''' <see langword="true" /> if this converter can perform the operation; otherwise, <see langword="false" />.
         ''' </returns>
-        ''' 
         Public Overrides Function CanConvertFrom(context As ITypeDescriptorContext, sourceType As Type) As Boolean
 
             Return False
 
         End Function
 
-        ''' 
         ''' <summary>
         ''' Returns whether this converter can convert the object to the specified type, using the specified context.
         ''' </summary>
@@ -139,13 +135,11 @@ Namespace DevCase.Core.Design
         ''' <returns>
         ''' <see langword="True"/> if this converter can perform the conversion; otherwise, <see langword="False"/>.
         ''' </returns>
-        ''' 
         Public Overloads Overrides Function CanConvertTo(context As ITypeDescriptorContext, destinationType As Type) As Boolean
 
             Return (destinationType = GetType(InstanceDescriptor)) OrElse MyBase.CanConvertTo(context, destinationType)
         End Function
 
-        ''' 
         ''' <summary>
         ''' Converts the specified object to another type.
         ''' </summary>
@@ -169,7 +163,6 @@ Namespace DevCase.Core.Design
         ''' <returns>
         ''' An <see cref="Object"/> that represents the converted value.
         ''' </returns>
-        ''' 
         Public Overrides Function ConvertTo(context As ITypeDescriptorContext, culture As CultureInfo, value As Object, destinationType As Type) As Object
 
             If (destinationType Is Nothing) Then

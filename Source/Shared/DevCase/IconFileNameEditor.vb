@@ -37,7 +37,6 @@ Namespace DevCase.Core.Design
 
 #Region " Constructors "
 
-        ''' 
         ''' <summary>
         ''' Initializes a new instance of the <see cref="IconFileNameEditor"/> class.
         ''' </summary>
@@ -50,7 +49,6 @@ Namespace DevCase.Core.Design
 
 #Region " Private Methods "
 
-        ''' 
         ''' <summary>
         ''' Initializes the open file dialog when it is created.
         ''' </summary>
