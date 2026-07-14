@@ -28,7 +28,7 @@ install:
     git submodule update --init --recursive
 before_build:
   - >-
-    nuget restore "Source\%APP_DIR_NAME%.%SOLUTION_EXT%" -PackagesDirectory "Source\GUI\packages"
+    nuget restore "Source\%APP_DIR_NAME%.%SOLUTION_EXT%"
 build:
   project: Source\%APP_DIR_NAME%.%SOLUTION_EXT%
   parallel: true
