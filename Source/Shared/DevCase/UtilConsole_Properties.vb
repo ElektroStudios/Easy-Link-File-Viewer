@@ -35,10 +35,6 @@ Namespace DevCase.Core.Application.Console
         ''' <summary>
         ''' Gets the window handle of the console associated with the calling process.
         ''' </summary>
-        '''
-        ''' <value>
-        ''' The window handle of the console associated with the calling process.
-        ''' </value>
         Public Shared ReadOnly Property Handle As IntPtr
             <DebuggerStepThrough>
             Get

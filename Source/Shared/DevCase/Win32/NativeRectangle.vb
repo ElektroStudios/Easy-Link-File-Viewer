@@ -41,37 +41,21 @@ Namespace DevCase.Win32.Structures
         ''' <summary>
         ''' Gets or sets the x-coordinate of the upper-left corner of the rectangle.
         ''' </summary>
-        '''
-        ''' <value>
-        ''' The x-coordinate of the upper-left corner of the rectangle.
-        ''' </value>
         Public Property Left As Integer
 
         ''' <summary>
         ''' Gets or sets the y-coordinate of the upper-left corner of the rectangle.
         ''' </summary>
-        '''
-        ''' <value>
-        ''' The y-coordinate of the upper-left corner of the rectangle.
-        ''' </value>
         Public Property Top As Integer
 
         ''' <summary>
         ''' Gets or sets the x-coordinate of the lower-right corner of the rectangle.
         ''' </summary>
-        '''
-        ''' <value>
-        ''' The x-coordinate of the lower-right corner of the rectangle.
-        ''' </value>
         Public Property Right As Integer
 
         ''' <summary>
         ''' Gets or sets the y-coordinate of the lower-right corner of the rectangle.
         ''' </summary>
-        '''
-        ''' <value>
-        ''' The y-coordinate of the lower-right corner of the rectangle.
-        ''' </value>
         Public Property Bottom As Integer
 
 #End Region

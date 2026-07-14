@@ -201,10 +201,6 @@ Namespace DevCase.Core.Application.Forms
         ''' <summary>
         ''' Gets or sets a value indicating whether this <see cref="TransparentControlsForm"/> and it's controls are movable.
         ''' </summary>
-        '''
-        ''' <value>
-        ''' <see langword="True"/> if controls are movable; otherwise, <see langword="False"/>.
-        ''' </value>
         Public Overridable Property Moveable As Boolean
 
             <DebuggerStepThrough>

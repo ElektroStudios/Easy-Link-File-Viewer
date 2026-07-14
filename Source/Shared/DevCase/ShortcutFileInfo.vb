@@ -166,10 +166,6 @@ Namespace DevCase.Core.IO
         ''' <summary>
         ''' Gets the file size, in bytes, of the current link file.
         ''' </summary>
-        ''' 
-        ''' <value>
-        ''' The file attributes.
-        ''' </value>
         <Description("The file size of the link file.")>
         <DisplayName("Length")>
         <Category("File Info")>
@@ -188,10 +184,6 @@ Namespace DevCase.Core.IO
         ''' <summary>
         ''' Gets or sets the file attributes of the link file.
         ''' </summary>
-        ''' 
-        ''' <value>
-        ''' The file attributes.
-        ''' </value>
         <Description("The file attributes of the link file.")>
         <DisplayName("Attributes")>
         <Category("File Info")>
@@ -210,10 +202,6 @@ Namespace DevCase.Core.IO
         ''' <summary>
         ''' Gets or sets a value that determines if the link file is read-only.
         ''' </summary>
-        ''' 
-        ''' <value>
-        ''' <see langword="True"/> if the link file is read-only; otherwise, <see langword="False"/>.
-        ''' </value>
         <Description("A value that determines if the link file is read-only.")>
         <DisplayName("Is Read-Only")>
         <Category("File Info")>
@@ -230,10 +218,6 @@ Namespace DevCase.Core.IO
         ''' <summary>
         ''' Gets a value indicating whether the link file exists.
         ''' </summary>
-        ''' 
-        ''' <value>
-        ''' <see langword="True"/> if the link file exists; otherwise, <see langword="False"/>.
-        ''' </value>
         <Description("A value indicating whether the link file exists.")>
         <DisplayName("Exists")>
         <Category("File Info")>
@@ -247,7 +231,6 @@ Namespace DevCase.Core.IO
         ''' <summary>
         ''' Gets an instance of the parent directory of the link file.
         ''' </summary>
-        ''' 
         <Description("The parent directory of the link file.")>
         <DisplayName("Directory")>
         <Category("File Info")>
@@ -275,10 +258,6 @@ Namespace DevCase.Core.IO
         ''' <summary>
         ''' Gets a string representing the extension part of the link file.
         ''' </summary>
-        ''' 
-        ''' <value>
-        ''' The extension.
-        ''' </value>
         <Description("A string representing the extension part of the link file.")>
         <DisplayName("Extension")>
         <Category("File Info")>
@@ -292,10 +271,6 @@ Namespace DevCase.Core.IO
         ''' <summary>
         ''' Gets or sets the creation time, in coordinated universal time (UTC) of the link file.
         ''' </summary>
-        ''' 
-        ''' <value>
-        ''' The creation time UTC.
-        ''' </value>
         <Description("The creation time, in coordinated universal time (UTC) of the link file.")>
         <DisplayName("Creation Time (UTC)")>
         <Category("File Info")>
@@ -314,10 +289,6 @@ Namespace DevCase.Core.IO
         ''' <summary>
         ''' Gets or sets the time, in coordinated universal time (UTC), the link file was last accessed.
         ''' </summary>
-        ''' 
-        ''' <value>
-        ''' The last access time UTC.
-        ''' </value>
         <Description("The time, in coordinated universal time (UTC), the link file was last accessed.")>
         <DisplayName("Last Access Time (UTC)")>
         <Category("File Info")>
@@ -336,10 +307,6 @@ Namespace DevCase.Core.IO
         ''' <summary>
         ''' Gets or sets the time, in coordinated universal time (UTC), the link file was last written to.
         ''' </summary>
-        ''' 
-        ''' <value>
-        ''' The last write time UTC.
-        ''' </value>
         <Description("The time, in coordinated universal time (UTC), the link file was last written to.")>
         <DisplayName("Last Write Time (UTC)")>
         <Category("File Info")>
@@ -358,10 +325,6 @@ Namespace DevCase.Core.IO
         ''' <summary>
         ''' Gets or sets the creation time of the link file.
         ''' </summary>
-        ''' 
-        ''' <value>
-        ''' The creation time.
-        ''' </value>
         <Description("The creation time of the link file.")>
         <DisplayName("Creation Time")>
         <Category("File Info")>
@@ -380,10 +343,6 @@ Namespace DevCase.Core.IO
         ''' <summary>
         ''' Gets or sets the time the link file was last accessed.
         ''' </summary>
-        ''' 
-        ''' <value>
-        ''' The last access time.
-        ''' </value>
         <Description("The time the link file was last accessed.")>
         <DisplayName("Last Access Time")>
         <Category("File Info")>
@@ -402,10 +361,6 @@ Namespace DevCase.Core.IO
         ''' <summary>
         ''' Gets or sets the time the link file was last written to.
         ''' </summary>
-        ''' 
-        ''' <value>
-        ''' The last write time.
-        ''' </value>
         <Description("The time the link file was last written to.")>
         <DisplayName("Last Write Time")>
         <Category("File Info")>
@@ -428,7 +383,6 @@ Namespace DevCase.Core.IO
         ''' <summary>
         ''' Gets or sets the shortcut description.
         ''' </summary>
-        ''' 
         <Description("The shortcut description. Max Length is 259 characters.")>
         <DisplayName("Description")>
         <Category("Shortcut")>
@@ -776,11 +730,6 @@ Namespace DevCase.Core.IO
         ''' <para></para>
         ''' The link file will not be modified while <see cref="ShortcutFileInfo.ViewMode"/> is <see langword="True"/>. 
         ''' </summary>
-        ''' 
-        ''' <value>
-        ''' <see langword="True"/> if this <see cref="ShortcutFileInfo"/> is displayed in a <see cref="PropertyGrid"/> control; 
-        ''' otherwise, <see langword="False"/>.
-        ''' </value>
         <Browsable(False)>
         <EditorBrowsable(EditorBrowsableState.Advanced)>
         Public Property ViewMode As Boolean
@@ -802,7 +751,6 @@ Namespace DevCase.Core.IO
         ''' <para></para>
         ''' The link file will not be modified while <see cref="ShortcutFileInfo.ViewMode"/> is <see langword="True"/>. 
         ''' </summary>
-        ''' 
         Private viewMode_ As Boolean
 
         ''' <summary>

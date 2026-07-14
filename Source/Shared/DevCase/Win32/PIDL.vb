@@ -94,10 +94,6 @@
 '        ''' Gets a value indicating whether this ITEMIDLIST is empty.
 '        ''' </summary>
 '        ''' ----------------------------------------------------------------------------------------------------
-'        ''' <value>
-'        ''' <see langword="True"/> if this ITEMIDLIST is empty; otherwise, <see langword="False"/>.
-'        ''' </value>
-'        ''' ----------------------------------------------------------------------------------------------------
 '        Public ReadOnly Property IsEmpty As Boolean
 '            Get
 '                Return PIDL.ILIsEmpty(Me.handle)
@@ -108,10 +104,6 @@
 '        ''' <summary>
 '        ''' Gets the last SHITEMID in this ITEMIDLIST.
 '        ''' </summary>
-'        ''' ----------------------------------------------------------------------------------------------------
-'        ''' <value>
-'        ''' The last SHITEMID.
-'        ''' </value>
 '        ''' ----------------------------------------------------------------------------------------------------
 '        Public ReadOnly Property LastId As PIDL
 '            Get

@@ -1,27 +1,4 @@
 ﻿
-#Region " Usage Examples "
-
-' <TypeConverter(GetType(EnumDescriptionConverter))>
-' <Flags>
-' Public Enum TestEnum
-'     <Description("First")> One = 1
-'     <Description("Second")> Two = 2
-'     <Description("Third")> Three = 3
-' End Enum
-'
-' Public Class TestClass
-'     <DefaultValue(TestEnum.MyUpperCamelCaseName)>
-'     Public Property TestProperty As TestEnum = TestEnum.MyUpperCamelCaseName
-' End Class
-'
-' Public Class Form1
-'     Private Sub Form1_Shown(sender As Object, e As EventArgs) Handles MyBase.Shown
-'         Me.PropertyGrid.SelectedObject = New TestClass()
-'     End Sub
-' End Class
-
-#End Region
-
 #Region " Option Statements "
 
 Option Strict Off

@@ -36,10 +36,6 @@ Namespace DevCase.Core.Application.Console
         ''' <summary>
         ''' Gets the handle (HWND) of the wrapped console window.
         ''' </summary>
-        ''' 
-        ''' <value>
-        ''' The <see cref="IntPtr"/> representing the handle to the console window.
-        ''' </value>
         Public ReadOnly Property Handle As IntPtr Implements IWin32Window.Handle
 
         ''' <summary>

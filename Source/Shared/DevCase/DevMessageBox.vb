@@ -227,11 +227,6 @@ Namespace DevCase.UI.Dialogs
         ''' <para></para>
         ''' This value is <c>null</c> if no <see cref="IWin32Window"/> has been passed to the <see cref="DevMessageBox"/> constructor.
         ''' </summary>
-        '''
-        ''' <value>
-        ''' The the <see cref="IWin32Window"/> that owns this <see cref="DevMessageBox"/>; 
-        ''' or <c>null</c> if no <see cref="IWin32Window"/> has been passed to the <see cref="DevMessageBox"/> constructor.
-        ''' </value>
         Public ReadOnly Property OwnerWindow As IWin32Window
             Get
                 If Me.ownerWindow_ IsNot Nothing Then
@@ -346,11 +341,7 @@ Namespace DevCase.UI.Dialogs
         ''' when supported by the operating system.
         ''' </summary>
         ''' 
-        ''' <value>
-        ''' <c>True</c> to enable the dark title bar style; otherwise, <c>False</c>.
-        ''' </value>
         ''' <remarks>
-        ''' 
         ''' This property applies only on supported Windows versions that provide
         ''' native dark title bar support. If the operating system does not support
         ''' this feature, the setting is ignored and the default system title bar
@@ -2298,11 +2289,6 @@ Namespace DevCase.UI.Dialogs
     '        ''' <para></para>
     '        ''' This value is <c>null</c> if no <see cref="IWin32Window"/> has been passed to the <see cref="DevMessageBox"/> constructor.
     '        ''' </summary>
-    '        '''
-    '        ''' <value>
-    '        ''' The the <see cref="IWin32Window"/> that owns this <see cref="DevMessageBox"/>; 
-    '        ''' or <c>null</c> if no <see cref="IWin32Window"/> has been passed to the <see cref="DevMessageBox"/> constructor.
-    '        ''' </value>
     '        Public ReadOnly Property OwnerWindow As IWin32Window
     '            Get
     '                If Me.ownerWindow_ IsNot Nothing Then

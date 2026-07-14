@@ -65,10 +65,6 @@ Namespace DevCase.UserControls.Controls
         ''' <summary>
         ''' Gets the custom places collection for this <see cref="OpenFileOrFolderDialog"/> instance.
         ''' </summary>
-        ''' 
-        ''' <value>
-        ''' The custom places collection for this <see cref="OpenFileOrFolderDialog"/> instance.
-        ''' </value>
         <Browsable(False)>
         <DesignerSerializationVisibility(DesignerSerializationVisibility.Hidden)>
         Public ReadOnly Property CustomPlaces As FileDialogCustomPlacesCollection
@@ -81,10 +77,6 @@ Namespace DevCase.UserControls.Controls
         ''' <summary>
         ''' Gets or sets the dialog box title.
         ''' </summary>
-        ''' 
-        ''' <value>
-        ''' The dialog box title. The default value is an empty string ("").
-        ''' </value>
         <DefaultValue("")>
         <Localizable(True)>
         <Description("The dialog box title.")>
@@ -102,13 +94,6 @@ Namespace DevCase.UserControls.Controls
         ''' <summary>
         ''' Gets or sets a value indicating whether the Help button is displayed in the dialog box.
         ''' </summary>
-        ''' 
-        ''' <value>
-        ''' <see langword="True"/> if the dialog box includes a help button; 
-        ''' otherwise, <see langword="False"/>. 
-        ''' <para></para>
-        ''' The default value is <see langword="False"/>.
-        ''' </value>
         <DefaultValue(False)>
         <Description("A value indicating whether the Help button is displayed in the dialog box.")>
         Public Property ShowHelp As Boolean
@@ -126,14 +111,6 @@ Namespace DevCase.UserControls.Controls
         ''' Gets or sets a value indicating whether the dialog box restores the directory 
         ''' to the previously selected directory before closing.
         ''' </summary>
-        ''' 
-        ''' <value>
-        ''' <see langword="True"/> if the dialog box restores the current directory 
-        ''' to the previously selected directory if the user changed the directory while searching for files; 
-        ''' otherwise, <see langword="False"/>. 
-        ''' <para></para>
-        ''' The default value is <see langword="False"/>.
-        ''' </value>
         <DefaultValue(False)>
         <Description("A value indicating whether the dialog box restores the directory to the previously selected directory before closing.")>
         Public Property RestoreDirectory As Boolean
@@ -150,10 +127,6 @@ Namespace DevCase.UserControls.Controls
         ''' <summary>
         ''' Gets or sets the initial directory displayed by the dialog box.
         ''' </summary>
-        ''' 
-        ''' <value>
-        ''' The initial directory displayed by the dialog box. The default is an empty string ("").
-        ''' </value>
         <DefaultValue("")>
         <Description("The initial directory displayed by the dialog box.")>
         Public Property InitialDirectory As String
@@ -171,14 +144,6 @@ Namespace DevCase.UserControls.Controls
         ''' Gets or sets a value indicating whether this dialog box should 
         ''' automatically upgrade appearance and behavior when running on Windows Vista.
         ''' </summary>
-        ''' 
-        ''' <value>
-        ''' <see langword="True"/> if this System.Windows.Forms.FileDialog instance 
-        ''' should automatically upgrade appearance and behavior when running on Windows Vista; 
-        ''' otherwise, <see langword="False"/>. 
-        ''' <para></para>
-        ''' The default value is <see langword="True"/>.
-        ''' </value>
         <DefaultValue(True)>
         <Description("A value indicating whether this dialog box should automatically upgrade appearance and behavior when running on Windows Vista.")>
         Public Property AutoUpgradeEnabled As Boolean
@@ -196,13 +161,6 @@ Namespace DevCase.UserControls.Controls
         ''' Gets or sets a value indicating whether the dialog box returns the location of the 
         ''' file referenced by the shortcut or whether it returns the location of the shortcut (.lnk).
         ''' </summary>
-        ''' 
-        ''' <value>
-        ''' <see langword="True"/> if the dialog box returns the location of the file referenced by the shortcut;
-        ''' otherwise, <see langword="False"/>. 
-        ''' <para></para>
-        ''' The default value is <see langword="False"/>.
-        ''' </value>
         <DefaultValue(True)>
         <Description("A value indicating whether the dialog box returns the location of the file referenced by the shortcut or whether it returns the location of the shortcut (.lnk).")>
         Public Property DereferenceLinks As Boolean
@@ -219,11 +177,6 @@ Namespace DevCase.UserControls.Controls
         ''' <summary>
         ''' Gets or sets a string containing the name of the item selected in the dialog box.
         ''' </summary>
-        ''' 
-        ''' <value>The name of the item selected in the dialog box.
-        ''' <para></para>
-        ''' The default value is an empty string ("").
-        ''' </value>
         <DefaultValue("")>
         <Description("A string containing the name of the item selected in the dialog box.")>
         Public Property ItemName As String
