@@ -102,7 +102,7 @@ Friend NotInheritable Class CommandLineProcessor
     ''' An exit code: 0 if valid, 1 if validation failed.
     ''' </returns>
     ''' 
-    Private Function ValidateFilePath(options As CommandLineOptions, actionName As String) As Integer
+    Friend Function ValidateFilePath(options As CommandLineOptions, actionName As String) As Integer
 
         If String.IsNullOrWhiteSpace(options.FilePath) Then
             Console.Error.WriteLine($"Error: /File is required for /{actionName}.")
@@ -148,6 +148,18 @@ Friend NotInheritable Class CommandLineProcessor
         ' Create the ShortcutFileInfo instance in ViewMode so property
         ' assignments are held in memory until Create() persists them all.
         Try
+            ' When overwriting with /Force, the existing file must be deleted first.
+            ' Otherwise the ShortcutFileInfo constructor would read the old shortcut and
+            ' every property not specified on the command line would be silently carried
+            ' over into the "new" shortcut, instead of creating it from scratch.
+            If options.Force AndAlso File.Exists(options.FilePath) Then
+                Dim attributes As FileAttributes = File.GetAttributes(options.FilePath)
+                If attributes.HasFlag(FileAttributes.ReadOnly) Then
+                    File.SetAttributes(options.FilePath, attributes And Not FileAttributes.ReadOnly)
+                End If
+                File.Delete(options.FilePath)
+            End If
+
             Dim shortcut As New ShortcutFileInfo(options.FilePath) With {.ViewMode = True}
             Me.ApplyOptionsToShortcut(shortcut, options)
 
@@ -331,7 +343,7 @@ Friend NotInheritable Class CommandLineProcessor
     ''' or "None" if no hotkey is assigned.
     ''' </returns>
     ''' 
-    Private Shared Function FormatHotkey(hotkey As Keys) As String
+    Friend Shared Function FormatHotkey(hotkey As Keys) As String
 
         If hotkey = Keys.None Then
             Return "None"

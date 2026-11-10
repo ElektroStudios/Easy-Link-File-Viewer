@@ -284,8 +284,12 @@ Friend NotInheritable Class CommandLineParser
     ''' <summary>
     ''' Parses a window state string value into a <see cref="ShortcutWindowState"/> value.
     ''' <para></para>
-    ''' Supports enum names (<c>Normal</c>, <c>Minimized</c>, <c>Maximized</c>) and
-    ''' common aliases (<c>Min</c>, <c>Max</c>).
+    ''' Supports enum names (<c>Normal</c>, <c>Minimized</c>, <c>Maximized</c>),
+    ''' common aliases (<c>Min</c>, <c>Max</c>), and the numeric values of the
+    ''' defined enum members (<c>1</c>, <c>3</c>, <c>7</c>).
+    ''' <para></para>
+    ''' Undefined numeric values (e.g. <c>2</c>) and comma-separated combinations
+    ''' (e.g. <c>Normal, Maximized</c>) are rejected.
     ''' </summary>
     ''' 
     ''' <param name="value">
@@ -302,16 +306,30 @@ Friend NotInheritable Class CommandLineParser
     ''' 
     Private Shared Function ParseWindowState(value As String) As ShortcutWindowState
 
-        Select Case value.ToUpperInvariant()
+        Dim trimmedValue As String = value.Trim()
+
+        Select Case trimmedValue.ToUpperInvariant()
             Case "MIN"
                 Return ShortcutWindowState.Minimized
             Case "MAX"
                 Return ShortcutWindowState.Maximized
         End Select
 
-        Dim result As ShortcutWindowState = ShortcutWindowState.Normal
-        If [Enum].TryParse(Of ShortcutWindowState)(value, True, result) Then
-            Return result
+        ' Accept only the numeric values of defined members (e.g. "3"), never arbitrary integers.
+        Dim numericValue As Integer = 0
+        If Integer.TryParse(trimmedValue, NumberStyles.Integer, CultureInfo.InvariantCulture, numericValue) Then
+            If [Enum].IsDefined(GetType(ShortcutWindowState), numericValue) Then
+                Return CType(numericValue, ShortcutWindowState)
+            End If
+
+        Else
+            ' Accept only exact member names (case-insensitive), never comma-separated combinations.
+            For Each memberName As String In [Enum].GetNames(GetType(ShortcutWindowState))
+                If String.Equals(memberName, trimmedValue, StringComparison.OrdinalIgnoreCase) Then
+                    Return CType([Enum].Parse(GetType(ShortcutWindowState), memberName), ShortcutWindowState)
+                End If
+            Next memberName
+
         End If
 
         Throw New ArgumentException(

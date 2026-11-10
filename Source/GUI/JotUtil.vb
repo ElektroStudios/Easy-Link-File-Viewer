@@ -157,15 +157,33 @@ Friend Module JotUtil
     End Sub
 
     ''' <summary>
-    ''' Starts tracking the <see cref="ToolStripMenuItem"/> checked states.
+    ''' Starts tracking the checked state of the "Remember last window size and position" menu item.
     ''' <para></para>
-    ''' This method should be called in <see cref="Form1.Shown"/> event handler, 
-    ''' after the ChromiumWebBrowser is initialized.
+    ''' When the saved state is checked, this starts tracking the form, which immediately restores
+    ''' the saved window size, position and <see cref="Form.WindowState"/>.
+    ''' <para></para>
+    ''' IMPORTANT: This method must be called from <see cref="Form1.OnHandleCreated(EventArgs)"/>,
+    ''' before the form becomes visible, and never from the <see cref="Form.Load"/> event.
+    ''' Windows Forms raises the <see cref="Form.Load"/> event while processing the WM_SHOWWINDOW message,
+    ''' when <see cref="Control.Visible"/> already returns <see langword="True"/>; and the
+    ''' <see cref="Form.WindowState"/> property setter calls ShowWindow whenever the handle is created and
+    ''' the form is visible (even if the value does not change). Restoring the window state from the
+    ''' <see cref="Form.Load"/> event therefore showed the window on screen prematurely, before the
+    ''' visual theme and the rest of the user-interface settings were applied, causing white flashes.
+    ''' </summary>
+    <DebuggerStepThrough>
+    Friend Sub StartTrackingRememberWindowMenuItem()
+        JotUtil.menuItemTrackingConfig.Track(My.Forms.Form1.RememberWindowSizeAndPosToolStripMenuItem)
+    End Sub
+
+    ''' <summary>
+    ''' Starts tracking the <see cref="ToolStripMenuItem"/> checked states
+    ''' (except "Remember last window size and position", see <see cref="JotUtil.StartTrackingRememberWindowMenuItem()"/>).
+    ''' <para></para>
+    ''' This method should be called in <see cref="Form1.Load"/> event handler.
     ''' </summary>
     <DebuggerStepThrough>
     Friend Sub StartTrackingMenuItems()
-        JotUtil.menuItemTrackingConfig.Track(My.Forms.Form1.RememberWindowSizeAndPosToolStripMenuItem)
-
         JotUtil.menuItemTrackingConfig.Track(My.Forms.Form1.DefaultToolStripMenuItem)
         JotUtil.menuItemTrackingConfig.Track(My.Forms.Form1.DarkToolStripMenuItem)
         JotUtil.menuItemTrackingConfig.Track(My.Forms.Form1.ShowFileMenuToolbarToolStripMenuItem)

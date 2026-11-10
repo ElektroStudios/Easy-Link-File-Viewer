@@ -1,6 +1,20 @@
 ﻿# Easy Link File Viewer Change Log 📋
 
-## v1.9.1 **(current)** 🆕
+## v1.9.2 **(current)** 🆕
+
+#### 🛠️ Fixes:
+- Fixed several white flashes at startup when using the dark theme with the "Remember last window size and position" option enabled. The saved window state was restored from the `Load` event, where Windows Forms already considers the form visible, so restoring it showed the window on screen prematurely, before the visual theme and the rest of the user-interface settings were applied. The saved window size, position and state are now restored before the window becomes visible.
+- Fixed the title bar of the "About" dialog being drawn white (light mode) when using the dark theme, from the second time the dialog was shown. The dark title bar is now re-applied every time a window handle is created.
+- New shortcuts created without explicitly setting a window state (the "New" command in the GUI, or `/Create` without `/WindowState` in the CLI) were saved with the native `SW_HIDE` show command, which could make the target launch hidden. They are now saved with the "Normal" window state, as intended.
+- **CLI:** Using `/Create /Force` on an existing shortcut file no longer carries over the properties of the overwritten shortcut that were not specified on the command line (description, arguments, hotkey, window state, etc.). The shortcut is now created from scratch, as expected. Read-only shortcut files can also be overwritten with `/Force`.
+- **CLI:** The `/WindowState` switch now rejects undefined numeric values (e.g. `/WindowState:2`) and comma-separated combinations (e.g. `/WindowState:Normal,Maximized`), which were previously accepted and produced an invalid window state in the shortcut file. The numeric values of the valid states (`1`, `3`, `7`) are still accepted.
+- **Shared library:** Assigning `False` to the `ShortcutFileInfo.IsReadOnly` property now removes the read-only attribute of the shortcut file, instead of setting it.
+- **Shared library:** The `ShortcutFileInfo` equality operators (`=`, `<>`) no longer throw a `NullReferenceException` when one of the operands is `Nothing`.
+
+#### 🌟 Improvements:
+- Added an MSTest unit test project covering the command-line parser and processor, and the shortcut file library (reading/writing shortcut files, hotkey conversion, relative path execution modes, Application User Model IDs, type converters and UI helper extensions).
+
+## v1.9.1 🔄
 
 #### 🚀 New Features:
 - **Added support for relative paths (portable shortcuts)** to resolve Feature Request [#21](https://github.com/ElektroStudios/Easy-Link-File-Viewer/issues/21). You can now configure the target execution mode:

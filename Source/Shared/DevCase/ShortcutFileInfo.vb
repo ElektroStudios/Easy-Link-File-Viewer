@@ -211,7 +211,11 @@ Namespace DevCase.Core.IO
                 Return Me.Attributes.HasFlag(FileAttributes.ReadOnly)
             End Get
             Set(value As Boolean)
-                Me.Attributes = (Me.Attributes Or FileAttributes.ReadOnly)
+                If value Then
+                    Me.Attributes = (Me.Attributes Or FileAttributes.ReadOnly)
+                Else
+                    Me.Attributes = (Me.Attributes And Not FileAttributes.ReadOnly)
+                End If
             End Set
         End Property
 
@@ -521,7 +525,9 @@ Namespace DevCase.Core.IO
         ''' The window state of the target file or directory.
         ''' </summary>
         ''' 
-        Private windowState_ As ShortcutWindowState
+        ' Must default to Normal: an uninitialized value (0) equals SW_HIDE,
+        ' which would make newly created shortcuts launch their target hidden.
+        Private windowState_ As ShortcutWindowState = ShortcutWindowState.Normal
 
         ''' <summary>
         ''' Gets or sets the full path of the target file or directory.
@@ -1461,7 +1467,7 @@ Namespace DevCase.Core.IO
         ''' The resulting <see cref="Keys"/> value.
         ''' </returns>
         <DebuggerStepThrough>
-        Private Function HotkeyToKeys(keyModifier As ShortcutHotkeyModifier, keyAccesor As Keys) As Keys
+        Friend Function HotkeyToKeys(keyModifier As ShortcutHotkeyModifier, keyAccesor As Keys) As Keys
 
             Dim key As Keys = keyAccesor
 
@@ -1493,7 +1499,7 @@ Namespace DevCase.Core.IO
         ''' The resulting shortcut hotkey.
         ''' </returns>
         <DebuggerStepThrough>
-        Private Function KeysToHotkey(key As Keys) As UShort
+        Friend Function KeysToHotkey(key As Keys) As UShort
 
             Dim keyModifier As ShortcutHotkeyModifier = ShortcutHotkeyModifier.None
             Dim keyAccesor As Keys = CType(BitConverter.GetBytes(key)(0), Keys)
@@ -1520,7 +1526,7 @@ Namespace DevCase.Core.IO
         ''' CLSID-prefixed paths ("::{...}\..."), shell protocol strings ("shell:..."),
         ''' and UWP Application User Model IDs ("PackageFamilyName!AppId").
         ''' </summary>
-        Private Shared Function IsShellNamespaceTarget(target As String) As Boolean
+        Friend Shared Function IsShellNamespaceTarget(target As String) As Boolean
 
             Return Not String.IsNullOrEmpty(target) AndAlso
                    (
@@ -1536,7 +1542,7 @@ Namespace DevCase.Core.IO
         ''' standard absolute PIDL. Used as a fallback when IShellLinkW.GetIDList fails
         ''' to expose the PIDL (e.g. for ms-settings virtual shell targets).
         ''' </summary>
-        Private Shared Function ReadIDListFromLnkBinary(lnkPath As String) As IntPtr
+        Friend Shared Function ReadIDListFromLnkBinary(lnkPath As String) As IntPtr
 
             Dim lnkBytes As Byte() = File.ReadAllBytes(lnkPath)
 
@@ -1621,6 +1627,14 @@ Namespace DevCase.Core.IO
         ''' otherwise, <see langword="False"/>.
         ''' </returns>
         Public Shared Operator =(first As ShortcutFileInfo, second As ShortcutFileInfo) As Boolean
+
+            If Object.ReferenceEquals(first, second) Then
+                Return True
+            End If
+
+            If (first Is Nothing) OrElse (second Is Nothing) Then
+                Return False
+            End If
 
             Return (first.Attributes = second.Attributes) AndAlso
                    (first.CreationTime = second.CreationTime) AndAlso

@@ -69,6 +69,16 @@ Friend NotInheritable Class Form1 : Inherits Form
     ''' 
     Private ReadOnly ShortcutFileInfoSet As New Dictionary(Of String, ShortcutFileInfo)(StringComparison.OrdinalIgnoreCase)
 
+    ''' 
+    ''' <summary>
+    ''' Indicates whether the saved window size, position and state were already restored,
+    ''' so they are never restored again if the form handle is recreated later.
+    ''' <para></para>
+    ''' See <see cref="Form1.OnHandleCreated(EventArgs)"/>.
+    ''' </summary>
+    ''' 
+    Private isWindowBoundsRestoreInitialized As Boolean
+
 #End Region
 
 #Region " Constructors "
@@ -86,6 +96,44 @@ Friend NotInheritable Class Form1 : Inherits Form
         Thread.CurrentThread.CurrentUICulture = ci
         ' Set file dialogs language too.
         CultureUtil.SetProcessPreferredUILanguages(ci.Name)
+    End Sub
+
+#End Region
+
+#Region " Event Invocators "
+
+    ''' 
+    ''' <summary>
+    ''' Raises the <see cref="Control.HandleCreated"/> event.
+    ''' <para></para>
+    ''' The first time the window handle is created, the "Remember last window size and position" setting
+    ''' is restored, which in turn restores the saved window size, position and state.
+    ''' <para></para>
+    ''' This must happen here, before the form becomes visible, and not in the <see cref="Form.Load"/> event:
+    ''' Windows Forms raises the <see cref="Form.Load"/> event while processing the WM_SHOWWINDOW message,
+    ''' when <see cref="Control.Visible"/> already returns <see langword="True"/>, and the
+    ''' <see cref="Form.WindowState"/> property setter calls ShowWindow whenever the handle is created and the form
+    ''' is visible, even if the value does not change. Restoring the window state from the <see cref="Form.Load"/>
+    ''' event showed the window prematurely, before the visual theme and the rest of the user-interface settings
+    ''' were applied, causing white flashes.
+    ''' <para></para>
+    ''' Here the form is not visible yet, so the restored <see cref="Form.WindowState"/> is only stored,
+    ''' and the window is shown once, already with its final state, size and position.
+    ''' The <see cref="FormStartPosition.CenterScreen"/> start position does not override the restored location,
+    ''' because it is applied through the window creation parameters, before this method is called.
+    ''' </summary>
+    ''' 
+    ''' <param name="e">
+    ''' The <see cref="EventArgs"/> instance containing the event data.
+    ''' </param>
+    ''' 
+    Protected Overrides Sub OnHandleCreated(e As EventArgs)
+        MyBase.OnHandleCreated(e)
+
+        If Not Me.isWindowBoundsRestoreInitialized Then
+            Me.isWindowBoundsRestoreInitialized = True
+            JotUtil.StartTrackingRememberWindowMenuItem()
+        End If
     End Sub
 
 #End Region
