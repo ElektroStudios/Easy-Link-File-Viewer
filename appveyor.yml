@@ -21,24 +21,31 @@ skip_commits:
   - '*.yml'
 image: Visual Studio 2026
 configuration: Release
+
 install:
   - >-
     choco install chocolatey-dotnetfx.extension --no-progress -y
   - >-
     git submodule update --init --recursive
+
 before_build:
+  - dotnet nuget locals all --clear
   - >-
     nuget restore "Source\%APP_DIR_NAME%.%SOLUTION_EXT%"
-build:
-  project: Source\%APP_DIR_NAME%.%SOLUTION_EXT%
-  parallel: true
+
+build_script:
+  - msbuild "Source\%APP_DIR_NAME%.%SOLUTION_EXT%" /p:Configuration=%configuration% /maxcpucount
+
+test_script:
+  - dotnet test "Source\%APP_DIR_NAME%.%SOLUTION_EXT%" -c %configuration% --no-build
+
 after_build:
   - >-
-    7z a -r "%APPVEYOR_PROJECT_NAME%_Build_%APPVEYOR_BUILD_NUMBER%.zip" ^
-    -i!"Source\*\bin\*" ^
-    -xr!"Tests"
-  - >-
-    dotnet nuget locals all --clear
+    7z a -r "%APPVEYOR_PROJECT_NAME%_Build_%APPVEYOR_BUILD_NUMBER%.zip"
+    -i!"Source\*\bin\*"
+    -x!"Source\Tests\bin\*"
+    -x!"Source\*.Tests\bin\*"
+
 artifacts:
   - path: "%APPVEYOR_PROJECT_NAME%_Build_%APPVEYOR_BUILD_NUMBER%.zip"
     name: "%APPVEYOR_PROJECT_NAME%"
