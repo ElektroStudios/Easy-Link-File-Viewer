@@ -399,8 +399,7 @@ Partial Friend Class Form1
         Me.TabControl1.TabIndex = 6
         Me.TabControl1.Tabs.Add(Me.Tab_PropertyEditor)
         Me.TabControl1.Tabs.Add(Me.Tab_HexViewer)
-        Me.TabControl1.TabSize = New System.Drawing.Size(110, 25)
-        Me.TabControl1.TabSizing = Manina.Windows.Forms.TabSizing.Fixed
+        Me.TabControl1.TabSizing = Manina.Windows.Forms.TabSizing.AutoFit
         '
         'Tab_PropertyEditor
         '

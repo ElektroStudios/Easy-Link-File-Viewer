@@ -29,6 +29,7 @@ Imports DevCase.Core.Imaging.Tools
 Imports DevCase.Core.IO
 Imports DevCase.Core.IO.Tools
 Imports DevCase.Extensions.ControlExtensions
+Imports DevCase.Extensions.ToolStripExtensions
 Imports DevCase.Win32
 Imports DevCase.UI.Dialogs
 
@@ -45,6 +46,15 @@ Imports Manina.Windows.Forms
 Friend NotInheritable Class Form1 : Inherits Form
 
 #Region " Private Fields "
+
+    ''' 
+    ''' <summary>
+    ''' The minimum size of the tabs of <see cref="Form1.TabControl1"/>, in logical pixels (96 DPI).
+    ''' <para></para>
+    ''' This is the fixed tab size used by previous versions of the application.
+    ''' </summary>
+    ''' 
+    Private Shared ReadOnly MinimumTabLogicalSize As New Size(110, 25)
 
     ''' 
     ''' <summary>
@@ -96,6 +106,8 @@ Friend NotInheritable Class Form1 : Inherits Form
         Thread.CurrentThread.CurrentUICulture = ci
         ' Set file dialogs language too.
         CultureUtil.SetProcessPreferredUILanguages(ci.Name)
+
+        Me.ScaleImagesAndTabsForDpi()
     End Sub
 
 #End Region
@@ -222,6 +234,33 @@ Friend NotInheritable Class Form1 : Inherits Form
 #End Region
 
 #Region " Tab Control "
+
+    ''' 
+    ''' <summary>
+    ''' Handles the <see cref="Manina.Windows.Forms.TabControl.MeasureTab"/> event of the <see cref="Form1.TabControl1"/> control.
+    ''' <para></para>
+    ''' The tabs are auto-sized to fit their icon and text (which depend on the system DPI and on the user-selected font size),
+    ''' but never smaller than <see cref="Form1.MinimumTabLogicalSize"/>, scaled to the current DPI.
+    ''' <para></para>
+    ''' Fixes: https://github.com/ElektroStudios/Easy-Link-File-Viewer/issues/22
+    ''' (tabs had a fixed size in pixels, so at high DPI settings their scaled text was truncated, e.g. "E...").
+    ''' </summary>
+    ''' 
+    ''' <param name="sender">
+    ''' The source of the event.
+    ''' </param>
+    ''' 
+    ''' <param name="e">
+    ''' The <see cref="MeasureTabEventArgs"/> instance containing the event data.
+    ''' </param>
+    ''' 
+    Private Sub TabControl1_MeasureTab(sender As Object, e As MeasureTabEventArgs) Handles TabControl1.MeasureTab
+
+        Dim minimumSize As Size = Me.TabControl1.LogicalToDeviceUnits(Form1.MinimumTabLogicalSize)
+        e.Size = New Size(Math.Max(e.Size.Width, minimumSize.Width),
+                          Math.Max(e.Size.Height, minimumSize.Height))
+
+    End Sub
 
     ''' 
     ''' <summary>
@@ -1251,6 +1290,59 @@ Friend NotInheritable Class Form1 : Inherits Form
 #End Region
 
 #Region " Private Methods "
+
+    ''' 
+    ''' <summary>
+    ''' Scales the user-interface elements that the form auto-scaling (<see cref="AutoScaleMode.Font"/>)
+    ''' does not scale with the system DPI: it only scales control sizes, locations and fonts,
+    ''' but not the 16x16 images of the menus, tool strips and tabs, nor the tab paddings.
+    ''' <para></para>
+    ''' Without this, at high DPI settings (e.g. 250% scaling) the images keep their size in physical pixels
+    ''' and look tiny next to the scaled text.
+    ''' <para></para>
+    ''' Fixes: https://github.com/ElektroStudios/Easy-Link-File-Viewer/issues/22
+    ''' </summary>
+    ''' 
+    ''' <remarks>
+    ''' This method must be called from the constructor, after <c>InitializeComponent</c>.
+    ''' <para></para>
+    ''' <see cref="Control.DeviceDpi"/> only reports the real system DPI if the high DPI support of Windows Forms is enabled,
+    ''' that is why the "EnableWindowsFormsHighDpiAutoResizing" key is set in the application configuration file.
+    ''' </remarks>
+    ''' 
+    Private Sub ScaleImagesAndTabsForDpi()
+
+        ' Tool strip items use ToolStripItemImageScaling.SizeToFit by default,
+        ' so their images are drawn at the ImageScalingSize of their owner strip or drop-down.
+        Dim imageSize As Size = Me.LogicalToDeviceUnits(New Size(16, 16))
+        Dim strips As ToolStrip() = {Me.MenuStrip1, Me.MenuStrip_ToolBar, Me.StatusStrip1, Me.ContextMenuStrip1}
+        For Each strip As ToolStrip In strips
+            strip.ImageScalingSize = imageSize
+            strip.ForEachItem(Of ToolStripDropDownItem)(True,
+                Sub(item As ToolStripDropDownItem)
+                    If item.HasDropDownItems Then
+                        item.DropDown.ImageScalingSize = imageSize
+                    End If
+                End Sub)
+        Next strip
+
+        ' The items of the recent files list are added at runtime, so its drop-down is empty at this point.
+        Me.RecentToolStripMenuItem.DropDown.ImageScalingSize = imageSize
+
+        ' The TabControl draws tab icons at their own size, and does not scale its paddings.
+        Me.TabControl1.TabPadding = New Padding(Me.LogicalToDeviceUnits(4))
+        Me.TabControl1.ContentSpacing = Me.LogicalToDeviceUnits(3)
+        For Each tab As Tab In Me.TabControl1.Tabs
+            If tab.Icon IsNot Nothing Then
+                Dim originalIcon As Image = tab.Icon
+                Dim scaledIcon As New Bitmap(originalIcon)
+                Me.ScaleBitmapLogicalToDevice(scaledIcon)
+                tab.Icon = scaledIcon
+                originalIcon.Dispose()
+            End If
+        Next tab
+
+    End Sub
 
     ''' 
     ''' <summary>

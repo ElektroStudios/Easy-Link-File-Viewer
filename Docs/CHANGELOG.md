@@ -3,6 +3,7 @@
 ## v1.9.2 **(current)** 🆕
 
 #### 🛠️ Fixes:
+- Fixed issue [#22](https://github.com/ElektroStudios/Easy-Link-File-Viewer/issues/22): at high DPI settings (e.g. 250% scaling) the menu, toolbar, status bar and tab icons were drawn tiny, and the tab texts were truncated (e.g. "E..."). The images are now scaled to the system DPI, and the tabs are auto-sized to fit their icon and text (also when changing the font size in the settings).
 - Fixed several white flashes at startup when using the dark theme with the "Remember last window size and position" option enabled. The saved window state was restored from the `Load` event, where Windows Forms already considers the form visible, so restoring it showed the window on screen prematurely, before the visual theme and the rest of the user-interface settings were applied. The saved window size, position and state are now restored before the window becomes visible.
 - Fixed the title bar of the "About" dialog being drawn white (light mode) when using the dark theme, from the second time the dialog was shown. The dark title bar is now re-applied every time a window handle is created.
 - New shortcuts created without explicitly setting a window state (the "New" command in the GUI, or `/Create` without `/WindowState` in the CLI) were saved with the native `SW_HIDE` show command, which could make the target launch hidden. They are now saved with the "Normal" window state, as intended.
